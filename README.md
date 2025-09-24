@@ -1,6 +1,6 @@
 ﻿# REBOOTMASTER
 
-![REBOOTMASTER](https://github.com/amirargani/REBOOTMASTER/blob/master/REBOOTMASTER_Free/REBOOTMASTER.png)
+![REBOOTMASTER](https://github.com/amirargani/REBOOTMASTER/blob/main/REBOOTMASTER_Free/REBOOTMASTER.png)
 
 ## Overview 🛠️  
 REBOOTMASTER is a powerful monitoring service specifically designed to ensure the continuous availability of critical applications. It constantly tracks the status of configured services and responds immediately if any of them stop unexpectedly. In such cases, REBOOTMASTER automatically restarts the affected service to minimize downtime and maintain high system availability. With its proactive monitoring and recovery capabilities, REBOOTMASTER is an essential tool for maintaining a stable and reliable IT infrastructure.
