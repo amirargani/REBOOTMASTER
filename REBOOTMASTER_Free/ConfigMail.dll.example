@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+	<!-- Settings -->
+	<appSettings>
+		<!-- Access data for sending emails (in case of error) -->
+		<add key="SmtpHost" value=""/>
+		<add key="SmtpPort" value=""/>
+		<add key="SmtpUser" value=""/>
+		<add key="SmtpPassword" value=""/>
+
+		<!-- Recipient of the error emails -->
+		<add key="Recipient" value=""/>
+
+		<!-- Relative path to email templates -->
+		<add key="TemplatePath1" value="Templates\Error1.dll"/>
+		<add key="TemplatePath2" value="Templates\Error2.dll"/>
+		<add key="TemplatePath3" value="Templates\Error3.dll"/>
+	</appSettings>
+</configuration>

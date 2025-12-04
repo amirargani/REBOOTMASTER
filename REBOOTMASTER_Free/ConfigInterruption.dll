@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+	<!-- Interruption -->
+	<appSettings>
+		<!-- Interruption milliseconds-->
+		<add key="AutoChecking" value="30000"/>
+		<add key="AutoRestarting" value="120000"/>
+		<add key="IsStatus" value="600000"/>
+		<add key="ServiceOutages" value="10"/>
+	</appSettings>
+</configuration>
