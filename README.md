@@ -31,11 +31,62 @@ Please ensure you consult with your software developer regarding the use of this
 
 1. **Service Monitoring**: Selected services are checked every few seconds.  
 2. **Automatic Restart**: If a service stops, it is automatically restarted within seconds.  
-3. **Failure Notification**: If a service fails repeatedly, you’ll receive an email notifying you that the service couldn’t be restarted after several attempts. The email also informs you that the service will be restarted again after 120 seconds.
+3. **Failure Notification**: If a service fails repeatedly, you’ll receive an email notifying you that the service couldn’t be restarted after several attempts. The email also informs you that the service will be restarted again after few seconds.
 
 This process ensures that services are continuously monitored and quickly restored in case of issues. If a service fails repeatedly, you are notified and the system attempts another restart to resolve potential problems.
 
-## Changelog  
+## Changelog
+### V.2025.12.04.0 (December 04, 2025)
+
+- **Log Class**
+  - Initializes log4net
+  - Loads configuration from Log.dll
+
+- **Program Class**
+  - Ensures single application instance
+  - Initializes configuration and main window
+
+- **UserControls**
+  - Updated Settings UserControl
+    - Improved functionality
+    - UI enhancements for better user experience
+
+- **Security Class**
+  - Provides AES encryption and decryption functionality
+
+- **XMLUpdate Class**
+  - Updates configuration object after changes
+
+- **MailService Class**
+  - Generates emails using templates
+  - Configures SMTP client
+
+- **ToolTipWindows Class**
+  - Provides custom tooltip functionality
+
+- **ConfigReaderMail Class**
+  - Reads SMTP and template settings from configuration file
+
+- **NotificationService Class**
+  - Sends notification emails using templates
+
+- **ConfigReaderInterruption Class**
+  - Reads interruption settings from configuration file
+
+- **Compatibility**
+  - Ensures support for latest .NET runtime (e.g., .NET 10) and libraries
+	
+
 ### V.2025.09.19.0 (September 19, 2025)
 
-- Creating a project and designing Windows Forms
+- **Project Creation and Windows Forms**
+  - Introduces basic functionality for project creation and Windows Forms design
+
+- **Message Class**
+  - Manages custom messages and notifications
+
+- **USControl Class**
+  - Provides a simple way to display dynamic UserControls in the main window without reloading the entire form
+
+- **Transition Classes**
+  - Handles UI transitions and animations between components
