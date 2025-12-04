@@ -1,24 +1,27 @@
 using REBOOTMASTER_Free.Transition;
 using REBOOTMASTER_Free.UserControls;
 using REBOOTMASTER_Free.Windows;
-using Msg = REBOOTMASTER_Free.Message.Msg;
+using Log = REBOOTMASTER_Free.Utility.Log;
+using _msg = REBOOTMASTER_Free.Message.Message;
 
 namespace REBOOTMASTER_Free
 {
     public partial class Main : Form
     {
         // Variable
-        bool isFinish = false;
-        bool setProgressBar = false;
-        bool isWindowsFormActive = false;
+        public bool isFinish = false;
+        public bool isSettings = false;
+        private bool setProgressBar = false;
+        private bool isWindowsFormActive = false;
         // User Controls
         public static Main? mainObject;
         public US_About uS_About = new US_About();
         public US_Settings uS_Settings = new US_Settings();
         public US_Services uS_Services = new US_Services();
         public US_Dashboard uS_Dashboard = new US_Dashboard();
-        //public US_More uS_More = new US_More();
-        //public US_Detail uS_Detail = new US_Detail();
+
+        // Timer
+        public System.Windows.Forms.Timer _timerProgressBar;
 
         // Constructor: Main
         public Main()
@@ -27,6 +30,11 @@ namespace REBOOTMASTER_Free
             mainObject = this;
             ShowInTaskbar = false;
             panel_UesrControl.Visible = false;
+
+            // Timer
+            _timerProgressBar = new System.Windows.Forms.Timer();
+            _timerProgressBar.Interval = 1; // Interval in milliseconds
+            _timerProgressBar.Tick += timer_ProgressBar_Tick!;
         }
 
         // Main Load
@@ -58,6 +66,7 @@ namespace REBOOTMASTER_Free
             if (panel_ProgressBar.Width >= 800)
             {
                 timer_ProgressBar.Stop();
+                _timerProgressBar.Stop();
                 if (!isWindowsFormActive)
                 {
                     ShowInTaskbar = true;
@@ -65,17 +74,17 @@ namespace REBOOTMASTER_Free
                     Update();
                     isWindowsFormActive = true;
                 }
-                timer__ProgressBar_Reset.Start();
+                timer_ProgressBar_Reset.Start();
             }
         }
 
         // Timer ProgressBar: Reset
-        private void timer__ProgressBar_Reset_Tick(object sender, EventArgs e)
+        private void timer_ProgressBar_Reset_Tick(object sender, EventArgs e)
         {
             if (!setProgressBar) panel_ProgressBar.Width -= 2;
             if (panel_ProgressBar.Width <= 0)
             {
-                timer__ProgressBar_Reset.Stop();
+                timer_ProgressBar_Reset.Stop();
                 dashboard_BTN.Visible = true;
                 services_BTN.Visible = true;
                 settings_BTN.Visible = true;
@@ -83,6 +92,7 @@ namespace REBOOTMASTER_Free
                 close_BTN.Visible = true;
                 minimized_BTN.Visible = true;
                 isFinish = true;
+                if (isSettings) { Enabled = true; isSettings  = false; }
             }
         }
 
@@ -110,7 +120,7 @@ namespace REBOOTMASTER_Free
                 notifyIcon_Main.ShowBalloonTip(1000);
                 this.Focus();
                 this.Select();
-                //Log.Logger!.Info("REBOOTMASTER minimized. The program was minimized.");
+                Log.Logger!.Info("REBOOTMASTER minimized. The program was minimized.");
             }
             else if (WindowState == FormWindowState.Maximized)
             {
@@ -131,7 +141,7 @@ namespace REBOOTMASTER_Free
             Opacity = 1;
             WindowState = FormWindowState.Normal;
             notifyIcon_Main.Visible = false;
-            //Log.Logger!.Info("REBOOTMASTER normalized. The program was normalized.");
+            Log.Logger!.Info("REBOOTMASTER normalized. The program was normalized.");
         }
 
         // Strip Menu Item >> Exit Application
@@ -146,15 +156,15 @@ namespace REBOOTMASTER_Free
             e.Cancel = true;
             if (!isFinish)
             {
-                MessageBox.Show(Msg._msgCloseApp, Msg._caption, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                //Log.Logger!.Warn($"CROservice closed. {Message._msgCloseApp}");
+                MessageBox.Show(_msg._msgCloseApp, _msg._caption, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                Log.Logger!.Warn($"REBOOTMASTER closed. {_msg._msgCloseApp}");
             }
             else if (isFinish)
             {
-                if (MessageBox.Show(Msg._msg, Msg._caption, MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+                if (MessageBox.Show(_msg._msg, _msg._caption, MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
                 {
                     e.Cancel = false; // Not Working: Application.Exit(); | Close();
-                    //Log.Logger!.Info("REBOOTMASTER closed. The program was closed.");
+                    Log.Logger!.Info("REBOOTMASTER closed. The program was closed.");
                 }
             }
         }

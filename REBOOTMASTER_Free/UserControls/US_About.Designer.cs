@@ -133,10 +133,10 @@
             homepage_Lnk.LinkColor = Color.White;
             homepage_Lnk.Location = new Point(143, 115);
             homepage_Lnk.Name = "homepage_Lnk";
-            homepage_Lnk.Size = new Size(193, 15);
+            homepage_Lnk.Size = new Size(265, 15);
             homepage_Lnk.TabIndex = 25;
             homepage_Lnk.TabStop = true;
-            homepage_Lnk.Text = "https://code-bot.org/rebootmaster";
+            homepage_Lnk.Text = "https://github.com/amirargani/REBOOTMASTER";
             homepage_Lnk.LinkClicked += homepage_Lnk_LinkClicked;
             // 
             // homepage_Lbl

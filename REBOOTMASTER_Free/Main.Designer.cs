@@ -40,7 +40,7 @@
             panel_Bottom = new Panel();
             panel_ProgressBar = new Panel();
             timer_ProgressBar = new System.Windows.Forms.Timer(components);
-            timer__ProgressBar_Reset = new System.Windows.Forms.Timer(components);
+            timer_ProgressBar_Reset = new System.Windows.Forms.Timer(components);
             dashboard_BTN = new Button();
             services_BTN = new Button();
             settings_BTN = new Button();
@@ -78,7 +78,7 @@
             version_Lbl.Name = "version_Lbl";
             version_Lbl.Size = new Size(86, 13);
             version_Lbl.TabIndex = 19;
-            version_Lbl.Text = "Free v20250919";
+            version_Lbl.Text = "Free v20251204";
             // 
             // pictureBox_TXT_Logo
             // 
@@ -163,10 +163,10 @@
             timer_ProgressBar.Interval = 1;
             timer_ProgressBar.Tick += timer_ProgressBar_Tick;
             // 
-            // timer__ProgressBar_Reset
+            // timer_ProgressBar_Reset
             // 
-            timer__ProgressBar_Reset.Interval = 1;
-            timer__ProgressBar_Reset.Tick += timer__ProgressBar_Reset_Tick;
+            timer_ProgressBar_Reset.Interval = 1;
+            timer_ProgressBar_Reset.Tick += timer_ProgressBar_Reset_Tick;
             // 
             // dashboard_BTN
             // 
@@ -306,7 +306,7 @@
         private Panel panel_Bottom;
         private Panel panel_ProgressBar;
         private System.Windows.Forms.Timer timer_ProgressBar;
-        private System.Windows.Forms.Timer timer__ProgressBar_Reset;
+        private System.Windows.Forms.Timer timer_ProgressBar_Reset;
         private Button dashboard_BTN;
         private Button services_BTN;
         private Button settings_BTN;

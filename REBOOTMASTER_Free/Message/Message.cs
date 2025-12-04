@@ -1,6 +1,6 @@
 ﻿namespace REBOOTMASTER_Free.Message
 {
-    internal class Msg
+    internal class Message
     {
         // Message
         public const string _msg = "Do you want to close the desired application?";
@@ -31,6 +31,15 @@
         public const string _msgStartMonitorServices = "Are you sure you want to monitor the selected services?";
         public const string _msgStopMonitoringServices = "Are you sure you want to stop monitoring the selected services?";
         public const string _msgAddServiceCheckboxToolTip = "Add the desired service to the list to monitor the REBOOTMASTER in the background.";
+        public const string _msgHostToolTip = "The SMTP server address (e.g., `smtp.example.com`)";
+        public const string _msgPortToolTip = "The port used for SMTP (typically `587` or `465`)";
+        public const string _msgUserToolTip = "The username used to authenticate with the SMTP server";
+        public const string _msgPasswordToolTip = "The password for the SMTP user";
+        public const string _msgRecipientEmailToolTip = "The email address that will receive the notifications";
+        public const string _msgAutoCheckingToolTip = @"The selected services are checked every {0}. When a service is stopped, it will automatically started.";
+        public const string _msgAutorestartingToolTip = @"After {0}, the service will restart if there are {1} and several unsuccessful start attempts, and it will send an email.";
+        public const string _msgIsStatusToolTip = @"Every {0}, if the Service Status is 'Stopped' and the service cannot be restarted after {1}, an email is sent to you stating that the service will be restarted after a {2}.";
+        public const string _msgServiceOutagesToolTip = @"Counts and monitors detected service disruptions.";
         public const string _msgErrorAppSettings = "AppSettings section not found in config file.";
 
         // Information
