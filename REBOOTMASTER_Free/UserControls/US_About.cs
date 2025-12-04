@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using REBOOTMASTER_Free.Utility;
+using System.Diagnostics;
 
 namespace REBOOTMASTER_Free.UserControls
 {
@@ -43,8 +44,8 @@ namespace REBOOTMASTER_Free.UserControls
             }
             catch (System.ComponentModel.Win32Exception ex)
             {
-                //Utility.GetException(ex);
-                //Log.Logger!.Error($"Unexpected error: {ex.Message} {Environment.NewLine + ex.StackTrace}");
+                NotificationService.GetException(ex);
+                Log.Logger!.Error($"Unexpected error: {ex.Message} {Environment.NewLine + ex.StackTrace}");
             }
         }
 
@@ -53,12 +54,12 @@ namespace REBOOTMASTER_Free.UserControls
         {
             try
             {
-                Process.Start(new ProcessStartInfo("https://code-bot.org/rebootmaster") { UseShellExecute = true });
+                Process.Start(new ProcessStartInfo("https://github.com/amirargani/REBOOTMASTER") { UseShellExecute = true });
             }
             catch (System.ComponentModel.Win32Exception ex)
             {
-                //Utility.GetException(ex);
-                //Log.Logger!.Error($"Unexpected error: {ex.Message} {Environment.NewLine + ex.StackTrace}");
+                NotificationService.GetException(ex);
+                Log.Logger!.Error($"Unexpected error: {ex.Message} {Environment.NewLine + ex.StackTrace}");
             }
         }
 
@@ -71,8 +72,8 @@ namespace REBOOTMASTER_Free.UserControls
             }
             catch (System.ComponentModel.Win32Exception ex)
             {
-                //Utility.GetException(ex);
-                //Log.Logger!.Error($"Unexpected error: {ex.Message} {Environment.NewLine + ex.StackTrace}");
+                NotificationService.GetException(ex);
+                Log.Logger!.Error($"Unexpected error: {ex.Message} {Environment.NewLine + ex.StackTrace}");
             }
         }
     }
