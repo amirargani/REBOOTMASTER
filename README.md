@@ -1,6 +1,6 @@
 ﻿# REBOOTMASTER 🚀
 
-[![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
+[![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE.txt)
 ![Platform](https://img.shields.io/badge/Platform-Windows-0078D6?style=flat&logo=windows)
 ![Language](https://img.shields.io/badge/Language-C%23-239120?style=flat&logo=c-sharp)
 [![.NET Version](https://img.shields.io/badge/.NET-10.0--windows-blue.svg)](https://dotnet.microsoft.com/download)
