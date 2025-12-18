@@ -1,7 +1,7 @@
 ﻿# REBOOTMASTER 🚀
 
 [![.NET Version](https://img.shields.io/badge/.NET-10.0--windows-blue.svg)](https://dotnet.microsoft.com/download)
-[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE.txt)
+[![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
 
 ![REBOOTMASTER](https://github.com/amirargani/REBOOTMASTER/blob/main/REBOOTMASTER_Free/REBOOTMASTER.png)
 
