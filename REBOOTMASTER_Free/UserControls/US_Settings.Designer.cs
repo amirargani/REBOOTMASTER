@@ -35,7 +35,7 @@
             serviceOutages_CBox = new ComboBox();
             countingServiceOutages_Lbl = new Label();
             isStatus_CBox = new ComboBox();
-            label2 = new Label();
+            stoppedStatus_Lbl = new Label();
             isStatus_Lbl = new Label();
             autoRestarting_CBox = new ComboBox();
             autoRestarting_Lbl = new Label();
@@ -88,7 +88,7 @@
             tabPage_Interruption.Controls.Add(serviceOutages_CBox);
             tabPage_Interruption.Controls.Add(countingServiceOutages_Lbl);
             tabPage_Interruption.Controls.Add(isStatus_CBox);
-            tabPage_Interruption.Controls.Add(label2);
+            tabPage_Interruption.Controls.Add(stoppedStatus_Lbl);
             tabPage_Interruption.Controls.Add(isStatus_Lbl);
             tabPage_Interruption.Controls.Add(autoRestarting_CBox);
             tabPage_Interruption.Controls.Add(autoRestarting_Lbl);
@@ -144,17 +144,17 @@
             isStatus_CBox.Tag = "";
             isStatus_CBox.SelectedIndexChanged += isStatus_CBox_SelectedIndexChanged;
             // 
-            // label2
+            // stoppedStatus_Lbl
             // 
-            label2.AutoSize = true;
-            label2.BackColor = Color.Maroon;
-            label2.Font = new Font("Nirmala UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label2.ForeColor = Color.White;
-            label2.Location = new Point(93, 86);
-            label2.Name = "label2";
-            label2.Size = new Size(59, 17);
-            label2.TabIndex = 43;
-            label2.Text = "Stopped";
+            stoppedStatus_Lbl.AutoSize = true;
+            stoppedStatus_Lbl.BackColor = Color.Maroon;
+            stoppedStatus_Lbl.Font = new Font("Nirmala UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            stoppedStatus_Lbl.ForeColor = Color.White;
+            stoppedStatus_Lbl.Location = new Point(93, 86);
+            stoppedStatus_Lbl.Name = "stoppedStatus_Lbl";
+            stoppedStatus_Lbl.Size = new Size(59, 17);
+            stoppedStatus_Lbl.TabIndex = 43;
+            stoppedStatus_Lbl.Text = "Stopped";
             // 
             // isStatus_Lbl
             // 
@@ -414,7 +414,7 @@
         private ComboBox autoRestarting_CBox;
         private Label isStatus_Lbl;
         private ComboBox isStatus_CBox;
-        private Label label2;
+        private Label stoppedStatus_Lbl;
         private Label countingServiceOutages_Lbl;
         private ComboBox serviceOutages_CBox;
         private Button update_BTN;

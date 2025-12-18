@@ -11,7 +11,7 @@
             {
                 main.Invoke((MethodInvoker)delegate
                 {
-                    Panel? myPanel = main.Controls.Find("panel_UesrControl", true).FirstOrDefault() as Panel;
+                    Panel? myPanel = main.Controls.Find("panel_UserControl", true).FirstOrDefault() as Panel;
                     userControl.Dock = DockStyle.None;
                     userControl.Invalidate();
                     userControl.Update();

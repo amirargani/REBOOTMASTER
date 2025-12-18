@@ -44,13 +44,13 @@
             pictureBox_Arrow.TabIndex = 30;
             pictureBox_Arrow.TabStop = false;
             // 
-            // US_Settings
+            // US_Dashboard
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(0, 8, 25);
             Controls.Add(pictureBox_Arrow);
-            Name = "US_Settings";
+            Name = "US_Dashboard";
             Size = new Size(800, 450);
             ((System.ComponentModel.ISupportInitialize)pictureBox_Arrow).EndInit();
             ResumeLayout(false);

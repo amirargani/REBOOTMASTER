@@ -1,92 +1,80 @@
-﻿# REBOOTMASTER
+﻿# REBOOTMASTER 🚀
+
+[![.NET Version](https://img.shields.io/badge/.NET-10.0--windows-blue.svg)](https://dotnet.microsoft.com/download)
+[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE.txt)
 
 ![REBOOTMASTER](https://github.com/amirargani/REBOOTMASTER/blob/main/REBOOTMASTER_Free/REBOOTMASTER.png)
 
-## Overview 🛠️  
-REBOOTMASTER is a powerful monitoring service specifically designed to ensure the continuous availability of critical applications. It constantly tracks the status of configured services and responds immediately if any of them stop unexpectedly. In such cases, REBOOTMASTER automatically restarts the affected service to minimize downtime and maintain high system availability. With its proactive monitoring and recovery capabilities, REBOOTMASTER is an essential tool for maintaining a stable and reliable IT infrastructure.
+## Overview 🛠️
 
-## Note 📌  
-A service is a program or process that runs in the background and performs tasks. Downtime refers to periods when a service is unavailable or non-functional. This can occur due to maintenance, technical issues, or unexpected errors. During downtime, users cannot access or use the affected services.
+**REBOOTMASTER** is a robust monitoring service designed to ensure the continuous availability of critical applications. It proactively tracks the status of configured services and responds immediately to unexpected failures by automatically restarting the affected processes.
 
-## Recommendation 💡  
-Please ensure you consult with your software developer regarding the use of this software, if necessary.
+Minimize downtime and maintain a stable IT infrastructure with automated recovery capabilities.
 
-## User Guide 📘
+---
 
-### 1. Introduction  
-- REBOOTMASTER is a monitoring tool that ensures selected services run continuously. If a service stops, it is automatically restarted to minimize downtime.
+## Key Features ✅
 
-### 2. Installation  
-- **Download**: Download the latest version of REBOOTMASTER from the official website.  
-- **Installation**: Run the installer and follow the on-screen instructions.
+- **Real-time Monitoring**: Services are checked at high frequency (every few seconds).
+- **Automated Recovery**: Instant restart of failed services to minimize downtime.
+- **Fail-safe Notifications**: Receive email alerts if a service cannot be recovered after multiple attempts.
+- **Modern Tech Stack**: Built with .NET 10 for optimal performance on Windows.
+- **Secure Configuration**: AES encryption for sensitive data (like email credentials).
 
-### 3. Usage  
-- **Settings**: Make sure the email settings are configured correctly in the settings tab.  
-- **Start Button**: Click the start button after opening REBOOTMASTER and selecting/saving the desired services in the Services tab.
+## Getting Started 📘
 
-### 4. Errors  
-- **Check Error Messages**: Review the log file for specific error messages. REBOOTMASTER also sends an email when an error occurs.
+### Prerequisites
+- Windows OS
+- [.NET 10 Runtime](https://dotnet.microsoft.com/download/dotnet/10.0)
 
-## Benefits ✅
+### Installation
+1. **Download**: Get the latest release from the [Releases](https://github.com/amirargani/REBOOTMASTER/releases) page.
+2. **Setup**: Run the installer and follow the on-screen instructions.
 
-1. **Service Monitoring**: Selected services are checked every few seconds.  
-2. **Automatic Restart**: If a service stops, it is automatically restarted within seconds.  
-3. **Failure Notification**: If a service fails repeatedly, you’ll receive an email notifying you that the service couldn’t be restarted after several attempts. The email also informs you that the service will be restarted again after few seconds.
+### Usage
+1. **Configure Emails**: Go to the **Settings** tab and enter your SMTP details for notifications.
+2. **Select Services**: In the **Services** tab, select the programs you want to monitor and save your selection.
+3. **Start Monitoring**: Click the **Start** button to begin the monitoring process.
 
-This process ensures that services are continuously monitored and quickly restored in case of issues. If a service fails repeatedly, you are notified and the system attempts another restart to resolve potential problems.
+---
 
-## Changelog
-### V.2025.12.04.0 (December 04, 2025)
+## Technical Details ⚙️
 
-- **Log Class**
-  - Initializes log4net
-  - Loads configuration from Log.dll
+| Component | Technology | Description |
+| :--- | :--- | :--- |
+| **Framework** | .NET 10 (Windows Forms) | Modern, high-performance UI framework. |
+| **Logging** | log4net | Professional logging for diagnostic purposes. |
+| **Security** | AES Encryption | Secure storage of configuration data. |
+| **Communication** | SMTP / MailService | Automated failure notifications via email. |
 
-- **Program Class**
-  - Ensures single application instance
-  - Initializes configuration and main window
+> [!TIP]
+> Always check the `Log.dll` output and log files if you encounter issues. The system provides detailed error tracking.
 
-- **UserControls**
-  - Updated Settings UserControl
-    - Improved functionality
-    - UI enhancements for better user experience
+---
 
-- **Security Class**
-  - Provides AES encryption and decryption functionality
+## Changelog 📜
 
-- **XMLUpdate Class**
-  - Updates configuration object after changes
+### V.2025.12.18.0
+- ✨ **Maintenance**: Corrected spelling mistakes across the documentation.
+- 🎨 **UI**: Enhanced `Services` UserControl
 
-- **MailService Class**
-  - Generates emails using templates
-  - Configures SMTP client
+### V.2025.12.04.0
+- 🚀 **Feature**: Implemented `Log Class` with `log4net` integration.
+- 🛡️ **Security**: Added `Security Class` with AES encryption/decryption.
+- 📧 **Mail**: New `MailService` and `NotificationService` for email alerts.
+- 🎨 **UI**: Enhanced `Settings` UserControl and added custom `ToolTipWindows`.
+- 🔄 **Core**: Optimized `Program Class` for single-instance enforcement and .NET 10 compatibility.
 
-- **ToolTipWindows Class**
-  - Provides custom tooltip functionality
+### V.2025.09.19.0
+- 🌱 **Initial Release**: Basic Windows Forms design and project structure.
+- 🧩 **UI Management**: Added `USControl` and `Transition` classes for dynamic UI handling.
+- ✉️ **Messaging**: Implemented `Message Class` for custom notifications.
 
-- **ConfigReaderMail Class**
-  - Reads SMTP and template settings from configuration file
+---
 
-- **NotificationService Class**
-  - Sends notification emails using templates
+## Recommendation 💡
+Please consult with your IT department or software developer before deploying this tool in a production environment to ensure compatibility with your existing infrastructure.
 
-- **ConfigReaderInterruption Class**
-  - Reads interruption settings from configuration file
+---
 
-- **Compatibility**
-  - Ensures support for latest .NET runtime (e.g., .NET 10) and libraries
-	
-
-### V.2025.09.19.0 (September 19, 2025)
-
-- **Project Creation and Windows Forms**
-  - Introduces basic functionality for project creation and Windows Forms design
-
-- **Message Class**
-  - Manages custom messages and notifications
-
-- **USControl Class**
-  - Provides a simple way to display dynamic UserControls in the main window without reloading the entire form
-
-- **Transition Classes**
-  - Handles UI transitions and animations between components
+*Developed by amirargani*
