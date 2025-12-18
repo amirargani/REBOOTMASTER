@@ -35,7 +35,7 @@
             authorName_Lbl = new Label();
             author_Lbl = new Label();
             github_Lnk = new LinkLabel();
-            gihub_Lbl = new Label();
+            github_Lbl = new Label();
             homepage_Lnk = new LinkLabel();
             homepage_Lbl = new Label();
             pictureBox_Arrow = new PictureBox();
@@ -115,16 +115,16 @@
             github_Lnk.Text = "https://github.com/amirargani";
             github_Lnk.LinkClicked += github_Lnk_LinkClicked;
             // 
-            // gihub_Lbl
+            // github_Lbl
             // 
-            gihub_Lbl.AutoSize = true;
-            gihub_Lbl.Font = new Font("Nirmala UI", 9.75F, FontStyle.Bold);
-            gihub_Lbl.ForeColor = Color.White;
-            gihub_Lbl.Location = new Point(58, 82);
-            gihub_Lbl.Name = "gihub_Lbl";
-            gihub_Lbl.Size = new Size(56, 17);
-            gihub_Lbl.TabIndex = 26;
-            gihub_Lbl.Text = "GitHub:";
+            github_Lbl.AutoSize = true;
+            github_Lbl.Font = new Font("Nirmala UI", 9.75F, FontStyle.Bold);
+            github_Lbl.ForeColor = Color.White;
+            github_Lbl.Location = new Point(58, 82);
+            github_Lbl.Name = "github_Lbl";
+            github_Lbl.Size = new Size(56, 17);
+            github_Lbl.TabIndex = 26;
+            github_Lbl.Text = "GitHub:";
             // 
             // homepage_Lnk
             // 
@@ -199,7 +199,7 @@
             Controls.Add(authorName_Lbl);
             Controls.Add(author_Lbl);
             Controls.Add(github_Lnk);
-            Controls.Add(gihub_Lbl);
+            Controls.Add(github_Lbl);
             Controls.Add(homepage_Lnk);
             Controls.Add(homepage_Lbl);
             Controls.Add(copyright_Lbl);
@@ -224,7 +224,7 @@
         private Label authorName_Lbl;
         private Label author_Lbl;
         private LinkLabel github_Lnk;
-        private Label gihub_Lbl;
+        private Label github_Lbl;
         private LinkLabel homepage_Lnk;
         private Label homepage_Lbl;
         private PictureBox pictureBox_Arrow;

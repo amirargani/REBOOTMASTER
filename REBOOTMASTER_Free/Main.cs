@@ -29,7 +29,7 @@ namespace REBOOTMASTER_Free
             InitializeComponent();
             mainObject = this;
             ShowInTaskbar = false;
-            panel_UesrControl.Visible = false;
+            panel_UserControl.Visible = false;
 
             // Timer
             _timerProgressBar = new System.Windows.Forms.Timer();
