@@ -48,7 +48,7 @@
             notifyIcon_Main = new NotifyIcon(components);
             contextMenuStrip_NotifyIcon = new ContextMenuStrip(components);
             exitApplicationToolStripMenuItem = new ToolStripMenuItem();
-            panel_UesrControl = new Panel();
+            panel_UserControl = new Panel();
             panel_Top.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox_TXT_Logo).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox_Logo).BeginInit();
@@ -78,7 +78,7 @@
             version_Lbl.Name = "version_Lbl";
             version_Lbl.Size = new Size(86, 13);
             version_Lbl.TabIndex = 19;
-            version_Lbl.Text = "Free v20251204";
+            version_Lbl.Text = "Free v20251218";
             // 
             // pictureBox_TXT_Logo
             // 
@@ -257,12 +257,12 @@
             exitApplicationToolStripMenuItem.Text = "✖ Exit";
             exitApplicationToolStripMenuItem.Click += exitApplicationToolStripMenuItem_Click;
             // 
-            // panel_UesrControl
+            // panel_UserControl
             // 
-            panel_UesrControl.Location = new Point(0, 79);
-            panel_UesrControl.Name = "panel_UesrControl";
-            panel_UesrControl.Size = new Size(800, 450);
-            panel_UesrControl.TabIndex = 19;
+            panel_UserControl.Location = new Point(0, 79);
+            panel_UserControl.Name = "panel_UserControl";
+            panel_UserControl.Size = new Size(800, 450);
+            panel_UserControl.TabIndex = 19;
             // 
             // Main
             // 
@@ -271,7 +271,7 @@
             BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
             BackgroundImageLayout = ImageLayout.Zoom;
             ClientSize = new Size(800, 600);
-            Controls.Add(panel_UesrControl);
+            Controls.Add(panel_UserControl);
             Controls.Add(about_BTN);
             Controls.Add(settings_BTN);
             Controls.Add(services_BTN);
@@ -315,6 +315,6 @@
         private NotifyIcon notifyIcon_Main;
         private ContextMenuStrip contextMenuStrip_NotifyIcon;
         private ToolStripMenuItem exitApplicationToolStripMenuItem;
-        private Panel panel_UesrControl;
+        private Panel panel_UserControl;
     }
 }
