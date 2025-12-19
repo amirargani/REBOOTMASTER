@@ -50,7 +50,7 @@ Minimize downtime and maintain a stable IT infrastructure with automated recover
 | **Communication** | SMTP / MailService | Automated failure notifications via email. |
 
 > [!TIP]
-> Always check the `Log.dll` output and log files if you encounter issues. The system provides detailed error tracking.
+> Always check the `log` output and log files if you encounter issues. The system provides detailed error tracking.
 
 ---
 
