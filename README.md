@@ -79,4 +79,4 @@ Please consult with your IT department or software developer before deploying th
 
 ---
 
-*Developed by amirargani*
+*Developed by Amir Argani*
