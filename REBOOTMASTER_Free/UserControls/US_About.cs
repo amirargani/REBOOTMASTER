@@ -1,5 +1,5 @@
-﻿using REBOOTMASTER_Free.Utility;
-using System.Diagnostics;
+﻿using System.Diagnostics;
+using REBOOTMASTER_Free.Utility;
 
 namespace REBOOTMASTER_Free.UserControls
 {
