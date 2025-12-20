@@ -5,7 +5,7 @@
 [![Language](https://img.shields.io/badge/Language-C%23-239120?style=flat&logo=c-sharp)]()
 [![.NET Version](https://img.shields.io/badge/.NET-10.0--windows-blue.svg)](https://dotnet.microsoft.com/download)
 [![Version](https://img.shields.io/badge/Version-v2025.12.20.0-blue.svg)]()
-[![REBOOTMASTER](https://github.com/amirargani/REBOOTMASTER/blob/main/REBOOTMASTER_Free/REBOOTMASTER.png)]()
+[![REBOOTMASTER](https://github.com/amirargani/REBOOTMASTER/blob/main/REBOOTMASTER/REBOOTMASTER.png)]()
 
 ## Overview 🛠️
 
