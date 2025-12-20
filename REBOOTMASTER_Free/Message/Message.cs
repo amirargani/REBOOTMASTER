@@ -41,9 +41,9 @@
         public const string _msgIsStatusToolTip = @"Every {0}, if the Service Status is 'Stopped' and the service cannot be restarted after {1}, an email is sent to you stating that the service will be restarted after a {2}.";
         public const string _msgServiceOutagesToolTip = @"Counts and monitors detected service disruptions.";
         public const string _msgErrorAppSettings = "AppSettings section not found in config file.";
+        public const string _msgSystemServices = "System services in `C:\\Windows`, `C:\\Program Files`, and `C:\\ProgramData` are hidden by default.";
 
         // Information
         internal void ShowMessageInformation(string _msg) => MessageBox.Show(_msg, _captionInformation, MessageBoxButtons.OK, MessageBoxIcon.Information);
-
     }
 }

@@ -1,6 +1,8 @@
+using System.ServiceProcess;
+using REBOOTMASTER_Free.Utility;
+using REBOOTMASTER_Free.Windows;
 using REBOOTMASTER_Free.Transition;
 using REBOOTMASTER_Free.UserControls;
-using REBOOTMASTER_Free.Windows;
 using Log = REBOOTMASTER_Free.Utility.Log;
 using _msg = REBOOTMASTER_Free.Message.Message;
 
@@ -10,7 +12,11 @@ namespace REBOOTMASTER_Free
     {
         // Variable
         public bool isFinish = false;
+        public bool isStatus = false;
         public bool isSettings = false;
+        public string serviceName = null!;
+        public string serviceStatus = null!;
+        public string serviceStatusBTN = null!;
         private bool setProgressBar = false;
         private bool isWindowsFormActive = false;
         // User Controls
@@ -22,6 +28,9 @@ namespace REBOOTMASTER_Free
 
         // Timer
         public System.Windows.Forms.Timer _timerProgressBar;
+
+        // User Controls Accessors
+        public US_Services ServicesControl => uS_Services;
 
         // Constructor: Main
         public Main()
@@ -92,7 +101,56 @@ namespace REBOOTMASTER_Free
                 close_BTN.Visible = true;
                 minimized_BTN.Visible = true;
                 isFinish = true;
-                if (isSettings) { Enabled = true; isSettings  = false; }
+                if (isStatus)
+                {
+                    try
+                    {
+                        if (serviceStatusBTN == "Start")
+                        {
+                            // Start Service
+                            ServiceHelper.GetServiceByNameOrDisplayName(serviceName)!.Start();
+                            Log.Logger!.Info($"{serviceName} running. {_msg._msgSuccessfulServiceRunning}");
+                            ServiceHelper.GetServiceByNameOrDisplayName(serviceName)!.WaitForStatus(ServiceControllerStatus.Running, TimeSpan.FromSeconds(30));
+                        }
+                        else if (serviceStatusBTN == "Stop")
+                        {
+                            // Stop Service
+                            ServiceHelper.GetServiceByNameOrDisplayName(serviceName)!.Stop();
+                            Log.Logger!.Info($"{serviceName} stopped. {_msg._msgSuccessfulServiceStopped}");
+                            ServiceHelper.GetServiceByNameOrDisplayName(serviceName)!.WaitForStatus(ServiceControllerStatus.Stopped, TimeSpan.FromSeconds(30));
+                        }
+                        else if (serviceStatusBTN == "Restart")
+                        {
+                            // Restart Service
+                            ServiceHelper.GetServiceByNameOrDisplayName(serviceName)!.Refresh();
+                            if (ServiceHelper.GetServiceByNameOrDisplayName(serviceName)!.Status.Equals(ServiceControllerStatus.Running))
+                            {
+                                // Service is running, so stop it first
+                                ServiceHelper.GetServiceByNameOrDisplayName(serviceName)!.Stop();
+                                Log.Logger!.Info($"{serviceName} stopped. {_msg._msgSuccessfulServiceStopped}");
+                                ServiceHelper.GetServiceByNameOrDisplayName(serviceName)!.WaitForStatus(ServiceControllerStatus.Stopped, TimeSpan.FromSeconds(30));
+
+                                // Then start the service
+                                ServiceHelper.GetServiceByNameOrDisplayName(serviceName)!.Start();
+                                Log.Logger!.Info($"{serviceName} running. {_msg._msgSuccessfulServiceRunning}");
+                                ServiceHelper.GetServiceByNameOrDisplayName(serviceName)!.WaitForStatus(ServiceControllerStatus.Running, TimeSpan.FromSeconds(30));
+                            }
+                        }
+
+                        // Update service status in the Services user control
+                        var main = FindForm() as Main;
+                        var services = main?.ServicesControl;
+                        services!.serviceStatus = ServiceHelper.GetServiceByNameOrDisplayName(serviceName)!.Status.ToString();
+                        Enabled = true;
+                    }
+                    catch (Exception ex)
+                    {
+
+                        NotificationService.GetException(ex);
+                        Log.Logger!.Error($"Unexpected error: {ex.Message} {Environment.NewLine + ex.StackTrace}");
+                    }
+                }
+                if (isSettings) { Enabled = true; isSettings = false; }
             }
         }
 

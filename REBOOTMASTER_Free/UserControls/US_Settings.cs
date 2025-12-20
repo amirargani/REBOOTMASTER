@@ -87,12 +87,15 @@ namespace REBOOTMASTER_Free.UserControls
         // Update Button
         private void update_BTN_Click(object sender, EventArgs e)
         {
+            // Get Main Form
             Main? main = FindForm() as Main;
 
             if (main != null)
             {
+                // Invoke on Main Form
                 main.Invoke((MethodInvoker)delegate
                 {
+                    // Get Progress Bar Timer
                     System.Windows.Forms.Timer _timerProgressBar = main._timerProgressBar;
                     if (_timerProgressBar != null)
                     {

@@ -4,7 +4,7 @@
 ![Platform](https://img.shields.io/badge/Platform-Windows-0078D6?style=flat&logo=windows)
 ![Language](https://img.shields.io/badge/Language-C%23-239120?style=flat&logo=c-sharp)
 [![.NET Version](https://img.shields.io/badge/.NET-10.0--windows-blue.svg)](https://dotnet.microsoft.com/download)
-![Version](https://img.shields.io/badge/Version-v2025.12.18.0-blue.svg)
+![Version](https://img.shields.io/badge/Version-v2025.12.20.0-blue.svg)
 ![REBOOTMASTER](https://github.com/amirargani/REBOOTMASTER/blob/main/REBOOTMASTER_Free/REBOOTMASTER.png)
 
 ## Overview 🛠️
@@ -50,11 +50,23 @@ Minimize downtime and maintain a stable IT infrastructure with automated recover
 | **Communication** | SMTP / MailService | Automated failure notifications via email. |
 
 > [!TIP]
-> Always check the `Log.dll` output and log files if you encounter issues. The system provides detailed error tracking.
+> Always check the `log` files if you encounter issues. The system provides detailed error tracking.
 
 ---
 
 ## Changelog 📜
+
+### V.2025.12.20.0
+- 🏷️ **Project**:  Renamed project from `REBOOTMASTER_Free` to `REBOOTMASTER` and updated the source code.
+- 🕹️ **Service Controls**: Added direct UI support for `Start`, `Stop`, and `Restart` actions.
+- ⚙️ **WMI Integration**: Refactored to use `CimSession` for more robust and detailed service querying.
+- 🛠️ **Utility**: Introduced the `ServiceHelper` class to centralize and optimize service management.
+- ✨ **Filtering**: Added a toggle to switch between Windows system services and custom applications.
+- 📺 **Main**: Implemented accessors for user controls and updated `timer_ProgressBar_Reset_Tick` to use `isStatus`.
+- ⚙️ **Settings**: Added command-line argument support.
+- 🎨 **UI/UX**: Enhanced `US_Services` with RTF‑formatted descriptions, interactive tooltips, and implemented code‑behind logic.
+- 📁 **Templates**: Added a new folder for random selection of professional email notification templates.
+- 🏗️ **Architecture**: Decoupled service logic for significantly improved maintainability.
 
 ### V.2025.12.18.0
 - ✨ **Maintenance**: Corrected spelling mistakes across the documentation.
@@ -79,4 +91,4 @@ Please consult with your IT department or software developer before deploying th
 
 ---
 
-*Developed by amirargani*
+*Developed by Amir Argani*
