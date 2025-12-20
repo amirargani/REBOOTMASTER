@@ -63,7 +63,7 @@ Minimize downtime and maintain a stable IT infrastructure with automated recover
 - 🛠️ **Utility**: Introduced the `ServiceHelper` class to centralize and optimize service management.
 - ✨ **Filtering**: Added a toggle to switch between Windows system services and custom applications.
 - 📺 **Main**: Implemented accessors for user controls and updated `timer_ProgressBar_Reset_Tick` to use `isStatus`.
-- ⚙️ **Settings**: Added command-line argument support.
+- ⚙️ **Settings**: Added command-line.
 - 🎨 **UI/UX**: Enhanced `US_Services` with RTF‑formatted descriptions, interactive tooltips, and implemented code‑behind logic.
 - 📁 **Templates**: Added a new folder for random selection of professional email notification templates.
 - 🏗️ **Architecture**: Decoupled service logic for significantly improved maintainability.
