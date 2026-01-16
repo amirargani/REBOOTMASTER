@@ -23,14 +23,16 @@
         public const string _msgSuccessfulServiceStopped = "The service was successfully stopped.";
         public const string _msgSuccessfulServiceRestarted = "The service was restarted successfully.";
         public const string _msgSuccessfulServiceDeleted = "The service was successfully deleted.";
+        public const string _msgServiceAlreadyExists = "The service already exists in the Config.";
         public const string _msgSMTPConfigurations = "Please enter the SMTP configurations correctly in the Settings tab.";
         public const string _msgServiceIsStart = "The service must be started.";
-        public const string _msgServiceIsUpdate = "Do you want to update the desired service?";
-        public const string _msgServiceIsDelete = "Do you want to delete the desired service?";
-        public const string _msgServiceAvailable = "You have selected and saved the service(s) in the Services tab, allowing the REBOOTMASTER to monitor them.";
+        public const string _msgServiceIsUpdate = "Do you want to add or update the desired service in the Config?";
+        public const string _msgServiceIsDelete = "Do you want to delete the desired service in the Config?";
+        public const string _msgServiceAvailable = "You must select and save the service(s) in the Services tab, allowing REBOOTMASTER to monitor them.";
+        public const string _msgServiceSuccessfullyAdded = "You have successfully saved this service in the Config, allowing REBOOTMASTER to monitor it.";
         public const string _msgStartMonitorServices = "Are you sure you want to monitor the selected services?";
         public const string _msgStopMonitoringServices = "Are you sure you want to stop monitoring the selected services?";
-        public const string _msgAddServiceCheckboxToolTip = "Add the desired service to the list to monitor the REBOOTMASTER in the background.";
+        public const string _msgAddServiceCheckboxToolTip = "The desired service in the list for REBOOTMASTER to monitor it in the background, automatically restarting.";
         public const string _msgHostToolTip = "The SMTP server address (e.g., `smtp.example.com`)";
         public const string _msgPortToolTip = "The port used for SMTP (typically `587` or `465`)";
         public const string _msgUserToolTip = "The username used to authenticate with the SMTP server";
@@ -41,7 +43,10 @@
         public const string _msgIsStatusToolTip = @"Every {0}, if the Service Status is 'Stopped' and the service cannot be restarted after {1}, an email is sent to you stating that the service will be restarted after a {2}.";
         public const string _msgServiceOutagesToolTip = @"Counts and monitors detected service disruptions.";
         public const string _msgErrorAppSettings = "AppSettings section not found in config file.";
-        public const string _msgSystemServices = "System services in `C:\\Windows`, `C:\\Program Files`, and `C:\\ProgramData` are hidden by default.";
+        public const string _msgSystemServicesToolTip = "System services in `C:\\Windows`, `C:\\Program Files`, and `C:\\ProgramData` are hidden by default.";
+        public const string _msgSelectService = "Please select a service to add or update.";
+        public const string _msgTheServiceIsAdded = "This service has been added to the configuration";
+        public const string _msgTheServiceIsNotAdded = "This service has not yet been added to the configuration.";
 
         // Information
         internal void ShowMessageInformation(string _msg) => MessageBox.Show(_msg, _captionInformation, MessageBoxButtons.OK, MessageBoxIcon.Information);

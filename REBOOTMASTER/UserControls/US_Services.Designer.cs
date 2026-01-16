@@ -33,8 +33,9 @@
             update_BTN = new Button();
             tabControl_Services = new TabControl();
             tabPage_Services = new TabPage();
+            autoRestarting_CHBox = new CheckBox();
             serdescription_richTextBox = new RichTextBox();
-            label1 = new Label();
+            description_Lbl = new Label();
             serstatus_Lbl = new Label();
             sername_Lbl = new Label();
             sstatus_Lbl = new Label();
@@ -42,6 +43,7 @@
             services_CHBox = new CheckBox();
             service_CBox = new ComboBox();
             disname_Lbl = new Label();
+            added_Lbl = new Label();
             delete_BTN = new Button();
             start_BTN = new Button();
             stop_BTN = new Button();
@@ -71,10 +73,10 @@
             update_BTN.ForeColor = Color.White;
             update_BTN.Location = new Point(33, 355);
             update_BTN.Name = "update_BTN";
-            update_BTN.Size = new Size(163, 44);
+            update_BTN.Size = new Size(228, 44);
             update_BTN.TabIndex = 39;
             update_BTN.TabStop = false;
-            update_BTN.Text = "✚ Add Service";
+            update_BTN.Text = "▶ Add or Update Service in List";
             update_BTN.UseVisualStyleBackColor = false;
             update_BTN.Click += update_BTN_Click;
             // 
@@ -92,8 +94,9 @@
             // tabPage_Services
             // 
             tabPage_Services.BackColor = Color.FromArgb(0, 8, 25);
+            tabPage_Services.Controls.Add(autoRestarting_CHBox);
             tabPage_Services.Controls.Add(serdescription_richTextBox);
-            tabPage_Services.Controls.Add(label1);
+            tabPage_Services.Controls.Add(description_Lbl);
             tabPage_Services.Controls.Add(serstatus_Lbl);
             tabPage_Services.Controls.Add(sername_Lbl);
             tabPage_Services.Controls.Add(sstatus_Lbl);
@@ -107,6 +110,18 @@
             tabPage_Services.Size = new Size(654, 306);
             tabPage_Services.TabIndex = 1;
             tabPage_Services.Text = "📦 Services";
+            // 
+            // autoRestarting_CHBox
+            // 
+            autoRestarting_CHBox.AutoSize = true;
+            autoRestarting_CHBox.ForeColor = Color.White;
+            autoRestarting_CHBox.Location = new Point(28, 144);
+            autoRestarting_CHBox.Name = "autoRestarting_CHBox";
+            autoRestarting_CHBox.Size = new Size(164, 21);
+            autoRestarting_CHBox.TabIndex = 51;
+            autoRestarting_CHBox.TabStop = false;
+            autoRestarting_CHBox.Text = "Restart automatically?";
+            autoRestarting_CHBox.UseVisualStyleBackColor = true;
             // 
             // serdescription_richTextBox
             // 
@@ -123,16 +138,16 @@
             serdescription_richTextBox.TabStop = false;
             serdescription_richTextBox.Text = "-";
             // 
-            // label1
+            // description_Lbl
             // 
-            label1.AutoSize = true;
-            label1.Font = new Font("Nirmala UI", 9.75F, FontStyle.Bold);
-            label1.ForeColor = Color.White;
-            label1.Location = new Point(28, 115);
-            label1.Name = "label1";
-            label1.Size = new Size(131, 17);
-            label1.TabIndex = 48;
-            label1.Text = "Service Description:";
+            description_Lbl.AutoSize = true;
+            description_Lbl.Font = new Font("Nirmala UI", 9.75F, FontStyle.Bold);
+            description_Lbl.ForeColor = Color.White;
+            description_Lbl.Location = new Point(28, 115);
+            description_Lbl.Name = "description_Lbl";
+            description_Lbl.Size = new Size(131, 17);
+            description_Lbl.TabIndex = 48;
+            description_Lbl.Text = "Service Description:";
             // 
             // serstatus_Lbl
             // 
@@ -217,6 +232,16 @@
             disname_Lbl.TabIndex = 41;
             disname_Lbl.Text = "Display Name:";
             // 
+            // added_Lbl
+            // 
+            added_Lbl.AutoSize = true;
+            added_Lbl.Font = new Font("Nirmala UI", 9.75F, FontStyle.Bold);
+            added_Lbl.ForeColor = Color.White;
+            added_Lbl.Location = new Point(33, 424);
+            added_Lbl.Name = "added_Lbl";
+            added_Lbl.Size = new Size(0, 17);
+            added_Lbl.TabIndex = 52;
+            // 
             // delete_BTN
             // 
             delete_BTN.BackColor = Color.FromArgb(0, 8, 33);
@@ -225,9 +250,9 @@
             delete_BTN.FlatStyle = FlatStyle.Flat;
             delete_BTN.Font = new Font("Nirmala UI", 9.75F, FontStyle.Bold);
             delete_BTN.ForeColor = Color.White;
-            delete_BTN.Location = new Point(533, 355);
+            delete_BTN.Location = new Point(267, 355);
             delete_BTN.Name = "delete_BTN";
-            delete_BTN.Size = new Size(163, 44);
+            delete_BTN.Size = new Size(130, 44);
             delete_BTN.TabIndex = 40;
             delete_BTN.TabStop = false;
             delete_BTN.Text = "\U0001f9f9 Delete Service";
@@ -242,7 +267,7 @@
             start_BTN.FlatStyle = FlatStyle.Flat;
             start_BTN.Font = new Font("Nirmala UI", 9.75F, FontStyle.Bold);
             start_BTN.ForeColor = Color.White;
-            start_BTN.Location = new Point(202, 355);
+            start_BTN.Location = new Point(403, 355);
             start_BTN.Name = "start_BTN";
             start_BTN.Size = new Size(75, 44);
             start_BTN.TabIndex = 41;
@@ -259,7 +284,7 @@
             stop_BTN.FlatStyle = FlatStyle.Flat;
             stop_BTN.Font = new Font("Nirmala UI", 9.75F, FontStyle.Bold);
             stop_BTN.ForeColor = Color.White;
-            stop_BTN.Location = new Point(283, 355);
+            stop_BTN.Location = new Point(484, 355);
             stop_BTN.Name = "stop_BTN";
             stop_BTN.Size = new Size(75, 44);
             stop_BTN.TabIndex = 42;
@@ -276,9 +301,9 @@
             restart_BTN.FlatStyle = FlatStyle.Flat;
             restart_BTN.Font = new Font("Nirmala UI", 9.75F, FontStyle.Bold);
             restart_BTN.ForeColor = Color.White;
-            restart_BTN.Location = new Point(364, 355);
+            restart_BTN.Location = new Point(565, 355);
             restart_BTN.Name = "restart_BTN";
-            restart_BTN.Size = new Size(163, 44);
+            restart_BTN.Size = new Size(130, 44);
             restart_BTN.TabIndex = 43;
             restart_BTN.TabStop = false;
             restart_BTN.Text = "⚡ Restart";
@@ -290,6 +315,7 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(0, 8, 25);
+            Controls.Add(added_Lbl);
             Controls.Add(restart_BTN);
             Controls.Add(stop_BTN);
             Controls.Add(start_BTN);
@@ -304,6 +330,7 @@
             tabPage_Services.ResumeLayout(false);
             tabPage_Services.PerformLayout();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -318,11 +345,13 @@
         private Label sstatus_Lbl;
         private Label serstatus_Lbl;
         private Label sername_Lbl;
-        private Label label1;
+        private Label description_Lbl;
         private RichTextBox serdescription_richTextBox;
         private Button delete_BTN;
         private Button start_BTN;
         private Button stop_BTN;
         private Button restart_BTN;
+        private CheckBox autoRestarting_CHBox;
+        private Label added_Lbl;
     }
 }

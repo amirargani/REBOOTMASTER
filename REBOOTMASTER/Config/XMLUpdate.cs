@@ -7,7 +7,7 @@ namespace REBOOTMASTER_Free.Config
 {
     internal class XMLUpdate
     {
-        public static void UpdateProperty(string name, string value, object config, string fileName)
+        public static void UpdateProperty(string name, string value, object config, string fileName, bool delService = false)
         {
             // Configuration to save
             string configFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, fileName);
@@ -22,7 +22,11 @@ namespace REBOOTMASTER_Free.Config
             XmlElement settingElement = (XmlElement)appSettingsNode.SelectSingleNode($"add[@key='{name}']")!;
             if (settingElement != null)
             {
-                settingElement.SetAttribute("value", value);
+                if (!delService) { settingElement.SetAttribute("value", value); }
+                else
+                {
+                    appSettingsNode.RemoveChild(settingElement);
+                }
             }
             else
             {

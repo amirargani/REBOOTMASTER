@@ -141,6 +141,8 @@ namespace REBOOTMASTER_Free
                         var main = FindForm() as Main;
                         var services = main?.ServicesControl;
                         services!.serviceStatus = ServiceHelper.GetServiceByNameOrDisplayName(serviceName)!.Status.ToString();
+                        // Wait for Action to Complete
+                        services!.descriptionService = true;
                         Enabled = true;
                     }
                     catch (Exception ex)
