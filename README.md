@@ -1,10 +1,10 @@
 ﻿# REBOOTMASTER 🚀
 
-[![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE.txt)
-[![Platform](https://img.shields.io/badge/Platform-Windows-0078D6?style=flat&logo=windows)]()
-[![Language](https://img.shields.io/badge/Language-C%23-239120?style=flat&logo=c-sharp)]()
-[![.NET Version](https://img.shields.io/badge/.NET-10.0--windows-blue.svg)](https://dotnet.microsoft.com/download)
-[![Version](https://img.shields.io/badge/Version-v2025.12.20.0-blue.svg)]()
+[![License](https://img.shields.io/badge/License-Apache%202.0-D22128?style=for-the-badge&logo=apache&logoColor=white)](LICENSE.txt)
+[![Platform](https://img.shields.io/badge/Platform-Windows-0078D6?style=for-the-badge&logo=windows&logoColor=white)]()
+[![Language](https://img.shields.io/badge/Language-C%23-239120?style=for-the-badge&logo=c-sharp&logoColor=white)]()
+[![.NET Version](https://img.shields.io/badge/.NET-10.0-512BD4?style=for-the-badge&logo=dotnet&logoColor=white)](https://dotnet.microsoft.com/download)
+[![Version](https://img.shields.io/badge/Version-v2026.01.16.0-0078D6?style=for-the-badge&logo=semver&logoColor=white)]()
 [![REBOOTMASTER](https://github.com/amirargani/REBOOTMASTER/blob/main/REBOOTMASTER/REBOOTMASTER.png)]()
 
 ## Overview 🛠️
