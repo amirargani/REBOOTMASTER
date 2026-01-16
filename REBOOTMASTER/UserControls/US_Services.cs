@@ -1,13 +1,16 @@
-﻿using System.ComponentModel;
+﻿using System.Xml;
+using REBOOTMASTER.Config;
+using System.ComponentModel;
+using REBOOTMASTER_Free.Config;
 using REBOOTMASTER_Free.Utility;
 using _msg = REBOOTMASTER_Free.Message;
 using Microsoft.Management.Infrastructure;
-
 
 namespace REBOOTMASTER_Free.UserControls
 {
     public partial class US_Services : UserControl
     {
+        // Service Name Property
         [Browsable(true)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public string serviceStatus
@@ -15,13 +18,24 @@ namespace REBOOTMASTER_Free.UserControls
             get => serstatus_Lbl.Text;
             set => serstatus_Lbl.Text = value;
         }
+
+        // Service Description Property
+        [Browsable(true)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public bool descriptionService
+        {
+            get => serdescription_richTextBox.Visible;
+            set => serdescription_richTextBox.Visible = value;
+        }
+
         // Constructor
         public US_Services()
         {
             InitializeComponent();
             // Load Services
             Loaded_Services();
-            ToolTipWindows.SetToolTip(services_CHBox, _msg.Message._msgSystemServices);
+            ToolTipWindows.SetToolTip(services_CHBox, _msg.Message._msgSystemServicesToolTip);
+            ToolTipWindows.SetToolTip(autoRestarting_CHBox, _msg.Message._msgAddServiceCheckboxToolTip);
         }
 
         // Selected Index Changed
@@ -30,6 +44,38 @@ namespace REBOOTMASTER_Free.UserControls
             // Refresh Service Details
             RefreshSelectedServiceDetails();
         }
+
+        // Get Setting Node Method
+        private XmlNode? GetSettingNode(string key)
+        {
+            string configFilePath = Path.Combine(
+                AppDomain.CurrentDomain.BaseDirectory,
+                ConfigReaderService.FileName);
+
+            var xmlDoc = new XmlDocument();
+            xmlDoc.Load(configFilePath);
+
+            return xmlDoc.SelectSingleNode($"configuration/appSettings/add[@key='{key}']");
+        }
+
+        // Check if Service Exists Method
+        private bool IsServiceExists(string key)
+        {
+            return GetSettingNode(key) != null;
+        }
+
+        // Check if Service is Enabled Method
+        private bool IsServiceEnabled(string key)
+        {
+            var node = GetSettingNode(key);
+            if (node == null)
+                return false;
+
+            string value = node.Attributes?["value"]?.Value ?? "false";
+            return value.Equals("true", StringComparison.OrdinalIgnoreCase);
+        }
+
+
 
         // Load Services Method
         private void Loaded_Services()
@@ -99,6 +145,38 @@ namespace REBOOTMASTER_Free.UserControls
                 stop_BTN.Enabled = false;
                 restart_BTN.Enabled = false;
             }
+
+            // Update Auto Restarting CheckBox and Delete Button State
+            if (IsServiceExists(sername_Lbl.Text))
+            {
+                autoRestarting_CHBox.Checked = IsServiceEnabled(sername_Lbl.Text);
+                delete_BTN.Enabled = true;
+                added_Lbl.BackColor = Color.SeaGreen;
+                added_Lbl.Text = _msg.Message._msgTheServiceIsAdded +
+                 (IsServiceEnabled(sername_Lbl.Text)
+                     ? " and is set to restart automatically."
+                     : ".");
+            }
+            else
+            {
+                autoRestarting_CHBox.Checked = false;
+                delete_BTN.Enabled = false;
+                added_Lbl.BackColor = Color.Maroon;
+                added_Lbl.Text = _msg.Message._msgTheServiceIsNotAdded;
+            }
+        }
+
+        // Confirm Action Method
+        private void ConfirmAction()
+        {
+            // Call Service Action Method
+            ServiceAction();
+            // Update XML Configuration to Add/Update Service
+            XMLUpdate.UpdateProperty(sername_Lbl.Text, autoRestarting_CHBox.Checked.ToString().ToLower(), ConfigReaderService.configService!, ConfigReaderService.FileName);
+            // Show Success Message
+            MessageBox.Show(_msg.Message._msgServiceSuccessfullyAdded, _msg.Message._captionInformation, MessageBoxButtons.OK, MessageBoxIcon.Information);
+            // Enable Delete Button
+            delete_BTN.Enabled = true;
         }
 
         // Services CheckBox Changed
@@ -120,10 +198,13 @@ namespace REBOOTMASTER_Free.UserControls
         }
 
         // Service Action Method
-        private void ServiceAction(string serviceStatusBTN)
+        private void ServiceAction(string serviceStatusBTN = null!)
         {
             // Select CheckBox
             services_CHBox.Select();
+
+            // Hide Description RichTextBox
+            serdescription_richTextBox.Visible = false;
 
             // Get Main Form
             Main? main = FindForm() as Main;
@@ -154,7 +235,41 @@ namespace REBOOTMASTER_Free.UserControls
         // Update Button Click Events
         private void update_BTN_Click(object sender, EventArgs e)
         {
+            // Validate Service Selection
+            if (service_CBox.SelectedItem == null)
+            {
+                // Show Warning Message
+                MessageBox.Show(_msg.Message._msgSelectService, _msg.Message._captionWarning,
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
 
+            // Check if Service Already Exists
+            if (IsServiceExists(sername_Lbl.Text))
+            {
+                // Show Confirmation Dialog
+                var result = MessageBox.Show(_msg.Message._msgServiceAlreadyExists + " " + _msg.Message._msgUpdate + " and " + _msg.Message._msgServiceIsUpdate,
+                                             _msg.Message._captionWarning,
+                                             MessageBoxButtons.YesNo,
+                                             MessageBoxIcon.Warning);
+
+                // If User Selects No, Return
+                if (result != DialogResult.Yes)
+                    return;
+            }
+            else {
+                // Show Confirmation Dialog for New Service
+                var result = MessageBox.Show(_msg.Message._msgServiceIsUpdate,
+                                             _msg.Message._captionWarning,
+                                             MessageBoxButtons.YesNo,
+                                             MessageBoxIcon.Warning);
+                // If User Selects No, Return
+                if (result != DialogResult.Yes)
+                    return;
+            }
+
+            // Confirm Action Method
+            ConfirmAction();
         }
 
         // Start Button Click Events
@@ -196,7 +311,19 @@ namespace REBOOTMASTER_Free.UserControls
         // Delete Button Click Events
         private void delete_BTN_Click(object sender, EventArgs e)
         {
-
+            // Confirm Delete Action
+            if (MessageBox.Show(_msg.Message._msgServiceIsDelete, _msg.Message._captionWarning, MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+            {
+                // Call Service Action Method
+                ServiceAction();
+                // Update XML Configuration to Delete Service
+                XMLUpdate.UpdateProperty(sername_Lbl.Text, autoRestarting_CHBox.Checked.ToString().ToLower(), ConfigReaderService.configService!, ConfigReaderService.FileName, true);
+                // Show Success Message
+                MessageBox.Show(_msg.Message._msgSuccessfulServiceDeleted, _msg.Message._captionInformation, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                // Reset Auto Restarting CheckBox and Disable Delete Button
+                autoRestarting_CHBox.Checked = false;
+                delete_BTN.Enabled = false;
+            }
         }
     }
 }

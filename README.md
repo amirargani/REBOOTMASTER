@@ -56,6 +56,12 @@ Minimize downtime and maintain a stable IT infrastructure with automated recover
 
 ## Changelog 📜
 
+### V.2026.01.16.0
+- 🗑️ **Service Management**: Added functionality to add, update, and delete services from the configuration directly via the UI.
+- ⚙️ **Configuration**: Updated `XMLUpdate` to support service removal.
+- 🎨 **UI**: Enabled the `Delete` button in `US_Services` when a service is selected and exists in the config.
+- 👨‍💻 **Technical**: Updated `US_Services` logic including `RefreshSelectedServiceDetails`, `Loaded_Services`, `IsServiceEnabled`, `IsServiceExists`, `GetSettingNode`, and the `Service Description` property.
+
 ### V.2025.12.20.0
 - 🏷️ **Project**:  Renamed project from `REBOOTMASTER_Free` to `REBOOTMASTER` and updated the source code.
 - 🕹️ **Service Controls**: Added direct UI support for `Start`, `Stop`, and `Restart` actions.
