@@ -1,7 +1,7 @@
 ﻿using log4net;
 using log4net.Config;
 
-namespace REBOOTMASTER_Free.Utility
+namespace REBOOTMASTER.Utility
 {
     internal class Log
     {

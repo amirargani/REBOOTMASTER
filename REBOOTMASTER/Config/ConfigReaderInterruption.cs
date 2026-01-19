@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
 using System.Configuration;
 
-namespace REBOOTMASTER_Free.Config
+namespace REBOOTMASTER.Config
 {
     internal class ConfigReaderInterruption
     {

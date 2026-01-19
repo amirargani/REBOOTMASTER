@@ -1,6 +1,6 @@
 ﻿using System.ServiceProcess;
 
-namespace REBOOTMASTER_Free.Utility
+namespace REBOOTMASTER.Utility
 {
     internal class ServiceHelper
     {

@@ -1,10 +1,10 @@
-﻿using REBOOTMASTER_Free.Config;
-using REBOOTMASTER_Free.Utility;
+﻿using REBOOTMASTER.Config;
+using REBOOTMASTER.Utility;
 using System.Text.RegularExpressions;
-using _msg = REBOOTMASTER_Free.Message;
-using Log = REBOOTMASTER_Free.Utility.Log;
+using _msg = REBOOTMASTER.Message;
+using Log = REBOOTMASTER.Utility.Log;
 
-namespace REBOOTMASTER_Free.UserControls
+namespace REBOOTMASTER.UserControls
 {
     public partial class US_Settings : UserControl
     {

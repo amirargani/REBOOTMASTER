@@ -1,9 +1,9 @@
 ﻿using System.Xml;
 using System.Configuration;
-using _msg = REBOOTMASTER_Free.Message;
-using Log = REBOOTMASTER_Free.Utility.Log;
+using _msg = REBOOTMASTER.Message;
+using Log = REBOOTMASTER.Utility.Log;
 
-namespace REBOOTMASTER_Free.Config
+namespace REBOOTMASTER.Config
 {
     internal class XMLUpdate
     {

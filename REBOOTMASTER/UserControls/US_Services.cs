@@ -1,14 +1,14 @@
 ﻿using Microsoft.Management.Infrastructure;
 using REBOOTMASTER.Config;
-using REBOOTMASTER_Free.Config;
-using REBOOTMASTER_Free.Utility;
+using REBOOTMASTER.Config;
+using REBOOTMASTER.Utility;
 using System.ComponentModel;
 using System.ServiceProcess;
 using System.Xml;
 using static System.ComponentModel.Design.ObjectSelectorEditor;
-using _msg = REBOOTMASTER_Free.Message;
+using _msg = REBOOTMASTER.Message;
 
-namespace REBOOTMASTER_Free.UserControls
+namespace REBOOTMASTER.UserControls
 {
     public partial class US_Services : UserControl
     {

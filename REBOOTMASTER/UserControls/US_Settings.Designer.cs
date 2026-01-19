@@ -1,4 +1,4 @@
-﻿namespace REBOOTMASTER_Free.UserControls
+﻿namespace REBOOTMASTER.UserControls
 {
     partial class US_Settings
     {

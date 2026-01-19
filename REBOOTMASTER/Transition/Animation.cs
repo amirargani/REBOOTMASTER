@@ -1,4 +1,4 @@
-﻿namespace REBOOTMASTER_Free.Transition
+﻿namespace REBOOTMASTER.Transition
 {
     internal class Animation
     {

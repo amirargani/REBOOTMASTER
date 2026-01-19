@@ -1,8 +1,8 @@
 ﻿using System.Net.Mail;
 using System.Reflection;
-using REBOOTMASTER_Free.Config;
+using REBOOTMASTER.Config;
 
-namespace REBOOTMASTER_Free.Utility
+namespace REBOOTMASTER.Utility
 {
     internal class NotificationService
     {

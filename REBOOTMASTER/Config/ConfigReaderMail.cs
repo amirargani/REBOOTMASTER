@@ -1,10 +1,10 @@
 ﻿using System.Net.Mail;
 using System.Reflection;
 using System.Configuration;
-using REBOOTMASTER_Free.Utility;
-using MailService = REBOOTMASTER_Free.Utility.MailService;
+using REBOOTMASTER.Utility;
+using MailService = REBOOTMASTER.Utility.MailService;
 
-namespace REBOOTMASTER_Free.Config
+namespace REBOOTMASTER.Config
 {
     internal class ConfigReaderMail
     {

@@ -1,4 +1,4 @@
-﻿namespace REBOOTMASTER_Free.Utility
+﻿namespace REBOOTMASTER.Utility
 {
     internal class ToolTipWindows
     {
