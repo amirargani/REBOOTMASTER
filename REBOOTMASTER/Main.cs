@@ -19,6 +19,7 @@ namespace REBOOTMASTER_Free
         public string serviceStatusBTN = null!;
         private bool setProgressBar = false;
         private bool isWindowsFormActive = false;
+
         // User Controls
         public static Main? mainObject;
         public US_About uS_About = new US_About();
@@ -71,7 +72,7 @@ namespace REBOOTMASTER_Free
         // Timer ProgressBar: Start
         private void timer_ProgressBar_Tick(object sender, EventArgs e)
         {
-            if (!setProgressBar) panel_ProgressBar.Width += 2;
+            if (!setProgressBar) panel_ProgressBar.Width += 5;
             if (panel_ProgressBar.Width >= 800)
             {
                 timer_ProgressBar.Stop();
@@ -90,7 +91,7 @@ namespace REBOOTMASTER_Free
         // Timer ProgressBar: Reset
         private void timer_ProgressBar_Reset_Tick(object sender, EventArgs e)
         {
-            if (!setProgressBar) panel_ProgressBar.Width -= 2;
+            if (!setProgressBar) panel_ProgressBar.Width -= 5;
             if (panel_ProgressBar.Width <= 0)
             {
                 timer_ProgressBar_Reset.Stop();
@@ -139,10 +140,21 @@ namespace REBOOTMASTER_Free
 
                         // Update service status in the Services user control
                         var main = FindForm() as Main;
+
+                        // Get Services User Control
                         var services = main?.ServicesControl;
-                        services!.serviceStatus = ServiceHelper.GetServiceByNameOrDisplayName(serviceName)!.Status.ToString();
-                        // Wait for Action to Complete
+
+                        // Update Service Status
+                        if (serviceName != null)
+                        {
+                            // Update the service status property
+                            services!.serviceStatus = ServiceHelper.GetServiceByNameOrDisplayName(serviceName)!.Status.ToString();
+                        }
+
+                        // Set flag to update description service
                         services!.descriptionService = true;
+
+                        // Refresh Main UI
                         Enabled = true;
                     }
                     catch (Exception ex)

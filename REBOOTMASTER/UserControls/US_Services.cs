@@ -1,10 +1,12 @@
-﻿using System.Xml;
+﻿using Microsoft.Management.Infrastructure;
 using REBOOTMASTER.Config;
-using System.ComponentModel;
 using REBOOTMASTER_Free.Config;
 using REBOOTMASTER_Free.Utility;
+using System.ComponentModel;
+using System.ServiceProcess;
+using System.Xml;
+using static System.ComponentModel.Design.ObjectSelectorEditor;
 using _msg = REBOOTMASTER_Free.Message;
-using Microsoft.Management.Infrastructure;
 
 namespace REBOOTMASTER_Free.UserControls
 {
@@ -28,6 +30,10 @@ namespace REBOOTMASTER_Free.UserControls
             set => serdescription_richTextBox.Visible = value;
         }
 
+
+        // Selected Service Variable
+        string selected = null!;
+
         // Constructor
         public US_Services()
         {
@@ -36,6 +42,7 @@ namespace REBOOTMASTER_Free.UserControls
             Loaded_Services();
             ToolTipWindows.SetToolTip(services_CHBox, _msg.Message._msgSystemServicesToolTip);
             ToolTipWindows.SetToolTip(autoRestarting_CHBox, _msg.Message._msgAddServiceCheckboxToolTip);
+            ToolTipWindows.SetToolTip(myser_Rad, _msg.Message._msgMyServicesToolTip);
         }
 
         // Selected Index Changed
@@ -75,13 +82,12 @@ namespace REBOOTMASTER_Free.UserControls
             return value.Equals("true", StringComparison.OrdinalIgnoreCase);
         }
 
-
-
         // Load Services Method
         private void Loaded_Services()
         {
             // Clear existing items
             service_CBox.Items.Clear();
+
             // CIM Session
             var session = CimSession.Create(null);
             // Query Instances
@@ -102,21 +108,35 @@ namespace REBOOTMASTER_Free.UserControls
                 // Remove surrounding quotes from path
                 path = path.Trim('"');
 
-                // Check if the service is already in the ComboBox
-                if (!services_CHBox.Checked)
+                // Check if service is in config
+                bool isInConfig = IsServiceExists(name);
+
+                // If My Services is selected, only add services in config
+                if (myser_Rad.Checked && isInConfig)
                 {
+                    service_CBox.Items.Add(displayName);
+                    continue;
+                }
+                // Check if the service is already in the ComboBox
+                else if (services_Rad.Checked && !services_CHBox.Checked)
+                {
+                    //otherServices = configServices;
                     // Add service to ComboBox if not already present
                     if (!path.StartsWith(@"C:\WINDOWS", StringComparison.OrdinalIgnoreCase) && !path.StartsWith(@"C:\Program Files", StringComparison.OrdinalIgnoreCase) && !path.StartsWith(@"C:\ProgramData", StringComparison.OrdinalIgnoreCase))
                     {
+                        // Add to other services list
                         service_CBox.Items.Add(displayName);
                     }
-                }
-                else
+                } // If All Services is selected, add all services
+                else if (services_Rad.Checked && services_CHBox.Checked)
                 {
-                    // Add all services to ComboBox
+                    // Add to all services list
                     service_CBox.Items.Add(displayName);
                 }
             }
+
+            // Restore Selected Service
+            if (selected != null) { service_CBox.Text = selected; }
         }
 
         // Refresh Selected Service Details Method
@@ -125,10 +145,13 @@ namespace REBOOTMASTER_Free.UserControls
             // Update Service Details
             sername_Lbl.Text = ServiceHelper.GetServiceByNameOrDisplayName(service_CBox.SelectedItem!.ToString()!)!.ServiceName.ToString();
             serstatus_Lbl.Text = ServiceHelper.GetServiceByNameOrDisplayName(service_CBox.SelectedItem!.ToString()!)!.Status.ToString();
+
             // Update Service Description
             string description = CimSession.Create(null).QueryInstances("root\\cimv2", "WQL", $"SELECT * FROM Win32_Service WHERE DisplayName = '{service_CBox.SelectedItem!.ToString()!}'").FirstOrDefault()!.CimInstanceProperties["Description"].Value?.ToString() ?? "";
+
             // Set RTF formatted text
             string EscapeRtf(string text) { return text.Replace(@"\", @"\\").Replace("{", @"\{").Replace("}", @"\}"); }
+
             // Set the RTF content
             serdescription_richTextBox.Rtf = $@"{{\rtf1\pard\qj {EscapeRtf(description)}\par}}";
 
@@ -164,37 +187,97 @@ namespace REBOOTMASTER_Free.UserControls
                 added_Lbl.BackColor = Color.Maroon;
                 added_Lbl.Text = _msg.Message._msgTheServiceIsNotAdded;
             }
+
+            // Enable or Disable Update Button
+            if (service_CBox.SelectedIndex == -1) { update_BTN.Enabled = false; }
+            else { update_BTN.Enabled = true; }
         }
 
         // Confirm Action Method
         private void ConfirmAction()
         {
-            // Call Service Action Method
-            ServiceAction();
             // Update XML Configuration to Add/Update Service
             XMLUpdate.UpdateProperty(sername_Lbl.Text, autoRestarting_CHBox.Checked.ToString().ToLower(), ConfigReaderService.configService!, ConfigReaderService.FileName);
+
+            // Refresh Service Details
+            RefreshSelectedServiceDetails();
+
+            // Call Service Action Method
+            ServiceAction();
+
             // Show Success Message
             MessageBox.Show(_msg.Message._msgServiceSuccessfullyAdded, _msg.Message._captionInformation, MessageBoxButtons.OK, MessageBoxIcon.Information);
+
             // Enable Delete Button
             delete_BTN.Enabled = true;
+        }
+
+        // Radio Button Checked Changed Events
+        private void services_Rad_CheckedChanged(object sender, EventArgs e)
+        {
+            // Enable Services CheckBox
+            services_CHBox.Enabled = true;
+
+            // Store Selected Service
+            if (service_CBox.Text != null) { selected = service_CBox.Text; }
+
+            // Reload Services 
+            Loaded_Services();
+
+            // Selected Index Method
+            SelectedIndex();
+        }
+
+        // Radio Button Checked Changed Events
+        private void myser_Rad_CheckedChanged(object sender, EventArgs e)
+        {
+            // Disable Services CheckBox
+            services_CHBox.Enabled = false;
+
+            // Store Selected Service
+            if (service_CBox.Text != null) { selected = service_CBox.Text; }
+
+            // Reload Services
+            Loaded_Services();
+
+            // Selected Index Method
+            SelectedIndex();
         }
 
         // Services CheckBox Changed
         private void services_CHBox_CheckedChanged(object sender, EventArgs e)
         {
-            // Disable Buttons
-            start_BTN.Enabled = false;
-            stop_BTN.Enabled = false;
-            restart_BTN.Enabled = false;
-            delete_BTN.Enabled = false;
+            // Store Selected Service
+            if (service_CBox.Text != null) { selected = service_CBox.Text; }
 
+            // Load Services
+            Loaded_Services();
+
+            if (!services_CHBox.Checked && service_CBox.SelectedIndex == -1) { ClearServiceDetails(); }
+        }
+
+        // Selected Index Method
+        private void SelectedIndex()
+        {
+            // Enable or Disable Update Button
+            if (service_CBox.SelectedIndex == -1) { update_BTN.Enabled = false; ClearServiceDetails(); }
+            else { update_BTN.Enabled = true; }
+        }
+
+        // Clear Service Details Method
+        private void ClearServiceDetails()
+        {
             // Clear Service Details
             sername_Lbl.Text = "-";
             serstatus_Lbl.Text = "-";
             serdescription_richTextBox.Rtf = $@"{{\rtf1\pard\qj -\par}}";
+            added_Lbl.Text = "";
 
-            // Load Services
-            Loaded_Services();
+            // Disable Buttons
+            start_BTN.Enabled = false;
+            stop_BTN.Enabled = false;
+            restart_BTN.Enabled = false;
+            update_BTN.Enabled = false;
         }
 
         // Service Action Method
@@ -218,14 +301,16 @@ namespace REBOOTMASTER_Free.UserControls
                     System.Windows.Forms.Timer _timerProgressBar = main._timerProgressBar;
                     if (_timerProgressBar != null)
                     {
+                        // Update Main Form State
                         main.Enabled = false;
                         main.isFinish = false;
                         main.isStatus = true;
                         main.SuspendLayout();
                         _timerProgressBar.Start();
                         main.ResumeLayout();
+
                         // Set Service Name
-                        main.serviceName = ServiceHelper.GetServiceByNameOrDisplayName(sername_Lbl.Text)!.ServiceName.ToString();
+                        main.serviceName = (service_CBox.Items.Count > 1 && sername_Lbl.Text != "-") ? ServiceHelper.GetServiceByNameOrDisplayName(sername_Lbl.Text)!.ServiceName.ToString() : null!;
                         main.serviceStatusBTN = serviceStatusBTN;
                     }
                 });
@@ -257,7 +342,8 @@ namespace REBOOTMASTER_Free.UserControls
                 if (result != DialogResult.Yes)
                     return;
             }
-            else {
+            else
+            {
                 // Show Confirmation Dialog for New Service
                 var result = MessageBox.Show(_msg.Message._msgServiceIsUpdate,
                                              _msg.Message._captionWarning,
@@ -314,15 +400,43 @@ namespace REBOOTMASTER_Free.UserControls
             // Confirm Delete Action
             if (MessageBox.Show(_msg.Message._msgServiceIsDelete, _msg.Message._captionWarning, MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
             {
-                // Call Service Action Method
-                ServiceAction();
+                // Store Selected Service
+                selected = service_CBox.Text;
+
                 // Update XML Configuration to Delete Service
                 XMLUpdate.UpdateProperty(sername_Lbl.Text, autoRestarting_CHBox.Checked.ToString().ToLower(), ConfigReaderService.configService!, ConfigReaderService.FileName, true);
-                // Show Success Message
-                MessageBox.Show(_msg.Message._msgSuccessfulServiceDeleted, _msg.Message._captionInformation, MessageBoxButtons.OK, MessageBoxIcon.Information);
+
                 // Reset Auto Restarting CheckBox and Disable Delete Button
                 autoRestarting_CHBox.Checked = false;
                 delete_BTN.Enabled = false;
+
+                // Restore Selected Service
+                if (!myser_Rad.Checked) { service_CBox.SelectedItem = selected; }
+                // Set Selected Index to Previous Item
+                else if (myser_Rad.Checked)
+                {
+                    // Reload Services
+                    Loaded_Services();
+
+                    // Set Selected Index to Previous Item
+                    service_CBox.SelectedIndex = service_CBox.Items.Count - 1;
+
+                    // Check if ComboBox is Empty
+                    if (service_CBox.Items.Count == 0)
+                    {
+                        // Clear Service Details
+                        ClearServiceDetails();
+                    }
+                }
+
+                // If the combo box still contains entries after deletion, update the details, if it is empty, select the Services radio button.
+                if (service_CBox.Items.Count > 0) { RefreshSelectedServiceDetails(); } else { services_Rad.Checked = true; }
+
+                // Call Service Action Method
+                ServiceAction();
+
+                // Show Success Message
+                MessageBox.Show(_msg.Message._msgSuccessfulServiceDeleted, _msg.Message._captionInformation, MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
     }
