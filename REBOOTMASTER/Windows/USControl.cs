@@ -1,4 +1,4 @@
-﻿namespace REBOOTMASTER_Free.Windows
+﻿namespace REBOOTMASTER.Windows
 {
     internal class USControl
     {

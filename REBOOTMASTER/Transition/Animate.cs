@@ -1,6 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 
-namespace REBOOTMASTER_Free.Transition
+namespace REBOOTMASTER.Transition
 {
     internal class Animate
     {

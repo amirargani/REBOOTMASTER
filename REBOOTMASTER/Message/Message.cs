@@ -1,4 +1,4 @@
-﻿namespace REBOOTMASTER_Free.Message
+﻿namespace REBOOTMASTER.Message
 {
     internal class Message
     {

@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
-using REBOOTMASTER_Free.Utility;
+using REBOOTMASTER.Utility;
 
-namespace REBOOTMASTER_Free.UserControls
+namespace REBOOTMASTER.UserControls
 {
     public partial class US_About : UserControl
     {

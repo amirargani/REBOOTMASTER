@@ -1,7 +1,7 @@
 ﻿using System.Text;
 using System.Security.Cryptography;
 
-namespace REBOOTMASTER_Free.Utility
+namespace REBOOTMASTER.Utility
 {
     internal class Security
     {

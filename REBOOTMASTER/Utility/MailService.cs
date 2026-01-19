@@ -2,7 +2,7 @@
 using System.Text;
 using System.Net.Mail;
 
-namespace REBOOTMASTER_Free.Utility
+namespace REBOOTMASTER.Utility
 {
     internal class MailService
     {

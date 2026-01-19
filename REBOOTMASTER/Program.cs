@@ -1,8 +1,8 @@
 using System.Diagnostics;
-using _msg = REBOOTMASTER_Free.Message;
-using Log = REBOOTMASTER_Free.Utility.Log;
+using _msg = REBOOTMASTER.Message;
+using Log = REBOOTMASTER.Utility.Log;
 
-namespace REBOOTMASTER_Free
+namespace REBOOTMASTER
 {
     internal static class Program
     {

@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 
-namespace REBOOTMASTER_Free.UserControls
+namespace REBOOTMASTER.UserControls
 {
     public partial class US_Dashboard : UserControl
     {

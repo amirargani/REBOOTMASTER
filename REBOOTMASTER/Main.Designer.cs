@@ -1,4 +1,4 @@
-﻿namespace REBOOTMASTER_Free
+﻿namespace REBOOTMASTER
 {
     partial class Main
     {

@@ -1,12 +1,12 @@
 using System.ServiceProcess;
-using REBOOTMASTER_Free.Utility;
-using REBOOTMASTER_Free.Windows;
-using REBOOTMASTER_Free.Transition;
-using REBOOTMASTER_Free.UserControls;
-using Log = REBOOTMASTER_Free.Utility.Log;
-using _msg = REBOOTMASTER_Free.Message.Message;
+using REBOOTMASTER.Utility;
+using REBOOTMASTER.Windows;
+using REBOOTMASTER.Transition;
+using REBOOTMASTER.UserControls;
+using Log = REBOOTMASTER.Utility.Log;
+using _msg = REBOOTMASTER.Message.Message;
 
-namespace REBOOTMASTER_Free
+namespace REBOOTMASTER
 {
     public partial class Main : Form
     {

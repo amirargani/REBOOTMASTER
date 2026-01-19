@@ -77,7 +77,7 @@ Minimize downtime and maintain a stable IT infrastructure with automated recover
 - 👨‍💻 **Technical**: Updated `US_Services` logic including `RefreshSelectedServiceDetails`, `Loaded_Services`, `IsServiceEnabled`, `IsServiceExists`, `GetSettingNode`, and the `Service Description` property.
 
 ### V.2025.12.20.0
-- 🏷️ **Project**:  Renamed project from `REBOOTMASTER_Free` to `REBOOTMASTER` and updated the source code.
+- 🏷️ **Project**:  Renamed project from `REBOOTMASTER` to `REBOOTMASTER` and updated the source code.
 - 🕹️ **Service Controls**: Added direct UI support for `Start`, `Stop`, and `Restart` actions.
 - ⚙️ **WMI Integration**: Refactored to use `CimSession` for more robust and detailed service querying.
 - 🛠️ **Utility**: Introduced the `ServiceHelper` class to centralize and optimize service management.
