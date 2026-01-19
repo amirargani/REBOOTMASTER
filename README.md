@@ -4,7 +4,7 @@
 [![Language](https://img.shields.io/badge/Language-C%23-239120.svg?style=for-the-badge&logo=csharp)](https://docs.microsoft.com/en-us/dotnet/csharp/)
 [![Platform](https://img.shields.io/badge/Platform-Windows-0078D6.svg?style=for-the-badge&logo=windows)](https://www.microsoft.com/en-us/windows)
 [![Framework](https://img.shields.io/badge/.NET-10.0-512BD4?style=for-the-badge&logo=.net&logoColor=white)](https://dotnet.microsoft.com/apps/aspnet)
-[![Version](https://img.shields.io/badge/Version-v2026.01.16.0-0078D6?style=for-the-badge&logo=semver&logoColor=white)]()
+[![Version](https://img.shields.io/badge/Version-v2026.01.19.0-0078D6?style=for-the-badge&logo=semver&logoColor=white)]()
 
 ## Overview 🛠️
 
@@ -54,6 +54,21 @@ Minimize downtime and maintain a stable IT infrastructure with automated recover
 ---
 
 ## Changelog 📜
+
+### V.2026.01.19.0
+- 🆕 **New Features**:
+  - **My Active Services Filter**: Added `myser_Rad` and `services_Rad` radio buttons in `US_Services` to switch between "All Services" and "My Active Services" (configured services).
+  - **Smart Selection Recovery**: `Loaded_Services` now restores the previously selected service after list refreshes.
+- 🛠️ **Function Updates**:
+  - `Loaded_Services()`: Completely refactored to support the new radio button filtering logic.
+  - `DeleteAction()`: Enhanced to handle post-deletion selection logic (auto-selects previous item or switches view if empty).
+  - `RefreshSelectedServiceDetails()`: Added `EscapeRtf` helper for safer RTF rendering and improved state management for the `Update` button.
+  - `ConfirmAction()`: Now calls `RefreshSelectedServiceDetails()` immediately after updates to ensure UI consistency.
+- ⚡ **Performance & UX**:
+  - `timer_ProgressBar_Tick` / `timer_ProgressBar_Reset_Tick`: Increased progress bar speed (step +5) for a snappier feel.
+  - `GetSettingNode`: Logic updated to be more robust.
+- ⚙️ **Project Metadata**:
+  - Added `ApplicationManifest` (active only in Release/non-Debug modes) and updated `.csproj` with proper assembly versioning and descriptions.
 
 ### V.2026.01.16.0
 - 🗑️ **Service Management**: Added functionality to add, update, and delete services from the configuration directly via the UI.

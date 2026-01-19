@@ -40,6 +40,7 @@ namespace REBOOTMASTER_Free
         {
             // Get the current process
             Process currentProcess = Process.GetCurrentProcess();
+
             // Check if there are any other processes with the same name
             Process[] processes = Process.GetProcessesByName(currentProcess.ProcessName);
             return processes.Length > 1;

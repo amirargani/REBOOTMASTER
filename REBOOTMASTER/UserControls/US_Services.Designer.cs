@@ -40,9 +40,11 @@
             sername_Lbl = new Label();
             sstatus_Lbl = new Label();
             service_Lbl = new Label();
-            services_CHBox = new CheckBox();
             service_CBox = new ComboBox();
             disname_Lbl = new Label();
+            myser_Rad = new RadioButton();
+            services_Rad = new RadioButton();
+            services_CHBox = new CheckBox();
             added_Lbl = new Label();
             delete_BTN = new Button();
             start_BTN = new Button();
@@ -67,6 +69,7 @@
             // update_BTN
             // 
             update_BTN.BackColor = Color.FromArgb(0, 8, 33);
+            update_BTN.Enabled = false;
             update_BTN.FlatAppearance.BorderSize = 0;
             update_BTN.FlatStyle = FlatStyle.Flat;
             update_BTN.Font = new Font("Nirmala UI", 9.75F, FontStyle.Bold);
@@ -101,7 +104,6 @@
             tabPage_Services.Controls.Add(sername_Lbl);
             tabPage_Services.Controls.Add(sstatus_Lbl);
             tabPage_Services.Controls.Add(service_Lbl);
-            tabPage_Services.Controls.Add(services_CHBox);
             tabPage_Services.Controls.Add(service_CBox);
             tabPage_Services.Controls.Add(disname_Lbl);
             tabPage_Services.Location = new Point(4, 26);
@@ -193,19 +195,6 @@
             service_Lbl.TabIndex = 44;
             service_Lbl.Text = "Service Name:";
             // 
-            // services_CHBox
-            // 
-            services_CHBox.AutoSize = true;
-            services_CHBox.ForeColor = Color.White;
-            services_CHBox.Location = new Point(546, 20);
-            services_CHBox.Name = "services_CHBox";
-            services_CHBox.Size = new Size(98, 21);
-            services_CHBox.TabIndex = 43;
-            services_CHBox.TabStop = false;
-            services_CHBox.Text = "All Services";
-            services_CHBox.UseVisualStyleBackColor = true;
-            services_CHBox.CheckedChanged += services_CHBox_CheckedChanged;
-            // 
             // service_CBox
             // 
             service_CBox.BackColor = Color.FromArgb(0, 8, 25);
@@ -215,7 +204,7 @@
             service_CBox.FormattingEnabled = true;
             service_CBox.Location = new Point(210, 20);
             service_CBox.Name = "service_CBox";
-            service_CBox.Size = new Size(330, 21);
+            service_CBox.Size = new Size(438, 21);
             service_CBox.TabIndex = 42;
             service_CBox.TabStop = false;
             service_CBox.Tag = "";
@@ -231,6 +220,50 @@
             disname_Lbl.Size = new Size(98, 17);
             disname_Lbl.TabIndex = 41;
             disname_Lbl.Text = "Display Name:";
+            // 
+            // myser_Rad
+            // 
+            myser_Rad.AutoSize = true;
+            myser_Rad.Font = new Font("Segoe UI", 6.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            myser_Rad.ForeColor = Color.White;
+            myser_Rad.Location = new Point(699, 81);
+            myser_Rad.Name = "myser_Rad";
+            myser_Rad.Size = new Size(103, 16);
+            myser_Rad.TabIndex = 53;
+            myser_Rad.Text = "My Active Services";
+            myser_Rad.UseVisualStyleBackColor = true;
+            myser_Rad.CheckedChanged += myser_Rad_CheckedChanged;
+            // 
+            // services_Rad
+            // 
+            services_Rad.AutoSize = true;
+            services_Rad.Checked = true;
+            services_Rad.Font = new Font("Segoe UI", 6.75F, FontStyle.Bold);
+            services_Rad.ForeColor = Color.White;
+            services_Rad.Location = new Point(699, 41);
+            services_Rad.Name = "services_Rad";
+            services_Rad.Size = new Size(72, 16);
+            services_Rad.TabIndex = 52;
+            services_Rad.TabStop = true;
+            services_Rad.Text = "All Services";
+            services_Rad.UseVisualStyleBackColor = true;
+            services_Rad.CheckedChanged += services_Rad_CheckedChanged;
+            // 
+            // services_CHBox
+            // 
+            services_CHBox.AutoSize = true;
+            services_CHBox.Checked = true;
+            services_CHBox.CheckState = CheckState.Checked;
+            services_CHBox.Font = new Font("Segoe UI", 6.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            services_CHBox.ForeColor = Color.White;
+            services_CHBox.Location = new Point(699, 61);
+            services_CHBox.Name = "services_CHBox";
+            services_CHBox.Size = new Size(92, 16);
+            services_CHBox.TabIndex = 43;
+            services_CHBox.TabStop = false;
+            services_CHBox.Text = "System Services";
+            services_CHBox.UseVisualStyleBackColor = true;
+            services_CHBox.CheckedChanged += services_CHBox_CheckedChanged;
             // 
             // added_Lbl
             // 
@@ -315,7 +348,9 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(0, 8, 25);
+            Controls.Add(myser_Rad);
             Controls.Add(added_Lbl);
+            Controls.Add(services_Rad);
             Controls.Add(restart_BTN);
             Controls.Add(stop_BTN);
             Controls.Add(start_BTN);
@@ -323,6 +358,7 @@
             Controls.Add(update_BTN);
             Controls.Add(tabControl_Services);
             Controls.Add(pictureBox_Arrow);
+            Controls.Add(services_CHBox);
             Name = "US_Services";
             Size = new Size(800, 450);
             ((System.ComponentModel.ISupportInitialize)pictureBox_Arrow).EndInit();
@@ -353,5 +389,7 @@
         private Button restart_BTN;
         private CheckBox autoRestarting_CHBox;
         private Label added_Lbl;
+        private RadioButton myser_Rad;
+        private RadioButton services_Rad;
     }
 }

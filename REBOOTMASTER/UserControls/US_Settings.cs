@@ -101,6 +101,7 @@ namespace REBOOTMASTER_Free.UserControls
                     {
                         if (IsUpdate())
                         {
+                            // Update Main Form State
                             main.Enabled = false;
                             main.isFinish = false;
                             main.isSettings = true;

@@ -78,7 +78,7 @@
             version_Lbl.Name = "version_Lbl";
             version_Lbl.Size = new Size(86, 13);
             version_Lbl.TabIndex = 19;
-            version_Lbl.Text = "Free v20260116";
+            version_Lbl.Text = "Free v2026019";
             // 
             // pictureBox_TXT_Logo
             // 
