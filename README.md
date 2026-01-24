@@ -6,6 +6,8 @@
 [![Framework](https://img.shields.io/badge/.NET-10.0-512BD4?style=for-the-badge&logo=.net&logoColor=white)](https://dotnet.microsoft.com/apps/aspnet)
 [![Version](https://img.shields.io/badge/Version-v2026.01.19.0-0078D6?style=for-the-badge&logo=semver&logoColor=white)]()
 
+[![REBOOTMASTER](https://github.com/amirargani/REBOOTMASTER/blob/main/REBOOTMASTER/REBOOTMASTER.png)]()
+
 ## Overview 🛠️
 
 **REBOOTMASTER** is a robust monitoring service designed to ensure the continuous availability of critical applications. It proactively tracks the status of configured services and responds immediately to unexpected failures by automatically restarting the affected processes.
