@@ -1,6 +1,8 @@
 ﻿# REBOOTMASTER 🚀
 
 [![.NET Core Desktop](https://github.com/amirargani/REBOOTMASTER/actions/workflows/dotnet.yml/badge.svg)](https://github.com/amirargani/REBOOTMASTER/actions)
+
+> This badge reflects the status of the GitHub Actions CI workflow (runs on push and pull_request to the `main` branch).
 ---
 
 [![License](https://img.shields.io/badge/License-Apache_2.0-D22128?style=for-the-badge&logo=apache)](LICENSE.txt)
