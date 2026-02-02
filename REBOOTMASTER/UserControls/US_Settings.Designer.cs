@@ -52,7 +52,8 @@
             host_Lbl = new Label();
             port_Lbl = new Label();
             user_Lbl = new Label();
-            update_BTN = new Button();
+            Update_BTN = new Button();
+            SendEmailTest_BTN = new Button();
             ((System.ComponentModel.ISupportInitialize)pictureBox_Arrow).BeginInit();
             tabControl_Settings.SuspendLayout();
             tabPage_Interruption.SuspendLayout();
@@ -115,7 +116,7 @@
             serviceOutages_CBox.TabIndex = 46;
             serviceOutages_CBox.TabStop = false;
             serviceOutages_CBox.Tag = "";
-            serviceOutages_CBox.SelectedIndexChanged += serviceOutages_CBox_SelectedIndexChanged;
+            serviceOutages_CBox.SelectedIndexChanged += ServiceOutages_CBox_SelectedIndexChanged;
             // 
             // countingServiceOutages_Lbl
             // 
@@ -142,7 +143,7 @@
             isStatus_CBox.TabIndex = 44;
             isStatus_CBox.TabStop = false;
             isStatus_CBox.Tag = "";
-            isStatus_CBox.SelectedIndexChanged += isStatus_CBox_SelectedIndexChanged;
+            isStatus_CBox.SelectedIndexChanged += IsStatus_CBox_SelectedIndexChanged;
             // 
             // stoppedStatus_Lbl
             // 
@@ -181,7 +182,7 @@
             autoRestarting_CBox.TabIndex = 42;
             autoRestarting_CBox.TabStop = false;
             autoRestarting_CBox.Tag = "";
-            autoRestarting_CBox.SelectedIndexChanged += autoRestarting_CBox_SelectedIndexChanged;
+            autoRestarting_CBox.SelectedIndexChanged += AutoRestarting_CBox_SelectedIndexChanged;
             // 
             // autoRestarting_Lbl
             // 
@@ -208,7 +209,7 @@
             autoChecking_CBox.TabIndex = 40;
             autoChecking_CBox.TabStop = false;
             autoChecking_CBox.Tag = "";
-            autoChecking_CBox.SelectedIndexChanged += autoChecking_CBox_SelectedIndexChanged;
+            autoChecking_CBox.SelectedIndexChanged += AutoChecking_CBox_SelectedIndexChanged;
             // 
             // autoChecking_Lbl
             // 
@@ -357,28 +358,45 @@
             user_Lbl.TabIndex = 36;
             user_Lbl.Text = "User:";
             // 
-            // update_BTN
+            // Update_BTN
             // 
-            update_BTN.BackColor = Color.FromArgb(0, 8, 33);
-            update_BTN.FlatAppearance.BorderSize = 0;
-            update_BTN.FlatStyle = FlatStyle.Flat;
-            update_BTN.Font = new Font("Nirmala UI", 9.75F, FontStyle.Bold);
-            update_BTN.ForeColor = Color.White;
-            update_BTN.Location = new Point(33, 355);
-            update_BTN.Name = "update_BTN";
-            update_BTN.Size = new Size(662, 44);
-            update_BTN.TabIndex = 37;
-            update_BTN.TabStop = false;
-            update_BTN.Text = "📥 Update";
-            update_BTN.UseVisualStyleBackColor = false;
-            update_BTN.Click += update_BTN_Click;
+            Update_BTN.BackColor = Color.FromArgb(0, 8, 33);
+            Update_BTN.FlatAppearance.BorderSize = 0;
+            Update_BTN.FlatStyle = FlatStyle.Flat;
+            Update_BTN.Font = new Font("Nirmala UI", 9.75F, FontStyle.Bold);
+            Update_BTN.ForeColor = Color.White;
+            Update_BTN.Location = new Point(32, 355);
+            Update_BTN.Name = "Update_BTN";
+            Update_BTN.Size = new Size(328, 44);
+            Update_BTN.TabIndex = 37;
+            Update_BTN.TabStop = false;
+            Update_BTN.Text = "📥 Update";
+            Update_BTN.UseVisualStyleBackColor = false;
+            Update_BTN.Click += Update_BTN_Click;
+            // 
+            // SendEmailTest_BTN
+            // 
+            SendEmailTest_BTN.BackColor = Color.FromArgb(0, 8, 33);
+            SendEmailTest_BTN.FlatAppearance.BorderSize = 0;
+            SendEmailTest_BTN.FlatStyle = FlatStyle.Flat;
+            SendEmailTest_BTN.Font = new Font("Nirmala UI", 9.75F, FontStyle.Bold);
+            SendEmailTest_BTN.ForeColor = Color.White;
+            SendEmailTest_BTN.Location = new Point(366, 355);
+            SendEmailTest_BTN.Name = "SendEmailTest_BTN";
+            SendEmailTest_BTN.Size = new Size(329, 44);
+            SendEmailTest_BTN.TabIndex = 38;
+            SendEmailTest_BTN.TabStop = false;
+            SendEmailTest_BTN.Text = "\U0001f9ea Send Test Email";
+            SendEmailTest_BTN.UseVisualStyleBackColor = false;
+            SendEmailTest_BTN.Click += SendEmailTest_BTN_Click;
             // 
             // US_Settings
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(0, 8, 25);
-            Controls.Add(update_BTN);
+            Controls.Add(SendEmailTest_BTN);
+            Controls.Add(Update_BTN);
             Controls.Add(tabControl_Settings);
             Controls.Add(pictureBox_Arrow);
             Name = "US_Settings";
@@ -394,7 +412,6 @@
 
         #endregion
         private PictureBox pictureBox_Arrow;
-        private GroupBox groupBox1;
         private TabControl tabControl_Settings;
         private TabPage tabPage_SMTP;
         private TabPage tabPage_Interruption;
@@ -417,6 +434,7 @@
         private Label stoppedStatus_Lbl;
         private Label countingServiceOutages_Lbl;
         private ComboBox serviceOutages_CBox;
-        private Button update_BTN;
+        private Button Update_BTN;
+        private Button SendEmailTest_BTN;
     }
 }

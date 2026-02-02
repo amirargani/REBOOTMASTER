@@ -6,9 +6,9 @@ using MailService = REBOOTMASTER.Utility.MailService;
 
 namespace REBOOTMASTER.Config
 {
-    internal class ConfigReaderMail
+    public class ConfigReaderMail
     {
-        // SMTP
+        // Properties
         internal static string Recipient { get { return GetPropertyAsStringFromConfigMail("Recipient"); } }
         internal static SmtpClient Smtp { get { return MailService.GetSmtpClient(Security.GetString(SmtpUser), Security.GetString(SmtpPassword), Security.GetString(SmtpHost), Convert.ToInt32(Security.GetString(SmtpPort)), true); } }
         internal static string SmtpHost { get { return GetPropertyAsStringFromConfigMail("SmtpHost"); } }
@@ -21,11 +21,13 @@ namespace REBOOTMASTER.Config
         internal static string TemplatePath2 { get { return GetPropertyAsStringFromConfigMail("TemplatePath2"); } }
         internal static string TemplatePath3 { get { return GetPropertyAsStringFromConfigMail("TemplatePath3"); } }
 
-
+        // Configuration object
         public static Configuration? configMail;
 
+        // ConfigMail.dll file name
         private static string _fileNameConfigMail = "ConfigMail.dll";
 
+        // Get or set ConfigMail.dll file name
         public static string FileName
         {
             get
@@ -39,6 +41,13 @@ namespace REBOOTMASTER.Config
             }
         }
 
+        // Reload configuration
+        public static void Reload()
+        {
+            configMail = null;
+        }
+
+        // Get property from ConfigMail.dll
         public static KeyValueConfigurationElement GetPropertyConfigMail(string name)
         {
             if (configMail == null)
@@ -58,9 +67,11 @@ namespace REBOOTMASTER.Config
             return configMail.AppSettings.Settings[name];
         }
 
+        // Get property as string from ConfigMail.dll
         public static string GetPropertyAsStringFromConfigMail(string name)
         {
-            return GetPropertyConfigMail(name).Value;
+            var property = GetPropertyConfigMail(name);
+            return property?.Value ?? string.Empty;
         }
     }
 }

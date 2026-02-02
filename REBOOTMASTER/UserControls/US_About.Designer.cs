@@ -34,17 +34,17 @@
             copyright_Lbl = new Label();
             authorName_Lbl = new Label();
             author_Lbl = new Label();
-            github_Lnk = new LinkLabel();
+            Github_Lnk = new LinkLabel();
             github_Lbl = new Label();
-            homepage_Lnk = new LinkLabel();
+            Homepage_Lnk = new LinkLabel();
             homepage_Lbl = new Label();
             pictureBox_Arrow = new PictureBox();
             richTextBox_TXT = new RichTextBox();
-            pictureBox_Profile = new PictureBox();
+            PictureBox_Profile = new PictureBox();
             ((System.ComponentModel.ISupportInitialize)pictureBox_TXT_Logo).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox_Logo).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox_Arrow).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox_Profile).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)PictureBox_Profile).BeginInit();
             SuspendLayout();
             // 
             // pictureBox_TXT_Logo
@@ -102,18 +102,18 @@
             author_Lbl.TabIndex = 28;
             author_Lbl.Text = "Author:";
             // 
-            // github_Lnk
+            // Github_Lnk
             // 
-            github_Lnk.ActiveLinkColor = Color.FromArgb(217, 79, 38);
-            github_Lnk.AutoSize = true;
-            github_Lnk.LinkColor = Color.White;
-            github_Lnk.Location = new Point(143, 84);
-            github_Lnk.Name = "github_Lnk";
-            github_Lnk.Size = new Size(171, 15);
-            github_Lnk.TabIndex = 27;
-            github_Lnk.TabStop = true;
-            github_Lnk.Text = "https://github.com/amirargani";
-            github_Lnk.LinkClicked += github_Lnk_LinkClicked;
+            Github_Lnk.ActiveLinkColor = Color.FromArgb(217, 79, 38);
+            Github_Lnk.AutoSize = true;
+            Github_Lnk.LinkColor = Color.White;
+            Github_Lnk.Location = new Point(143, 84);
+            Github_Lnk.Name = "Github_Lnk";
+            Github_Lnk.Size = new Size(171, 15);
+            Github_Lnk.TabIndex = 27;
+            Github_Lnk.TabStop = true;
+            Github_Lnk.Text = "https://github.com/amirargani";
+            Github_Lnk.LinkClicked += Github_Lnk_LinkClicked;
             // 
             // github_Lbl
             // 
@@ -126,18 +126,18 @@
             github_Lbl.TabIndex = 26;
             github_Lbl.Text = "GitHub:";
             // 
-            // homepage_Lnk
+            // Homepage_Lnk
             // 
-            homepage_Lnk.ActiveLinkColor = Color.FromArgb(217, 79, 38);
-            homepage_Lnk.AutoSize = true;
-            homepage_Lnk.LinkColor = Color.White;
-            homepage_Lnk.Location = new Point(143, 115);
-            homepage_Lnk.Name = "homepage_Lnk";
-            homepage_Lnk.Size = new Size(265, 15);
-            homepage_Lnk.TabIndex = 25;
-            homepage_Lnk.TabStop = true;
-            homepage_Lnk.Text = "https://github.com/amirargani/REBOOTMASTER";
-            homepage_Lnk.LinkClicked += homepage_Lnk_LinkClicked;
+            Homepage_Lnk.ActiveLinkColor = Color.FromArgb(217, 79, 38);
+            Homepage_Lnk.AutoSize = true;
+            Homepage_Lnk.LinkColor = Color.White;
+            Homepage_Lnk.Location = new Point(143, 115);
+            Homepage_Lnk.Name = "Homepage_Lnk";
+            Homepage_Lnk.Size = new Size(265, 15);
+            Homepage_Lnk.TabIndex = 25;
+            Homepage_Lnk.TabStop = true;
+            Homepage_Lnk.Text = "https://github.com/amirargani/REBOOTMASTER";
+            Homepage_Lnk.LinkClicked += Homepage_Lnk_LinkClicked;
             // 
             // homepage_Lbl
             // 
@@ -174,20 +174,20 @@
             richTextBox_TXT.Size = new Size(674, 110);
             richTextBox_TXT.TabIndex = 32;
             richTextBox_TXT.Text = resources.GetString("richTextBox_TXT.Text");
-            richTextBox_TXT.Click += richTextBox_TXT_Click;
-            richTextBox_TXT.MouseDown += richTextBox_TXT_MouseDown;
+            richTextBox_TXT.Click += RichTextBox_TXT_Click;
+            richTextBox_TXT.MouseDown += RichTextBox_TXT_MouseDown;
             // 
-            // pictureBox_Profile
+            // PictureBox_Profile
             // 
-            pictureBox_Profile.BackgroundImageLayout = ImageLayout.None;
-            pictureBox_Profile.Image = (Image)resources.GetObject("pictureBox_Profile.Image");
-            pictureBox_Profile.Location = new Point(580, 26);
-            pictureBox_Profile.Name = "pictureBox_Profile";
-            pictureBox_Profile.Size = new Size(166, 140);
-            pictureBox_Profile.SizeMode = PictureBoxSizeMode.Zoom;
-            pictureBox_Profile.TabIndex = 33;
-            pictureBox_Profile.TabStop = false;
-            pictureBox_Profile.Click += pictureBox_Profile_Click;
+            PictureBox_Profile.BackgroundImageLayout = ImageLayout.None;
+            PictureBox_Profile.Image = (Image)resources.GetObject("PictureBox_Profile.Image");
+            PictureBox_Profile.Location = new Point(580, 26);
+            PictureBox_Profile.Name = "PictureBox_Profile";
+            PictureBox_Profile.Size = new Size(166, 140);
+            PictureBox_Profile.SizeMode = PictureBoxSizeMode.Zoom;
+            PictureBox_Profile.TabIndex = 33;
+            PictureBox_Profile.TabStop = false;
+            PictureBox_Profile.Click += PictureBox_Profile_Click;
             // 
             // US_About
             // 
@@ -195,12 +195,12 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(0, 8, 25);
             Controls.Add(richTextBox_TXT);
-            Controls.Add(pictureBox_Profile);
+            Controls.Add(PictureBox_Profile);
             Controls.Add(authorName_Lbl);
             Controls.Add(author_Lbl);
-            Controls.Add(github_Lnk);
+            Controls.Add(Github_Lnk);
             Controls.Add(github_Lbl);
-            Controls.Add(homepage_Lnk);
+            Controls.Add(Homepage_Lnk);
             Controls.Add(homepage_Lbl);
             Controls.Add(copyright_Lbl);
             Controls.Add(pictureBox_Logo);
@@ -211,7 +211,7 @@
             ((System.ComponentModel.ISupportInitialize)pictureBox_TXT_Logo).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox_Logo).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox_Arrow).EndInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox_Profile).EndInit();
+            ((System.ComponentModel.ISupportInitialize)PictureBox_Profile).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -223,12 +223,12 @@
         private Label copyright_Lbl;
         private Label authorName_Lbl;
         private Label author_Lbl;
-        private LinkLabel github_Lnk;
+        private LinkLabel Github_Lnk;
         private Label github_Lbl;
-        private LinkLabel homepage_Lnk;
+        private LinkLabel Homepage_Lnk;
         private Label homepage_Lbl;
         private PictureBox pictureBox_Arrow;
         private RichTextBox richTextBox_TXT;
-        private PictureBox pictureBox_Profile;
+        private PictureBox PictureBox_Profile;
     }
 }

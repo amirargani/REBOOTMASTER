@@ -2,7 +2,7 @@
 
 namespace REBOOTMASTER.Utility
 {
-    internal class ServiceHelper
+    public class ServiceHelper
     {
         public static ServiceController? GetServiceByNameOrDisplayName(string service)
         {

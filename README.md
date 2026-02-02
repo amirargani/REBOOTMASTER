@@ -4,7 +4,8 @@
 [![Language](https://img.shields.io/badge/Language-C%23-239120.svg?style=for-the-badge&logo=csharp)](https://docs.microsoft.com/en-us/dotnet/csharp/)
 [![Platform](https://img.shields.io/badge/Platform-Windows-0078D6.svg?style=for-the-badge&logo=windows)](https://www.microsoft.com/en-us/windows)
 [![Framework](https://img.shields.io/badge/.NET-10.0-512BD4?style=for-the-badge&logo=.net&logoColor=white)](https://dotnet.microsoft.com/apps/aspnet)
-[![Version](https://img.shields.io/badge/Version-v2026.01.19.0-0078D6?style=for-the-badge&logo=semver&logoColor=white)]()
+[![Version](https://img.shields.io/badge/Version-v2026.02.02.0-0078D6?style=for-the-badge&logo=semver&logoColor=white)]()
+![.NET Core Desktop](https://github.com/amirargani/REBOOTMASTER/actions/workflows/dotnet.yml/badge.svg)
 
 [![REBOOTMASTER](https://github.com/amirargani/REBOOTMASTER/blob/main/REBOOTMASTER/REBOOTMASTER.png)]()
 
@@ -56,6 +57,43 @@ Minimize downtime and maintain a stable IT infrastructure with automated recover
 ---
 
 ## Changelog 📜
+
+### V.2026.02.02.0
+* 🚀 **Dashboard Revamp**:
+  - **Full UI Redesign**: Complete redesign using a modern grid layout with clearly separated panels for system health and service metrics.
+  - **Real-time Monitoring & Logging**: Live dashboard with real-time performance metrics and a new **Live Log** area for instant feedback on service status changes and auto-restart events.
+  - **Smart Metrics Panels**: Dedicated indicators for **Monitored Services**, **Auto Restarted Services**, **Stopped Services**, and **System Failures**.
+  - **Dual Timer Logic**:
+    - `AutoCheckServiceTimer`: Verifies service status at configurable intervals (default: every 30 seconds) and performs automatic recovery attempts.
+    - `TimerWhenServiceStopped`: Monitors persistent service failures over configurable time intervals (default: 10 minutes) and triggers escalated email alerts.
+    > [!TIP]
+    > The interval can be modified in the Settings tab.
+  - **Integrated Controls**: `Start` and `Stop` buttons embedded directly into the dashboard, including dynamic reloading of SMTP and interruption configurations.
+
+* 🏗️ **Core Logic & Architecture Updates**:
+  - **UI State Management**: Added `DeaktiviereButton()` and `AktiviereButton()` to lock the **Services** and **Settings** tabs while monitoring is active, preventing configuration conflicts.
+  - **Centralized Updates**: Introduced `UpdateDashboard()` to efficiently synchronize all service metrics across the UI.
+  - **Startup Optimization**: Configured the application to automatically load and update the dashboard on initial startup.
+  - **Naming Standards**: Refactored all UI controls, timers, internal methods, and `NotifyIcon` to follow strict **PascalCase** naming conventions.
+  - **Documentation**: Added comprehensive **Comments** and descriptive code documentation across all core modules.
+  - **Configuration Management**: Improved `XMLUpdate` logic and added `Reload()` capabilities to configuration readers for dynamic runtime updates.
+
+* 🛡️ **Stability, Reliability & Validation**:
+  - **Global Error Handling**: Enhanced exception handling in `Program.cs` and `Main.cs` to capture unhandled exceptions and report them via email in non-debug (production) builds.
+  - **Smart Email Alerts**: Sends an email whenever a monitored service fails, providing recovery status for **Auto-Restart** enabled services or manual inspection prompts for disabled ones (default: **Auto‑Restart** every 120 seconds).
+    > [!TIP]
+    > The interval can be modified in the Settings tab.
+  - **SMTP Diagnostics**: Added a **“Send Test Email”** feature in the Settings tab for immediate validation of SMTP configurations.
+  - **Advanced Validation**: Implemented multi-stage validation for all SMTP and interruption-related settings to prevent configuration errors.
+
+* 🧪 **Unit Testing**: 
+  - **Complete Test Suite**: Implemented 28 unit tests using **xUnit** to ensure the reliability of core logic, utility services, configuration readers, and UI components.
+  - **Automation Ready**: Fully compatible with CI/CD workflows using `dotnet test`.
+  - > [!NOTE]
+  - > For more detailed information on how to run tests and what is covered, see the [Unit Testing](#unit-testing) section at the bottom.
+
+* 🏷️ **Project Metadata**:
+  - Version updated across assembly, manifest, and UI to **`V.2026.02.02.0`**.
 
 ### V.2026.01.19.0
 - 🆕 **New Features**:
@@ -110,6 +148,27 @@ Minimize downtime and maintain a stable IT infrastructure with automated recover
 
 ## Recommendation 💡
 Please consult with your IT department or software developer before deploying this tool in a production environment to ensure compatibility with your existing infrastructure.
+
+## Unit Testing
+
+To ensure the reliability of the core components, a suite of xUnit unit tests has been implemented. You can run the tests using the following commands from the terminal:
+
+### Basic Test Run
+```bash
+dotnet test
+```
+
+### Detailed Test Run (Recommended for CI/CD)
+```bash
+dotnet test --logger "console;verbosity=normal"
+```
+
+The test suite covers:
+- **Security & Encryption**: SHA256 hashing and AES cryptographic operations.
+- **Configuration Readers**: Safety and data retrieval from XML config files.
+- **Utility Services**: Mail, Notifications, Logging (log4net), and Service Helpers.
+- **User Interface**: Initialization and logic for all UserControls and the Main form.
+- **Core Application Logic**: Process management and single-instance enforcement (Program).
 
 ---
 

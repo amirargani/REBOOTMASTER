@@ -34,25 +34,25 @@
             version_Lbl = new Label();
             pictureBox_TXT_Logo = new PictureBox();
             panel_Border = new Panel();
-            minimized_BTN = new Button();
-            close_BTN = new Button();
+            Minimized_BTN = new Button();
+            Close_BTN = new Button();
             pictureBox_Logo = new PictureBox();
             panel_Bottom = new Panel();
             panel_ProgressBar = new Panel();
-            timer_ProgressBar = new System.Windows.Forms.Timer(components);
-            timer_ProgressBar_Reset = new System.Windows.Forms.Timer(components);
-            dashboard_BTN = new Button();
-            services_BTN = new Button();
-            settings_BTN = new Button();
-            about_BTN = new Button();
-            notifyIcon_Main = new NotifyIcon(components);
-            contextMenuStrip_NotifyIcon = new ContextMenuStrip(components);
-            exitApplicationToolStripMenuItem = new ToolStripMenuItem();
+            ProgressBarTimer = new System.Windows.Forms.Timer(components);
+            ResetProgressBarTimer = new System.Windows.Forms.Timer(components);
+            Dashboard_BTN = new Button();
+            Services_BTN = new Button();
+            Settings_BTN = new Button();
+            About_BTN = new Button();
+            MainNotifyIcon = new NotifyIcon(components);
+            NotifyIconMenu = new ContextMenuStrip(components);
+            ExitApplicationToolStripMenuItem = new ToolStripMenuItem();
             panel_UserControl = new Panel();
             panel_Top.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox_TXT_Logo).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox_Logo).BeginInit();
-            contextMenuStrip_NotifyIcon.SuspendLayout();
+            NotifyIconMenu.SuspendLayout();
             SuspendLayout();
             // 
             // panel_Top
@@ -61,8 +61,8 @@
             panel_Top.Controls.Add(version_Lbl);
             panel_Top.Controls.Add(pictureBox_TXT_Logo);
             panel_Top.Controls.Add(panel_Border);
-            panel_Top.Controls.Add(minimized_BTN);
-            panel_Top.Controls.Add(close_BTN);
+            panel_Top.Controls.Add(Minimized_BTN);
+            panel_Top.Controls.Add(Close_BTN);
             panel_Top.Controls.Add(pictureBox_Logo);
             panel_Top.Location = new Point(0, 0);
             panel_Top.Name = "panel_Top";
@@ -78,7 +78,7 @@
             version_Lbl.Name = "version_Lbl";
             version_Lbl.Size = new Size(86, 13);
             version_Lbl.TabIndex = 19;
-            version_Lbl.Text = "Free v2026019";
+            version_Lbl.Text = "Free v20260202";
             // 
             // pictureBox_TXT_Logo
             // 
@@ -99,37 +99,37 @@
             panel_Border.Size = new Size(800, 10);
             panel_Border.TabIndex = 1;
             // 
-            // minimized_BTN
+            // Minimized_BTN
             // 
-            minimized_BTN.FlatAppearance.BorderSize = 0;
-            minimized_BTN.FlatStyle = FlatStyle.Flat;
-            minimized_BTN.Font = new Font("Nirmala UI", 15F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            minimized_BTN.ForeColor = Color.White;
-            minimized_BTN.Location = new Point(688, 12);
-            minimized_BTN.Name = "minimized_BTN";
-            minimized_BTN.Size = new Size(50, 43);
-            minimized_BTN.TabIndex = 11;
-            minimized_BTN.TabStop = false;
-            minimized_BTN.Text = "-";
-            minimized_BTN.UseVisualStyleBackColor = true;
-            minimized_BTN.Visible = false;
-            minimized_BTN.Click += minimized_BTN_Click;
+            Minimized_BTN.FlatAppearance.BorderSize = 0;
+            Minimized_BTN.FlatStyle = FlatStyle.Flat;
+            Minimized_BTN.Font = new Font("Nirmala UI", 15F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            Minimized_BTN.ForeColor = Color.White;
+            Minimized_BTN.Location = new Point(688, 12);
+            Minimized_BTN.Name = "Minimized_BTN";
+            Minimized_BTN.Size = new Size(50, 43);
+            Minimized_BTN.TabIndex = 11;
+            Minimized_BTN.TabStop = false;
+            Minimized_BTN.Text = "-";
+            Minimized_BTN.UseVisualStyleBackColor = true;
+            Minimized_BTN.Visible = false;
+            Minimized_BTN.Click += Minimized_BTN_Click;
             // 
-            // close_BTN
+            // Close_BTN
             // 
-            close_BTN.FlatAppearance.BorderSize = 0;
-            close_BTN.FlatStyle = FlatStyle.Flat;
-            close_BTN.Font = new Font("Nirmala UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            close_BTN.ForeColor = Color.White;
-            close_BTN.Location = new Point(738, 12);
-            close_BTN.Name = "close_BTN";
-            close_BTN.Size = new Size(50, 43);
-            close_BTN.TabIndex = 10;
-            close_BTN.TabStop = false;
-            close_BTN.Text = "x";
-            close_BTN.UseVisualStyleBackColor = false;
-            close_BTN.Visible = false;
-            close_BTN.Click += close_BTN_Click;
+            Close_BTN.FlatAppearance.BorderSize = 0;
+            Close_BTN.FlatStyle = FlatStyle.Flat;
+            Close_BTN.Font = new Font("Nirmala UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            Close_BTN.ForeColor = Color.White;
+            Close_BTN.Location = new Point(738, 12);
+            Close_BTN.Name = "Close_BTN";
+            Close_BTN.Size = new Size(50, 43);
+            Close_BTN.TabIndex = 10;
+            Close_BTN.TabStop = false;
+            Close_BTN.Text = "x";
+            Close_BTN.UseVisualStyleBackColor = false;
+            Close_BTN.Visible = false;
+            Close_BTN.Click += Close_BTN_Click;
             // 
             // pictureBox_Logo
             // 
@@ -158,104 +158,102 @@
             panel_ProgressBar.Size = new Size(0, 10);
             panel_ProgressBar.TabIndex = 2;
             // 
-            // timer_ProgressBar
+            // ProgressBarTimer
             // 
-            timer_ProgressBar.Interval = 1;
-            timer_ProgressBar.Tick += timer_ProgressBar_Tick;
+            ProgressBarTimer.Interval = 1;
+            ProgressBarTimer.Tick += ProgressBarTimer_Tick;
             // 
-            // timer_ProgressBar_Reset
+            // ResetProgressBarTimer
             // 
-            timer_ProgressBar_Reset.Interval = 1;
-            timer_ProgressBar_Reset.Tick += timer_ProgressBar_Reset_Tick;
+            ResetProgressBarTimer.Interval = 1;
+            ResetProgressBarTimer.Tick += ResetProgressBarTimer_Tick;
             // 
-            // dashboard_BTN
+            // Dashboard_BTN
             // 
-            dashboard_BTN.BackColor = Color.FromArgb(0, 8, 33);
-            dashboard_BTN.FlatAppearance.BorderSize = 0;
-            dashboard_BTN.FlatStyle = FlatStyle.Flat;
-            dashboard_BTN.Font = new Font("Nirmala UI", 9.75F, FontStyle.Bold);
-            dashboard_BTN.ForeColor = Color.White;
-            dashboard_BTN.Location = new Point(143, 540);
-            dashboard_BTN.Name = "dashboard_BTN";
-            dashboard_BTN.Size = new Size(127, 44);
-            dashboard_BTN.TabIndex = 15;
-            dashboard_BTN.TabStop = false;
-            dashboard_BTN.Text = "☰ Dashboard";
-            dashboard_BTN.UseVisualStyleBackColor = false;
-            dashboard_BTN.Visible = false;
-            dashboard_BTN.Click += dashboard_BTN_Click;
+            Dashboard_BTN.BackColor = Color.FromArgb(0, 8, 33);
+            Dashboard_BTN.FlatAppearance.BorderSize = 0;
+            Dashboard_BTN.FlatStyle = FlatStyle.Flat;
+            Dashboard_BTN.Font = new Font("Nirmala UI", 9.75F, FontStyle.Bold);
+            Dashboard_BTN.ForeColor = Color.White;
+            Dashboard_BTN.Location = new Point(143, 540);
+            Dashboard_BTN.Name = "Dashboard_BTN";
+            Dashboard_BTN.Size = new Size(127, 44);
+            Dashboard_BTN.TabIndex = 15;
+            Dashboard_BTN.TabStop = false;
+            Dashboard_BTN.Text = "☰ Dashboard";
+            Dashboard_BTN.UseVisualStyleBackColor = false;
+            Dashboard_BTN.Visible = false;
+            Dashboard_BTN.Click += Dashboard_BTN_Click;
             // 
-            // services_BTN
+            // Services_BTN
             // 
-            services_BTN.BackColor = Color.FromArgb(0, 8, 33);
-            services_BTN.FlatAppearance.BorderSize = 0;
-            services_BTN.FlatStyle = FlatStyle.Flat;
-            services_BTN.Font = new Font("Nirmala UI", 9.75F, FontStyle.Bold);
-            services_BTN.ForeColor = Color.White;
-            services_BTN.Location = new Point(276, 540);
-            services_BTN.Name = "services_BTN";
-            services_BTN.Size = new Size(127, 44);
-            services_BTN.TabIndex = 16;
-            services_BTN.TabStop = false;
-            services_BTN.Text = "💻 Services";
-            services_BTN.UseVisualStyleBackColor = false;
-            services_BTN.Visible = false;
-            services_BTN.Click += services_BTN_Click;
+            Services_BTN.BackColor = Color.FromArgb(0, 8, 33);
+            Services_BTN.FlatAppearance.BorderSize = 0;
+            Services_BTN.FlatStyle = FlatStyle.Flat;
+            Services_BTN.Font = new Font("Nirmala UI", 9.75F, FontStyle.Bold);
+            Services_BTN.ForeColor = Color.White;
+            Services_BTN.Location = new Point(276, 540);
+            Services_BTN.Name = "Services_BTN";
+            Services_BTN.Size = new Size(127, 44);
+            Services_BTN.TabIndex = 16;
+            Services_BTN.TabStop = false;
+            Services_BTN.Text = "💻 Services";
+            Services_BTN.UseVisualStyleBackColor = false;
+            Services_BTN.Visible = false;
+            Services_BTN.Click += Services_BTN_Click;
             // 
-            // settings_BTN
+            // Settings_BTN
             // 
-            settings_BTN.BackColor = Color.FromArgb(0, 8, 33);
-            settings_BTN.FlatAppearance.BorderSize = 0;
-            settings_BTN.FlatStyle = FlatStyle.Flat;
-            settings_BTN.Font = new Font("Nirmala UI", 9.75F, FontStyle.Bold);
-            settings_BTN.ForeColor = Color.White;
-            settings_BTN.Location = new Point(409, 540);
-            settings_BTN.Name = "settings_BTN";
-            settings_BTN.Size = new Size(127, 44);
-            settings_BTN.TabIndex = 17;
-            settings_BTN.TabStop = false;
-            settings_BTN.Text = "🛠️ Settings";
-            settings_BTN.UseVisualStyleBackColor = false;
-            settings_BTN.Visible = false;
-            settings_BTN.Click += settings_BTN_Click;
+            Settings_BTN.BackColor = Color.FromArgb(0, 8, 33);
+            Settings_BTN.FlatAppearance.BorderSize = 0;
+            Settings_BTN.FlatStyle = FlatStyle.Flat;
+            Settings_BTN.Font = new Font("Nirmala UI", 9.75F, FontStyle.Bold);
+            Settings_BTN.ForeColor = Color.White;
+            Settings_BTN.Location = new Point(409, 540);
+            Settings_BTN.Name = "Settings_BTN";
+            Settings_BTN.Size = new Size(127, 44);
+            Settings_BTN.TabIndex = 17;
+            Settings_BTN.TabStop = false;
+            Settings_BTN.Text = "🛠️ Settings";
+            Settings_BTN.UseVisualStyleBackColor = false;
+            Settings_BTN.Visible = false;
+            Settings_BTN.Click += Settings_BTN_Click;
             // 
-            // about_BTN
+            // About_BTN
             // 
-            about_BTN.BackColor = Color.FromArgb(0, 8, 33);
-            about_BTN.FlatAppearance.BorderSize = 0;
-            about_BTN.FlatStyle = FlatStyle.Flat;
-            about_BTN.Font = new Font("Nirmala UI", 9.75F, FontStyle.Bold);
-            about_BTN.ForeColor = Color.White;
-            about_BTN.Location = new Point(542, 540);
-            about_BTN.Name = "about_BTN";
-            about_BTN.Size = new Size(127, 44);
-            about_BTN.TabIndex = 18;
-            about_BTN.TabStop = false;
-            about_BTN.Text = "📢 About";
-            about_BTN.UseVisualStyleBackColor = false;
-            about_BTN.Visible = false;
-            about_BTN.Click += about_BTN_Click;
+            About_BTN.BackColor = Color.FromArgb(0, 8, 33);
+            About_BTN.FlatAppearance.BorderSize = 0;
+            About_BTN.FlatStyle = FlatStyle.Flat;
+            About_BTN.Font = new Font("Nirmala UI", 9.75F, FontStyle.Bold);
+            About_BTN.ForeColor = Color.White;
+            About_BTN.Location = new Point(542, 540);
+            About_BTN.Name = "About_BTN";
+            About_BTN.Size = new Size(127, 44);
+            About_BTN.TabIndex = 18;
+            About_BTN.TabStop = false;
+            About_BTN.Text = "📢 About";
+            About_BTN.UseVisualStyleBackColor = false;
+            About_BTN.Visible = false;
+            About_BTN.Click += About_BTN_Click;
             // 
-            // notifyIcon_Main
+            // MainNotifyIcon
             // 
-            notifyIcon_Main.ContextMenuStrip = contextMenuStrip_NotifyIcon;
-            notifyIcon_Main.Icon = (Icon)resources.GetObject("notifyIcon_Main.Icon");
-            notifyIcon_Main.Text = "notifyIcon_Main";
-            notifyIcon_Main.Visible = true;
-            notifyIcon_Main.MouseDoubleClick += notifyIcon_Main_MouseDoubleClick;
+            MainNotifyIcon.ContextMenuStrip = NotifyIconMenu;
+            MainNotifyIcon.Icon = (Icon)resources.GetObject("MainNotifyIcon.Icon");
+            MainNotifyIcon.MouseDoubleClick += MainNotifyIcon_MouseDoubleClick;
             // 
-            // contextMenuStrip_NotifyIcon
+            // NotifyIconMenu
             // 
-            contextMenuStrip_NotifyIcon.Items.AddRange(new ToolStripItem[] { exitApplicationToolStripMenuItem });
-            contextMenuStrip_NotifyIcon.Name = "contextMenuStrip_NotifyIcon";
-            contextMenuStrip_NotifyIcon.Size = new Size(108, 26);
+            NotifyIconMenu.Items.AddRange(new ToolStripItem[] { ExitApplicationToolStripMenuItem });
+            NotifyIconMenu.Name = "notifyIconMenu";
+            NotifyIconMenu.Size = new Size(181, 48);
             // 
-            // exitApplicationToolStripMenuItem
+            // ExitApplicationToolStripMenuItem
             // 
-            exitApplicationToolStripMenuItem.Name = "exitApplicationToolStripMenuItem";
-            exitApplicationToolStripMenuItem.Size = new Size(107, 22);
-            exitApplicationToolStripMenuItem.Text = "✖ Exit";
-            exitApplicationToolStripMenuItem.Click += exitApplicationToolStripMenuItem_Click;
+            ExitApplicationToolStripMenuItem.Name = "ExitApplicationToolStripMenuItem";
+            ExitApplicationToolStripMenuItem.Size = new Size(180, 22);
+            ExitApplicationToolStripMenuItem.Text = "✖ Exit";
+            ExitApplicationToolStripMenuItem.Click += ExitApplicationToolStripMenuItem_Click;
             // 
             // panel_UserControl
             // 
@@ -272,10 +270,10 @@
             BackgroundImageLayout = ImageLayout.Zoom;
             ClientSize = new Size(800, 600);
             Controls.Add(panel_UserControl);
-            Controls.Add(about_BTN);
-            Controls.Add(settings_BTN);
-            Controls.Add(services_BTN);
-            Controls.Add(dashboard_BTN);
+            Controls.Add(About_BTN);
+            Controls.Add(Settings_BTN);
+            Controls.Add(Services_BTN);
+            Controls.Add(Dashboard_BTN);
             Controls.Add(panel_ProgressBar);
             Controls.Add(panel_Bottom);
             Controls.Add(panel_Top);
@@ -291,30 +289,30 @@
             panel_Top.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox_TXT_Logo).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox_Logo).EndInit();
-            contextMenuStrip_NotifyIcon.ResumeLayout(false);
+            NotifyIconMenu.ResumeLayout(false);
             ResumeLayout(false);
         }
 
         #endregion
 
         private Panel panel_Top;
-        private Button minimized_BTN;
-        private Button close_BTN;
+        private Button Minimized_BTN;
+        private Button Close_BTN;
         private Panel panel_Border;
         private PictureBox pictureBox_Logo;
         private PictureBox pictureBox_TXT_Logo;
         private Panel panel_Bottom;
         private Panel panel_ProgressBar;
-        private System.Windows.Forms.Timer timer_ProgressBar;
-        private System.Windows.Forms.Timer timer_ProgressBar_Reset;
-        private Button dashboard_BTN;
-        private Button services_BTN;
-        private Button settings_BTN;
-        private Button about_BTN;
+        private System.Windows.Forms.Timer ProgressBarTimer;
+        private System.Windows.Forms.Timer ResetProgressBarTimer;
+        private Button Dashboard_BTN;
+        private Button Services_BTN;
+        private Button Settings_BTN;
+        private Button About_BTN;
         private Label version_Lbl;
-        private NotifyIcon notifyIcon_Main;
-        private ContextMenuStrip contextMenuStrip_NotifyIcon;
-        private ToolStripMenuItem exitApplicationToolStripMenuItem;
+        private NotifyIcon MainNotifyIcon;
+        private ContextMenuStrip NotifyIconMenu;
+        private ToolStripMenuItem ExitApplicationToolStripMenuItem;
         private Panel panel_UserControl;
     }
 }

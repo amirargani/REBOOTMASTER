@@ -4,7 +4,7 @@ using REBOOTMASTER.Config;
 
 namespace REBOOTMASTER.Utility
 {
-    internal class NotificationService
+    public class NotificationService
     {
         // Mail: Send Mail Message
         internal static void SendMailMessage(string name, string logMessage, string subject)
@@ -25,7 +25,7 @@ namespace REBOOTMASTER.Utility
                 _ => ConfigReaderMail.TemplatePath1 // Default
             };
             string WorkDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) ?? Environment.CurrentDirectory;
-            return WorkDirectory + mailTemplatePath;
+            return WorkDirectory + "\\" + mailTemplatePath;
         }
 
         // Settings: SMTP Valid
