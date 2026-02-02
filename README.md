@@ -172,6 +172,22 @@ The test suite covers:
 - **User Interface**: Initialization and logic for all UserControls and the Main form.
 - **Core Application Logic**: Process management and single-instance enforcement (Program).
 
+## Continuous Integration (GitHub Actions) ⚙️
+
+The workflow at `.github/workflows/dotnet.yml` provides CI for `main` and release tags.
+
+- Triggers: `push` on branch `main` and on tag pushes matching `v*` (e.g., `v1.2.3`). Pull requests are not triggered by this workflow.
+- Runner: `windows-latest` with **.NET 10**.
+- Workflow steps: checkout, set up .NET, `dotnet restore`, `dotnet build --no-restore`, `dotnet test --no-build --verbosity normal`.
+- Tests: runs the xUnit suite and fails the job on build/test errors.
+- Check the **Actions** tab for run logs; the badge at the top shows current status.
+
+### Run locally (equivalent):
+```bash
+# Restore, build and run tests (use the same flags as CI)
+dotnet restore && dotnet build --no-restore && dotnet test --no-build --verbosity normal
+```
+
 ---
 
 *Developed by Amir Argani*
