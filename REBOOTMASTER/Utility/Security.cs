@@ -3,7 +3,7 @@ using System.Security.Cryptography;
 
 namespace REBOOTMASTER.Utility
 {
-    internal class Security
+    public class Security
     {
         // Security Cryptography
         // learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.hashalgorithm.computehash?view=net-9.0
@@ -16,7 +16,7 @@ namespace REBOOTMASTER.Utility
         // </summary>
         // <param name="str">The concatenated string in the format "Encrypted;Key;IV".</param>
         // <returns>The decrypted plaintext or null if the input string is empty.</returns>
-        internal static string GetString(string str)
+        public static string GetString(string str)
         {
             if (!string.IsNullOrEmpty(str))
             {
@@ -36,7 +36,7 @@ namespace REBOOTMASTER.Utility
         // </summary>
         // <param name="str">The plaintext to be encrypted.</param>
         // <returns>A string in the format "EncryptedData;Key;IV".</returns>
-        internal static string CreateEncryptedDataBase64(string str)
+        public static string CreateEncryptedDataBase64(string str)
         {
             byte[] data = Encoding.UTF8.GetBytes(str);
             byte[] key = new byte[32]; // Or 256-bit key
@@ -54,7 +54,7 @@ namespace REBOOTMASTER.Utility
         // </summary>
         // <param name="input">The input text to be hashed.</param>
         // <returns>The SHA256 hash as a Base64-encoded string.</returns>
-        internal static string CreateSHA256Hash(string input)
+        public static string CreateSHA256Hash(string input)
         {
             using (SHA256 sha256 = SHA256.Create())
             {
@@ -71,7 +71,7 @@ namespace REBOOTMASTER.Utility
         // <param name="key">The AES key (256 bits).</param>
         // <param name="iv">The generated initialization vector (IV).</param>
         // <returns>The encrypted data as a byte array.</returns>
-        internal static byte[] EncryptData(byte[] data, byte[] key, out byte[] iv)
+        public static byte[] EncryptData(byte[] data, byte[] key, out byte[] iv)
         {
             using (Aes aes = Aes.Create())
             {
@@ -90,7 +90,7 @@ namespace REBOOTMASTER.Utility
         // <param name="key">The AES key (256 bits).</param>
         // <param name="iv">The initialization vector (IV).</param>
         // <returns>The decrypted data as a byte array.</returns>
-        internal static byte[] DecryptData(byte[] encryptedData, byte[] key, byte[] iv)
+        public static byte[] DecryptData(byte[] encryptedData, byte[] key, byte[] iv)
         {
             using (Aes aes = Aes.Create())
             {

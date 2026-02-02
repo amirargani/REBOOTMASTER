@@ -1,10 +1,13 @@
-using System.ServiceProcess;
-using REBOOTMASTER.Utility;
-using REBOOTMASTER.Windows;
+using REBOOTMASTER.Config;
 using REBOOTMASTER.Transition;
 using REBOOTMASTER.UserControls;
-using Log = REBOOTMASTER.Utility.Log;
+using REBOOTMASTER.Utility;
+using REBOOTMASTER.Windows;
+using System.ComponentModel;
+using System.ServiceProcess;
+using System.Xml;
 using _msg = REBOOTMASTER.Message.Message;
+using Log = REBOOTMASTER.Utility.Log;
 
 namespace REBOOTMASTER
 {
@@ -19,6 +22,7 @@ namespace REBOOTMASTER
         public string serviceStatusBTN = null!;
         private bool setProgressBar = false;
         private bool isWindowsFormActive = false;
+        private bool showDashboard = true;
 
         // User Controls
         public static Main? mainObject;
@@ -28,7 +32,7 @@ namespace REBOOTMASTER
         public US_Dashboard uS_Dashboard = new US_Dashboard();
 
         // Timer
-        public System.Windows.Forms.Timer _timerProgressBar;
+        public System.Windows.Forms.Timer _progressBarTimer;
 
         // User Controls Accessors
         public US_Services ServicesControl => uS_Services;
@@ -37,14 +41,19 @@ namespace REBOOTMASTER
         public Main()
         {
             InitializeComponent();
+
+            // Set Main Object
             mainObject = this;
             ShowInTaskbar = false;
             panel_UserControl.Visible = false;
 
             // Timer
-            _timerProgressBar = new System.Windows.Forms.Timer();
-            _timerProgressBar.Interval = 1; // Interval in milliseconds
-            _timerProgressBar.Tick += timer_ProgressBar_Tick!;
+            _progressBarTimer = new System.Windows.Forms.Timer();
+            _progressBarTimer.Interval = 1; // Interval in milliseconds
+            _progressBarTimer.Tick += ProgressBarTimer_Tick!;
+
+            // Initial Dashboard Update
+            UpdateDashboard();
         }
 
         // Main Load
@@ -64,19 +73,69 @@ namespace REBOOTMASTER
                 Cursor = Cursors.Default;
                 Invalidate();
                 Update();
-                timer_ProgressBar.Start();
+                ProgressBarTimer.Start();
             };
             animate.Play(Handle, animation);
         }
 
+        // Deactivate Button
+        public void DeaktiviereButton()
+        {
+            Services_BTN.Enabled = false;
+            Settings_BTN.Enabled = false;
+        }
+
+        // Activate Button
+        public void AktiviereButton()
+        {
+            Services_BTN.Enabled = true;
+            Settings_BTN.Enabled = true;
+        }
+
+
+        // Update Dashboard Method
+        private void UpdateDashboard()
+        {
+            uS_Dashboard.sermonitoringcount = GetTotalServicesCount().ToString();
+            uS_Dashboard.autorestartsercount = GetEnabledServicesCount().ToString();
+        }
+
+        // Event handler for when the dashboard loads
+        private int GetTotalServicesCount()
+        {
+            string configFilePath = Path.Combine( // Use Path.Combine for cross-platform compatibility
+                AppDomain.CurrentDomain.BaseDirectory,
+                ConfigReaderService.FileName);
+
+            var xmlDoc = new XmlDocument(); // Create an instance of XmlDocument
+            xmlDoc.Load(configFilePath); // Load the XML file
+
+            var nodes = xmlDoc.SelectNodes("configuration/appSettings/add"); // Select all service nodes
+            return nodes?.Count ?? 0; // Return the count of nodes, or 0 if null
+        }
+
+        // Method to get the count of enabled services
+        private int GetEnabledServicesCount()
+        {
+            string configFilePath = Path.Combine( // Use Path.Combine for cross-platform compatibility
+                AppDomain.CurrentDomain.BaseDirectory,
+                ConfigReaderService.FileName);
+
+            var xmlDoc = new XmlDocument(); // Create an instance of XmlDocument
+            xmlDoc.Load(configFilePath); // Load the XML file
+
+            var nodes = xmlDoc.SelectNodes("configuration/appSettings/add[@value='true']"); // Select enabled service nodes
+            return nodes?.Count ?? 0; // Return the count of nodes, or 0 if null
+        }
+
         // Timer ProgressBar: Start
-        private void timer_ProgressBar_Tick(object sender, EventArgs e)
+        private void ProgressBarTimer_Tick(object sender, EventArgs e)
         {
             if (!setProgressBar) panel_ProgressBar.Width += 5;
             if (panel_ProgressBar.Width >= 800)
             {
-                timer_ProgressBar.Stop();
-                _timerProgressBar.Stop();
+                ProgressBarTimer.Stop();
+                _progressBarTimer.Stop();
                 if (!isWindowsFormActive)
                 {
                     ShowInTaskbar = true;
@@ -84,23 +143,23 @@ namespace REBOOTMASTER
                     Update();
                     isWindowsFormActive = true;
                 }
-                timer_ProgressBar_Reset.Start();
+                ResetProgressBarTimer.Start();
             }
         }
 
         // Timer ProgressBar: Reset
-        private void timer_ProgressBar_Reset_Tick(object sender, EventArgs e)
+        private void ResetProgressBarTimer_Tick(object sender, EventArgs e)
         {
             if (!setProgressBar) panel_ProgressBar.Width -= 5;
             if (panel_ProgressBar.Width <= 0)
             {
-                timer_ProgressBar_Reset.Stop();
-                dashboard_BTN.Visible = true;
-                services_BTN.Visible = true;
-                settings_BTN.Visible = true;
-                about_BTN.Visible = true;
-                close_BTN.Visible = true;
-                minimized_BTN.Visible = true;
+                ResetProgressBarTimer.Stop();
+                Dashboard_BTN.Visible = true;
+                Services_BTN.Visible = true;
+                Settings_BTN.Visible = true;
+                About_BTN.Visible = true;
+                Close_BTN.Visible = true;
+                Minimized_BTN.Visible = true;
                 isFinish = true;
                 if (isStatus)
                 {
@@ -156,116 +215,137 @@ namespace REBOOTMASTER
 
                         // Refresh Main UI
                         Enabled = true;
+
+                        // Refresh Selected Service Details
+                        UpdateDashboard();
                     }
                     catch (Exception ex)
                     {
-
+                        // Send Exception Details via Email
                         NotificationService.GetException(ex);
-                        Log.Logger!.Error($"Unexpected error: {ex.Message} {Environment.NewLine + ex.StackTrace}");
+                        Log.Logger!.Error($"Unexpected error: {ex.Message} {Environment.NewLine + ex.StackTrace}"); // Log error
                     }
                 }
-                if (isSettings) { Enabled = true; isSettings = false; }
+                if (isSettings) { Enabled = true; isSettings = false; } // Refresh Main UI
+                if (showDashboard) // Show Dashboard User Control
+                {
+                    Dashboard_BTN.PerformClick(); // Load Dashboard User Control
+                    showDashboard = false;
+                }
             }
         }
 
         // Close Button
-        private void close_BTN_Click(object sender, EventArgs e)
+        private void Close_BTN_Click(object sender, EventArgs e)
         {
+            // focus and select main form
             this.Focus();
             this.Select();
+
+            // Close Application
             Close();
+            Log.Logger!.Info("REBOOTMASTER has been closed. The application is no longer in operation."); // Log info
         }
 
         // Minimized Button
-        private async void minimized_BTN_Click(object sender, EventArgs e)
+        private async void Minimized_BTN_Click(object sender, EventArgs e)
         {
-            if (WindowState == FormWindowState.Normal)
+            if (WindowState == FormWindowState.Normal) // Minimize window
             {
-                //SetSelectItem(selectItem);
+                // Fade-Out
                 Effect effect = new Effect(this);
                 await effect.HideAsync();
+
+                // Minimize to tray
                 Hide();
-                notifyIcon_Main.Visible = true;
-                notifyIcon_Main.Text = "REBOOTMASTER";
-                notifyIcon_Main.BalloonTipTitle = "REBOOTMASTER vFree";
-                notifyIcon_Main.BalloonTipText = "GitHub: https://github.com/amirargani";
-                notifyIcon_Main.ShowBalloonTip(1000);
+
+                // Show NotifyIcon
+                MainNotifyIcon.Visible = true;
+                MainNotifyIcon.Text = "REBOOTMASTER";
+                MainNotifyIcon.BalloonTipTitle = "REBOOTMASTER vFree";
+                MainNotifyIcon.BalloonTipText = "GitHub: https://github.com/amirargani";
+                MainNotifyIcon.ShowBalloonTip(1000);
+
+                // focus and select main form
                 this.Focus();
                 this.Select();
-                Log.Logger!.Info("REBOOTMASTER minimized. The program was minimized.");
-            }
-            else if (WindowState == FormWindowState.Maximized)
-            {
-                this.Focus();
-                this.Select();
-                notifyIcon_Main.Visible = false;
+
+                Log.Logger!.Info("REBOOTMASTER minimized. The program was minimized."); // Log info
             }
         }
 
         // NotifyIcon
-        private async void notifyIcon_Main_MouseDoubleClick(object sender, MouseEventArgs e)
+        private async void MainNotifyIcon_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-
+            // Restore window
             Show();
-            //SetSelectItem(selectItem);
+
+            // Fade-In
             Effect effect = new Effect(this);
             await effect.FadeAsync(true);
+
+            // Restore window state
             Opacity = 1;
             WindowState = FormWindowState.Normal;
-            notifyIcon_Main.Visible = false;
+            MainNotifyIcon.Visible = false;
+
+            // Log info
             Log.Logger!.Info("REBOOTMASTER normalized. The program was normalized.");
+
         }
 
         // Strip Menu Item >> Exit Application
-        private void exitApplicationToolStripMenuItem_Click(object sender, EventArgs e)
+        private void ExitApplicationToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Close();
+            Close(); // Close Application
         }
 
         // Main Form Closing
         private void Main_FormClosing(object sender, FormClosingEventArgs e)
         {
-            e.Cancel = true;
+            e.Cancel = true; // Cancel the close event initially
+
+            // Show different messages based on isFinish flag
             if (!isFinish)
             {
-                MessageBox.Show(_msg._msgCloseApp, _msg._caption, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                Log.Logger!.Warn($"REBOOTMASTER closed. {_msg._msgCloseApp}");
+                MessageBox.Show(_msg._msgCloseApp, _msg._caption, MessageBoxButtons.OK, MessageBoxIcon.Warning); // Show warning message
+                Log.Logger!.Warn($"REBOOTMASTER closed. {_msg._msgCloseApp}"); // Log Warn
             }
             else if (isFinish)
             {
                 if (MessageBox.Show(_msg._msg, _msg._caption, MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
                 {
                     e.Cancel = false; // Not Working: Application.Exit(); | Close();
-                    Log.Logger!.Info("REBOOTMASTER closed. The program was closed.");
+                    Log.Logger!.Info("REBOOTMASTER closed. The program was closed."); // Log Info
                 }
             }
         }
 
         // About Button
-        private void about_BTN_Click(object sender, EventArgs e)
+        private void About_BTN_Click(object sender, EventArgs e)
         {
-            USControl.AddUserControl(uS_About);
+            USControl.AddUserControl(uS_About); // Load About User Control
         }
 
 
         // Settings Button
-        private void settings_BTN_Click(object sender, EventArgs e)
+        private void Settings_BTN_Click(object sender, EventArgs e)
         {
-            USControl.AddUserControl(uS_Settings);
+            USControl.AddUserControl(uS_Settings); // Load Settings User Control
         }
 
 
         // Services Button
-        private void services_BTN_Click(object sender, EventArgs e)
+        private void Services_BTN_Click(object sender, EventArgs e)
         {
-            USControl.AddUserControl(uS_Services);
+            USControl.AddUserControl(uS_Services); // Load Services User Control
         }
 
 
         // Dashboard Button
-        private void dashboard_BTN_Click(object sender, EventArgs e)
+        private void Dashboard_BTN_Click(object sender, EventArgs e)
         {
-            USControl.AddUserControl(uS_Dashboard);
+            USControl.AddUserControl(uS_Dashboard); // Load Dashboard User Control
         }
     }
 }

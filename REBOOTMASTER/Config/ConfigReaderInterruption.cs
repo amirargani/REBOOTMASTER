@@ -3,18 +3,21 @@ using System.Configuration;
 
 namespace REBOOTMASTER.Config
 {
-    internal class ConfigReaderInterruption
+    public class ConfigReaderInterruption
     {
+        // Properties
         internal static string AutoChecking { get { return GetPropertyAsStringFromConfigInterruption("AutoChecking"); } }
         internal static string AutoRestarting { get { return GetPropertyAsStringFromConfigInterruption("AutoRestarting"); } }
         internal static string IsStatus { get { return GetPropertyAsStringFromConfigInterruption("IsStatus"); } }
         internal static string ServiceOutages { get { return GetPropertyAsStringFromConfigInterruption("ServiceOutages"); } }
 
-
+        // Configuration object
         public static Configuration? configInterruption;
 
+        // ConfigInterruption.dll file name
         private static string _fileNameconfigInterruption = "ConfigInterruption.dll";
 
+        // Get or set ConfigInterruption.dll file name
         public static string FileName
         {
             get
@@ -28,6 +31,13 @@ namespace REBOOTMASTER.Config
             }
         }
 
+        // Reload configuration
+        public static void Reload()
+        {
+            configInterruption = null;
+        }
+
+        // Get property from ConfigInterruption.dll
         public static KeyValueConfigurationElement GetPropertyConfigInterruption(string name)
         {
             if (configInterruption == null)
@@ -47,9 +57,11 @@ namespace REBOOTMASTER.Config
             return configInterruption.AppSettings.Settings[name];
         }
 
+        // Get property value as string from ConfigInterruption.dll
         public static string GetPropertyAsStringFromConfigInterruption(string name)
         {
-            return GetPropertyConfigInterruption(name).Value;
+            var property = GetPropertyConfigInterruption(name);
+            return property?.Value ?? string.Empty;
         }
 
     }

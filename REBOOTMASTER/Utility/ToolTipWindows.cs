@@ -1,6 +1,6 @@
 ﻿namespace REBOOTMASTER.Utility
 {
-    internal class ToolTipWindows
+    public class ToolTipWindows
     {
         // Set ToolTip
         internal static void SetToolTip(Control control, string _msg)

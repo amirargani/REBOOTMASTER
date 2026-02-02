@@ -1,3 +1,5 @@
+using REBOOTMASTER.Config;
+using REBOOTMASTER.Utility;
 using System.Diagnostics;
 using _msg = REBOOTMASTER.Message;
 using Log = REBOOTMASTER.Utility.Log;
@@ -30,8 +32,26 @@ namespace REBOOTMASTER
             }
             catch (Exception ex)
             {
+                // Log the error
                 Log.Logger!.Error($"Unexpected error: {ex.Message} {Environment.NewLine + ex.StackTrace}");
-                throw new InvalidOperationException();
+#if !DEBUG
+                // Reload SMTP configurations
+                ConfigReaderMail.Reload();
+
+                // Check if all required SMTP configuration values are present
+                if (NotificationService.AreSMTPValuesValid())
+                {
+                    // Send an email with the error details only if not in Debug mode
+                    NotificationService.SendMailMessage(
+                    "REBOOTMASTER Error",                        // name (subject of the email)
+                    $"Unexpected error occurred: {ex.Message}{Environment.NewLine}{ex.StackTrace}", // logMessage (details of the error)
+                    "REBOOTMASTER Error Notification"            // subject (subject line of the email)
+                    );
+                }
+#endif
+
+                // Optionally, rethrow or handle the exception as needed
+                throw new InvalidOperationException("An unexpected error occurred.", ex);
             }
         }
 

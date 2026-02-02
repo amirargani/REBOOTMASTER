@@ -42,28 +42,28 @@ namespace REBOOTMASTER.UserControls
         }
 
         // SelectedIndexChanged: autoChecking_CBox
-        private void autoChecking_CBox_SelectedIndexChanged(object sender, EventArgs e)
+        private void AutoChecking_CBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             // Format the tooltip text with the selected value and set the tooltip
             if (autoChecking_CBox.SelectedItem != null) { ToolTipWindows.SetToolTip(autoChecking_CBox, string.Format(_msg.Message._msgAutoCheckingToolTip, autoChecking_CBox.SelectedItem!.ToString())); }
         }
 
         // SelectedIndexChanged: autoRestarting_CBox
-        private void autoRestarting_CBox_SelectedIndexChanged(object sender, EventArgs e)
+        private void AutoRestarting_CBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             UpdateIsStatus_CBoxToolTip();
             UpdateAutoRestartingToolTip();
         }
 
         // SelectedIndexChanged: isStatus_CBox
-        private void isStatus_CBox_SelectedIndexChanged(object sender, EventArgs e)
+        private void IsStatus_CBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             UpdateIsStatus_CBoxToolTip();
             UpdateAutoRestartingToolTip();
         }
 
         // SelectedIndexChanged: serviceOutages_CBox
-        private void serviceOutages_CBox_SelectedIndexChanged(object sender, EventArgs e)
+        private void ServiceOutages_CBox_SelectedIndexChanged(object sender, EventArgs e)
         {
 
             UpdateIsStatus_CBoxToolTip();
@@ -85,7 +85,7 @@ namespace REBOOTMASTER.UserControls
         }
 
         // Update Button
-        private void update_BTN_Click(object sender, EventArgs e)
+        private void Update_BTN_Click(object sender, EventArgs e)
         {
             // Get Main Form
             Main? main = FindForm() as Main;
@@ -96,10 +96,10 @@ namespace REBOOTMASTER.UserControls
                 main.Invoke((MethodInvoker)delegate
                 {
                     // Get Progress Bar Timer
-                    System.Windows.Forms.Timer _timerProgressBar = main._timerProgressBar;
+                    System.Windows.Forms.Timer _timerProgressBar = main._progressBarTimer;
                     if (_timerProgressBar != null)
                     {
-                        if (IsUpdate())
+                        if (ValidateSMTPSettings(true)) // Validate SMTP Settings
                         {
                             // Update Main Form State
                             main.Enabled = false;
@@ -108,14 +108,20 @@ namespace REBOOTMASTER.UserControls
                             main.SuspendLayout();
                             _timerProgressBar.Start();
                             main.ResumeLayout();
+
+                            // Reload SMTP configurations
+                            ConfigReaderMail.Reload();
+
+                            // Reload interruption configurations
+                            ConfigReaderInterruption.Reload();
                         }
                     }
                 });
             }
         }
 
-        // Is Update
-        private bool IsUpdate()
+        // Validate SMTP Settings
+        private bool ValidateSMTPSettings(bool iSUpdate)
         {
             // Check if smtp host field are empty
             if (string.IsNullOrEmpty(host_TBox.Text))
@@ -159,20 +165,27 @@ namespace REBOOTMASTER.UserControls
                 ShowMessageError(_msg.Message._msgSMTPRecipientsEmail);
                 return false;
             }
-            // Show confirmation dialog
-            if (MessageBox.Show(_msg.Message._msgUpdate, _msg.Message._captionUpdate, MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
+            if (iSUpdate)
             {
-                string isStatusMinsToSeconds = (Convert.ToInt32(isStatus_CBox.Text.Replace(" minutes", "").Trim()) * 60000).ToString();
-                // Update configuration
-                XMLUpdate.UpdateProperty("SmtpHost", Security.CreateEncryptedDataBase64(host_TBox.Text), ConfigReaderMail.configMail!, ConfigReaderMail.FileName);
-                XMLUpdate.UpdateProperty("SmtpPort", Security.CreateEncryptedDataBase64(port_TBox.Text), ConfigReaderMail.configMail!, ConfigReaderMail.FileName);
-                XMLUpdate.UpdateProperty("SmtpUser", Security.CreateEncryptedDataBase64(user_TBox.Text), ConfigReaderMail.configMail!, ConfigReaderMail.FileName);
-                XMLUpdate.UpdateProperty("SmtpPassword", Security.CreateEncryptedDataBase64(pass_TBox.Text), ConfigReaderMail.configMail!, ConfigReaderMail.FileName);
-                XMLUpdate.UpdateProperty("Recipient", Security.CreateEncryptedDataBase64(email_TBox.Text), ConfigReaderMail.configMail!, ConfigReaderMail.FileName);
-                XMLUpdate.UpdateProperty("AutoChecking", autoChecking_CBox.Text.Replace(" seconds", "").Trim() + "000", ConfigReaderInterruption.configInterruption!, ConfigReaderInterruption.FileName);
-                XMLUpdate.UpdateProperty("AutoRestarting", autoRestarting_CBox.Text.Replace(" seconds", "").Trim() + "000", ConfigReaderInterruption.configInterruption!, ConfigReaderInterruption.FileName);
-                XMLUpdate.UpdateProperty("IsStatus", isStatusMinsToSeconds, ConfigReaderInterruption.configInterruption!, ConfigReaderInterruption.FileName);
-                XMLUpdate.UpdateProperty("ServiceOutages", serviceOutages_CBox.Text.Replace(" service outages", "").Trim() , ConfigReaderInterruption.configInterruption!, ConfigReaderInterruption.FileName);
+                // Show confirmation dialog
+                if (MessageBox.Show(_msg.Message._msgUpdate, _msg.Message._captionUpdate, MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
+                {
+                    string isStatusMinsToSeconds = (Convert.ToInt32(isStatus_CBox.Text.Replace(" minutes", "").Trim()) * 60000).ToString();
+                    // Update configuration
+                    XMLUpdate.UpdateProperty("SmtpHost", Security.CreateEncryptedDataBase64(host_TBox.Text), ConfigReaderMail.configMail!, ConfigReaderMail.FileName);
+                    XMLUpdate.UpdateProperty("SmtpPort", Security.CreateEncryptedDataBase64(port_TBox.Text), ConfigReaderMail.configMail!, ConfigReaderMail.FileName);
+                    XMLUpdate.UpdateProperty("SmtpUser", Security.CreateEncryptedDataBase64(user_TBox.Text), ConfigReaderMail.configMail!, ConfigReaderMail.FileName);
+                    XMLUpdate.UpdateProperty("SmtpPassword", Security.CreateEncryptedDataBase64(pass_TBox.Text), ConfigReaderMail.configMail!, ConfigReaderMail.FileName);
+                    XMLUpdate.UpdateProperty("Recipient", Security.CreateEncryptedDataBase64(email_TBox.Text), ConfigReaderMail.configMail!, ConfigReaderMail.FileName);
+                    XMLUpdate.UpdateProperty("AutoChecking", autoChecking_CBox.Text.Replace(" seconds", "").Trim() + "000", ConfigReaderInterruption.configInterruption!, ConfigReaderInterruption.FileName);
+                    XMLUpdate.UpdateProperty("AutoRestarting", autoRestarting_CBox.Text.Replace(" seconds", "").Trim() + "000", ConfigReaderInterruption.configInterruption!, ConfigReaderInterruption.FileName);
+                    XMLUpdate.UpdateProperty("IsStatus", isStatusMinsToSeconds, ConfigReaderInterruption.configInterruption!, ConfigReaderInterruption.FileName);
+                    XMLUpdate.UpdateProperty("ServiceOutages", serviceOutages_CBox.Text.Replace(" service outages", "").Trim(), ConfigReaderInterruption.configInterruption!, ConfigReaderInterruption.FileName);
+                    return true;
+                }
+            }
+            else
+            {
                 return true;
             }
             // Default return value if no other return statement is hit
@@ -192,6 +205,42 @@ namespace REBOOTMASTER.UserControls
             else
             {
                 return false;
+            }
+        }
+
+        // Send Email Test Button
+        private void SendEmailTest_BTN_Click(object sender, EventArgs e)
+        {
+            if (ValidateSMTPSettings(false)) // Validate SMTP Settings
+            {
+                if (MessageBox.Show(_msg.Message._msgQuestionSendTestEmail, _msg.Message._captionInformation, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes) // Show confirmation dialog
+                {
+                    // Reload SMTP configurations
+                    ConfigReaderMail.Reload();
+
+                    // Reload interruption configurations
+                    ConfigReaderInterruption.Reload();
+
+                    try
+                    {
+                        // Send the test email
+                        NotificationService.SendMailMessage($"REBOOTMASTER - Test email for {_msg.Message._msgTestService}", _msg.Message._msgTestEmailBody, $"REBOOTMASTER - {_msg.Message._msgTestService}");
+
+                        // Log success
+                        Log.Logger!.Info(_msg.Message._msgServiceSuccessfullySent);
+
+                        // Show success message
+                        MessageBox.Show(_msg.Message._msgServiceSuccessfullySent, "REBOOTMASTER - Test Email", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    catch (Exception ex)
+                    {
+                        // Log and show error
+                        Log.Logger!.Error($"Unexpected error: {_msg.Message._msgServiceNotSent}" + Environment.NewLine + ex.ToString());
+
+                        // Show error message
+                        MessageBox.Show(_msg.Message._msgServiceNotSent, _msg.Message._captionError, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
             }
         }
     }

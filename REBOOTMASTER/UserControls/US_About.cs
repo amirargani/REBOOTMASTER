@@ -23,20 +23,20 @@ namespace REBOOTMASTER.UserControls
         }
 
         // MouseDown
-        private void richTextBox_TXT_MouseDown(object sender, MouseEventArgs e)
+        private void RichTextBox_TXT_MouseDown(object sender, MouseEventArgs e)
         {
             richTextBox_TXT.Cursor = Cursors.Default;
             this.ActiveControl = null;
         }
 
         // Click
-        private void richTextBox_TXT_Click(object sender, EventArgs e)
+        private void RichTextBox_TXT_Click(object sender, EventArgs e)
         {
             this.ActiveControl = null;
         }
 
         // GitHub
-        private void github_Lnk_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void Github_Lnk_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             try
             {
@@ -50,7 +50,7 @@ namespace REBOOTMASTER.UserControls
         }
 
         // Homepage
-        private void homepage_Lnk_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void Homepage_Lnk_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             try
             {
@@ -64,7 +64,7 @@ namespace REBOOTMASTER.UserControls
         }
 
         // My Profile
-        private void pictureBox_Profile_Click(object sender, EventArgs e)
+        private void PictureBox_Profile_Click(object sender, EventArgs e)
         {
             try
             {

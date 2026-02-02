@@ -2983,7 +2983,7 @@
   <data name="richTextBox_TXT.Text" xml:space="preserve">
     <value>REBOOTMASTER is a powerful monitoring service specifically designed to ensure the continuous availability of critical applications. It constantly tracks the status of configured services and responds immediately if any of them stop unexpectedly. In such cases, REBOOTMASTER automatically restarts the affected service to minimize downtime and maintain high system availability. With its proactive monitoring and recovery capabilities, REBOOTMASTER is an essential tool for maintaining a stable and reliable IT infrastructure.</value>
   </data>
-  <data name="pictureBox_Profile.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="PictureBox_Profile.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAZAAAAGQCAYAAACAvzbMAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAL
         DAAACwwBP0AiyAAAHMxJREFUeF7t3WHSpDiSbuH8OVuY/S/0XsuYjCg4LoEEAiR0XrPHqtPlEiB9EXRn
