@@ -68,7 +68,6 @@ Minimize downtime and maintain a stable IT infrastructure with automated recover
   - **Dual Timer Logic**:
     - `AutoCheckServiceTimer`: Verifies service status at configurable intervals (default: every 30 seconds) and performs automatic recovery attempts.
     - `TimerWhenServiceStopped`: Monitors persistent service failures over configurable time intervals (default: 10 minutes) and triggers escalated email alerts.
-    > [!TIP]
     > The interval can be modified in the Settings tab.
   - **Integrated Controls**: `Start` and `Stop` buttons embedded directly into the dashboard, including dynamic reloading of SMTP and interruption configurations.
 
@@ -83,7 +82,6 @@ Minimize downtime and maintain a stable IT infrastructure with automated recover
 * 🛡️ **Stability, Reliability & Validation**:
   - **Global Error Handling**: Enhanced exception handling in `Program.cs` and `Main.cs` to capture unhandled exceptions and report them via email in non-debug (production) builds.
   - **Smart Email Alerts**: Sends an email whenever a monitored service fails, providing recovery status for **Auto-Restart** enabled services or manual inspection prompts for disabled ones (default: **Auto‑Restart** every 120 seconds).
-    > [!TIP]
     > The interval can be modified in the Settings tab.
   - **SMTP Diagnostics**: Added a **“Send Test Email”** feature in the Settings tab for immediate validation of SMTP configurations.
   - **Advanced Validation**: Implemented multi-stage validation for all SMTP and interruption-related settings to prevent configuration errors.
@@ -91,7 +89,6 @@ Minimize downtime and maintain a stable IT infrastructure with automated recover
 * 🧪 **Unit Testing**: 
   - **Complete Test Suite**: Implemented 28 unit tests using **xUnit** to ensure the reliability of core logic, utility services, configuration readers, and UI components.
   - **Automation Ready**: Fully compatible with CI/CD workflows using `dotnet test`.
-  - > [!NOTE]
   - > For more detailed information on how to run tests and what is covered, see the [Unit Testing](#unit-testing) section at the bottom.
 
 * 🏷️ **Project Metadata**:
