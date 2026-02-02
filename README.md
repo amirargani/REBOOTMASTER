@@ -5,7 +5,7 @@
 [![Platform](https://img.shields.io/badge/Platform-Windows-0078D6.svg?style=for-the-badge&logo=windows)](https://www.microsoft.com/en-us/windows)
 [![Framework](https://img.shields.io/badge/.NET-10.0-512BD4?style=for-the-badge&logo=.net&logoColor=white)](https://dotnet.microsoft.com/apps/aspnet)
 [![Version](https://img.shields.io/badge/Version-v2026.02.02.0-0078D6?style=for-the-badge&logo=semver&logoColor=white)]()
-![.NET Core Desktop](https://github.com/amirargani/REBOOTMASTER/actions/workflows/dotnet.yml/badge.svg)
+[![.NET Core Desktop](https://img.shields.io/badge/.NET_Core_Desktop-no_status-555555?style=for-the-badge)](https://github.com/amirargani/REBOOTMASTER/actions)
 
 [![REBOOTMASTER](https://github.com/amirargani/REBOOTMASTER/blob/main/REBOOTMASTER/REBOOTMASTER.png)]()
 
