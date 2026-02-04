@@ -33,7 +33,7 @@ namespace REBOOTMASTER
             catch (Exception ex)
             {
                 // Log the error
-                Log.Logger!.Error($"Unexpected error: {ex.Message} {Environment.NewLine + ex.StackTrace}");
+                Log.Logger!.Error($"Unexpected error: {ex.Message} {Environment.NewLine + Log.CleanStackTrace(ex)}");
 #if !DEBUG
                 // Reload SMTP configurations
                 ConfigReaderMail.Reload();
@@ -44,7 +44,7 @@ namespace REBOOTMASTER
                     // Send an email with the error details only if not in Debug mode
                     NotificationService.SendMailMessage(
                     "REBOOTMASTER Error",                        // name (subject of the email)
-                    $"Unexpected error occurred: {ex.Message}{Environment.NewLine}{ex.StackTrace}", // logMessage (details of the error)
+                    $"Unexpected error occurred: {ex.Message}{Environment.NewLine}{Log.CleanStackTrace(ex)}", // logMessage (details of the error)
                     "REBOOTMASTER Error Notification"            // subject (subject line of the email)
                     );
                 }

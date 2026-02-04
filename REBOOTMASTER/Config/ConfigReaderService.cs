@@ -13,8 +13,6 @@ namespace REBOOTMASTER.Config
 
         // ConfigService.dll file name
         private static string _fileNameconfigService = "ConfigService.dll";
-
-
         // Get or set ConfigService.dll file name
         public static string FileName
         {

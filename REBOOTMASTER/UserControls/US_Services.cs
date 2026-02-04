@@ -140,8 +140,8 @@ namespace REBOOTMASTER.UserControls
         private void RefreshSelectedServiceDetails()
         {
             // Update Service Details
-            sername_Lbl.Text = ServiceHelper.GetServiceByNameOrDisplayName(Service_CBox.SelectedItem!.ToString()!)!.ServiceName.ToString();
-            serstatus_Lbl.Text = ServiceHelper.GetServiceByNameOrDisplayName(Service_CBox.SelectedItem!.ToString()!)!.Status.ToString();
+            sername_Lbl.Text = ServiceHelper.GetServiceByName(Service_CBox.SelectedItem!.ToString()!)!.ServiceName.ToString();
+            serstatus_Lbl.Text = ServiceHelper.GetServiceByName(Service_CBox.SelectedItem!.ToString()!)!.Status.ToString();
 
             // Update Service Description
             string description = CimSession.Create(null).QueryInstances("root\\cimv2", "WQL", $"SELECT * FROM Win32_Service WHERE DisplayName = '{Service_CBox.SelectedItem!.ToString()!}'").FirstOrDefault()!.CimInstanceProperties["Description"].Value?.ToString() ?? "";
@@ -307,7 +307,7 @@ namespace REBOOTMASTER.UserControls
                         main.ResumeLayout();
 
                         // Set Service Name
-                        main.serviceName = (Service_CBox.Items.Count > 1 && sername_Lbl.Text != "-") ? ServiceHelper.GetServiceByNameOrDisplayName(sername_Lbl.Text)!.ServiceName.ToString() : null!;
+                        main.serviceName = (Service_CBox.Items.Count > 1 && sername_Lbl.Text != "-") ? ServiceHelper.GetServiceByName(sername_Lbl.Text)!.ServiceName.ToString() : null!;
                         main.serviceStatusBTN = serviceStatusBTN;
                     }
                 });
