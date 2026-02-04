@@ -4,9 +4,9 @@
     {
         // User Controls
         // Add User Control
-        public static void AddUserControl(UserControl userControl)
+        public static void AddUserControl(UserControl userControl) // Method to add a UserControl to the main panel
         {
-
+            // Access Main Form
             if (Main.mainObject?.FindForm() is Main main)
             {
                 main.Invoke((MethodInvoker)delegate

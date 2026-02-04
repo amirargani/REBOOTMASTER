@@ -175,7 +175,7 @@
             autoRestarting_CBox.Font = new Font("Nirmala UI", 8.25F);
             autoRestarting_CBox.ForeColor = Color.White;
             autoRestarting_CBox.FormattingEnabled = true;
-            autoRestarting_CBox.Items.AddRange(new object[] { "120 seconds", "180 seconds", "240 seconds", "300 seconds", "420 seconds" });
+            autoRestarting_CBox.Items.AddRange(new object[] { "30 seconds", "60 seconds", "90 seconds", "120 seconds", "180 seconds", "240 seconds", "300 seconds", "420 seconds" });
             autoRestarting_CBox.Location = new Point(210, 51);
             autoRestarting_CBox.Name = "autoRestarting_CBox";
             autoRestarting_CBox.Size = new Size(134, 21);

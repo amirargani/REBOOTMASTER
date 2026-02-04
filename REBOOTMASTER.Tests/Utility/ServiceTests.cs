@@ -18,7 +18,7 @@ namespace REBOOTMASTER.Tests.Utility
             var info = new Service.ServiceInfo(name, enabled, now, outage, success);
 
             // Assert
-            Assert.Equal(name, info.DisplayName);
+            Assert.Equal(name, info.ServiceName);
             Assert.Equal(enabled, info.IsEnabled);
             Assert.Equal(now, info.ServiceDateTime);
             Assert.Equal(outage, info.ServiceOutage);
@@ -32,14 +32,14 @@ namespace REBOOTMASTER.Tests.Utility
             var info = new Service.ServiceInfo("OldName", false, DateTime.MinValue, 0, false);
 
             // Act
-            info.DisplayName = "NewName";
+            info.ServiceName = "NewName";
             info.IsEnabled = true;
             info.ServiceDateTime = DateTime.MaxValue;
             info.ServiceOutage = 10;
             info.IsStatusSuccess = true;
 
             // Assert
-            Assert.Equal("NewName", info.DisplayName);
+            Assert.Equal("NewName", info.ServiceName);
             Assert.True(info.IsEnabled);
             Assert.Equal(DateTime.MaxValue, info.ServiceDateTime);
             Assert.Equal(10, info.ServiceOutage);

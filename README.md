@@ -2,7 +2,7 @@
 
 [![.NET Core Desktop](https://github.com/amirargani/REBOOTMASTER/actions/workflows/dotnet.yml/badge.svg)](https://github.com/amirargani/REBOOTMASTER/actions)
 
-> This badge reflects the status of the GitHub Actions CI workflow (runs on push and pull_request to the `main` branch).
+> Displays the real-time build status of the project's Continuous Integration (CI) workflow.
 ---
 
 [![License](https://img.shields.io/badge/License-Apache_2.0-D22128?style=for-the-badge&logo=apache)](LICENSE.txt)
@@ -62,6 +62,27 @@ Minimize downtime and maintain a stable IT infrastructure with automated recover
 
 ## Changelog 📜
 
+### V.2026.02.03.0
+* 🛠️ **Refactoring & Standardization**:
+  - **Naming Conventions**: Renamed methods and properties for consistency.
+  - **ServiceHelper**: Simplified retrieval logic (`GetServiceByName`) and added robust existence checks (`IsServiceExists`).
+  - **Code Cleanup**: Simplified `AddServiceToTemp` and `RemoveServiceFromTemp` logic.
+
+* 🛡️ **Stability & Error Handling**:
+  - **Clean Logging**: Implemented `Log.CleanStackTrace` to sanitize error logs by removing local file paths.
+  - **Config Validation**: `ConfigReaderService` now validates that configured services actually exist on the system before counting/loading them.
+  - **Dashboard Logic**: Refined `IsServiceRunning` checks and updated default service outage threshold.
+
+* 🎨 **Visuals & Transitions**:
+  - **Effects**: Enhanced documentation and structure for transition effects (`SlideAsync`, `FadeAsync`, `CenterAsync`).
+
+* 🧪 **Testing**:
+  - **Expanded Suite**: Added new tests for `Transition` and `Windows` namespaces.
+  - **Utility Tests**: Enhanced coverage for `Log`, `ServiceHelper`, and `Service` logic.
+
+* 🏷️ **Project Metadata**:
+  - Version updated to **`V.2026.02.03.0`**.
+
 ### V.2026.02.02.0
 * 🚀 **Dashboard Revamp**:
   - **Full UI Redesign**: Complete redesign using a modern grid layout with clearly separated panels for system health and service metrics.
@@ -74,7 +95,7 @@ Minimize downtime and maintain a stable IT infrastructure with automated recover
   - **Integrated Controls**: `Start` and `Stop` buttons embedded directly into the dashboard, including dynamic reloading of SMTP and interruption configurations.
 
 * 🏗️ **Core Logic & Architecture Updates**:
-  - **UI State Management**: Added `DeaktiviereButton()` and `AktiviereButton()` to lock the **Services** and **Settings** tabs while monitoring is active, preventing configuration conflicts.
+  - **UI State Management**: Added `DisableButton()` and `EnableButton()` to lock the **Services** and **Settings** tabs while monitoring is active, preventing configuration conflicts.
   - **Centralized Updates**: Introduced `UpdateDashboard()` to efficiently synchronize all service metrics across the UI.
   - **Startup Optimization**: Configured the application to automatically load and update the dashboard on initial startup.
   - **Naming Standards**: Refactored all UI controls, timers, internal methods, and `NotifyIcon` to follow strict **PascalCase** naming conventions.
@@ -89,7 +110,7 @@ Minimize downtime and maintain a stable IT infrastructure with automated recover
   - **Advanced Validation**: Implemented multi-stage validation for all SMTP and interruption-related settings to prevent configuration errors.
 
 * 🧪 **Unit Testing**: 
-  - **Complete Test Suite**: Implemented 28 unit tests using **xUnit** to ensure the reliability of core logic, utility services, configuration readers, and UI components.
+  - **Complete Test Suite**: Implemented 56 unit tests using **xUnit** to ensure the reliability of core logic, utility services, configuration readers, and UI components.
   - **Automation Ready**: Fully compatible with CI/CD workflows using `dotnet test`.
   - > For more detailed information on how to run tests and what is covered, see the [Unit Testing](#unit-testing) section at the bottom.
 

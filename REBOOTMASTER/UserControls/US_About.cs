@@ -45,7 +45,7 @@ namespace REBOOTMASTER.UserControls
             catch (System.ComponentModel.Win32Exception ex)
             {
                 NotificationService.GetException(ex);
-                Log.Logger!.Error($"Unexpected error: {ex.Message} {Environment.NewLine + ex.StackTrace}");
+                Log.Logger!.Error($"Unexpected error: {ex.Message} {Environment.NewLine + Log.CleanStackTrace(ex)}");
             }
         }
 
@@ -59,7 +59,7 @@ namespace REBOOTMASTER.UserControls
             catch (System.ComponentModel.Win32Exception ex)
             {
                 NotificationService.GetException(ex);
-                Log.Logger!.Error($"Unexpected error: {ex.Message} {Environment.NewLine + ex.StackTrace}");
+                Log.Logger!.Error($"Unexpected error: {ex.Message} {Environment.NewLine + Log.CleanStackTrace(ex)}");
             }
         }
 
@@ -73,7 +73,7 @@ namespace REBOOTMASTER.UserControls
             catch (System.ComponentModel.Win32Exception ex)
             {
                 NotificationService.GetException(ex);
-                Log.Logger!.Error($"Unexpected error: {ex.Message} {Environment.NewLine + ex.StackTrace}");
+                Log.Logger!.Error($"Unexpected error: {ex.Message} {Environment.NewLine + Log.CleanStackTrace(ex)}");
             }
         }
     }

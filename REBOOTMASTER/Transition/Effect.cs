@@ -2,13 +2,14 @@
 {
     internal class Effect
     {
-        private Form form { get; set; }
+        private Form form { get; set; } // Form to apply effects on
 
-        public Effect(Form _form)
+        public Effect(Form _form) // Constructor
         {
             form = _form;
         }
 
+        // Show effect by fading in
         public async Task ShowAsync()
         {
             for (double opacity = 0.0; opacity <= 1.0; opacity += 0.05)
@@ -18,6 +19,7 @@
             }
         }
 
+        // Hide effect by fading out
         public async Task HideAsync()
         {
             for (double opacity = 1.0; opacity >= 0.0; opacity -= 0.05)
@@ -27,6 +29,7 @@
             }
         }
 
+        // Slide effect from current location to target location
         public async Task SlideAsync(Point targetLocation)
         {
             var startLocation = form!.Location;
@@ -40,6 +43,7 @@
             form!.Location = targetLocation;
         }
 
+        // Fade effect in or out based on the fadeIn parameter
         public async Task FadeAsync(bool fadeIn)
         {
             if (fadeIn)
@@ -60,6 +64,7 @@
             }
         }
 
+        // Center the form on the screen with a slide effect
         public async Task CenterAsync()
         {
             var screenCenter = new Point(
@@ -68,6 +73,7 @@
             await SlideAsync(screenCenter);
         }
 
+        // Slide the form from right to left
         public async Task RightToLeftAsync()
         {
             var startLocation = new Point(Screen.PrimaryScreen!.WorkingArea.Width, form!.Location.Y);
@@ -75,6 +81,7 @@
             await SlideAsync(new Point(0, form!.Location.Y));
         }
 
+        // Slide the form from left to right
         public async Task LeftToRightAsync()
         {
             var startLocation = new Point(-form!.Width, form!.Location.Y);
@@ -82,6 +89,7 @@
             await SlideAsync(new Point(Screen.PrimaryScreen!.WorkingArea.Width - form!.Width, form!.Location.Y));
         }
 
+        // Slide the form from top to bottom
         public async Task TopToBottomAsync()
         {
             var startLocation = new Point(form!.Location.X, -form!.Height);
@@ -89,6 +97,7 @@
             await SlideAsync(new Point(form!.Location.X, Screen.PrimaryScreen!.WorkingArea.Height - form!.Height));
         }
 
+        // Slide the form from bottom to top
         public async Task BottomToTopAsync()
         {
             var startLocation = new Point(form!.Location.X, Screen.PrimaryScreen!.WorkingArea.Height);

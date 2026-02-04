@@ -1,8 +1,5 @@
-﻿using REBOOTMASTER.Config;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Xml;
+﻿using System.Xml;
+using REBOOTMASTER.Config;
 
 namespace REBOOTMASTER.Utility
 {
@@ -10,17 +7,17 @@ namespace REBOOTMASTER.Utility
     {
         public record ServiceInfo
         {
-            private string _displayName;
-            private bool _isEnabled;
-            private DateTime _serviceDateTime;
+            private string _serviceName; // Name of the service
+            private bool _isEnabled; // Indicates whether the service is enabled
+            private DateTime _serviceDateTime; // Date and time of the service status check
             private int? _serviceOutage; // Number of service interruptions: An unplanned interruption of a service, during which the service is unavailable for a specified period of time.
             private bool _isStatusSuccess; // Indicates whether the service status retrieval was successful
 
-            // DisplayName property
-            public string DisplayName
+            // ServiceName property
+            public string ServiceName
             {
-                get { return _displayName; }
-                set { _displayName = value; }
+                get { return _serviceName; }
+                set { _serviceName = value; }
             }
 
             // IsEnabled property
@@ -52,9 +49,9 @@ namespace REBOOTMASTER.Utility
             }
 
             // Constructor
-            public ServiceInfo(string displayName, bool isEnabled, DateTime serviceDateTime, int serviceOutage, bool isStatusSuccess = false)
+            public ServiceInfo(string serviceName, bool isEnabled, DateTime serviceDateTime, int serviceOutage, bool isStatusSuccess = false)
             {
-                _displayName = displayName;
+                _serviceName = serviceName;
                 _isEnabled = isEnabled;
                 _serviceDateTime = serviceDateTime;
                 _serviceOutage = serviceOutage;
@@ -79,17 +76,29 @@ namespace REBOOTMASTER.Utility
 
             foreach (XmlNode node in nodes) // Iterate through each node
             {
-                string displayName = node.Attributes!["key"]!.Value; // Get the 'key' attribute (this will be the displayName)
+                string serviceName = node.Attributes!["key"]!.Value; // Get the 'key' attribute (this will be the serviceName)
                 string value = node.Attributes!["value"]!.Value; // Get the 'value' attribute
                 DateTime serviceDateTime = DateTime.Now; // Current date and time
                 int serviceOutage = 0; // Initialize service outage count
-
                 bool isEnabled = value.Equals("true", StringComparison.OrdinalIgnoreCase); // Determine if the service is enabled
+                if (ServiceHelper.IsServiceExists(serviceName)) // Check if the service exists
+                {
+                    // Create ServiceInfo object with the constructor
+                    list.Add(new ServiceInfo(serviceName, isEnabled, serviceDateTime, serviceOutage)); // Add the service information to the list
+                }
+                else
+                {
+                    // Send a mail if the service status has stopped.
+                    NotificationService.SendMailMessage($"Service Name: {serviceName}",
+                         $"The service name [.:{serviceName}:.] does not exist on this system." +
+                         $"\r\nThis has been removed from the monitoring list and configuration.\r\nPlease check the issue.", $"REBOOTMASTER - [.:{serviceName}:.]");
 
-                // Create ServiceInfo object with the constructor
-                list.Add(new ServiceInfo(displayName, isEnabled, serviceDateTime, serviceOutage)); // Add the service information to the list
+                    // Update XML Configuration to Delete Service
+                    XMLUpdate.UpdateProperty(serviceName, isEnabled.ToString(), ConfigReaderService.configService!, ConfigReaderService.FileName, true);
+                }
             }
 
+            // Return the list of service information
             return list;
         }
     }

@@ -1,11 +1,9 @@
 ﻿using REBOOTMASTER.Config;
 using REBOOTMASTER.Utility;
 using System.ComponentModel;
-using System.Linq;
 using System.ServiceProcess;
-using System.Xml;
-using _msg = REBOOTMASTER.Message.Message;
 using Log = REBOOTMASTER.Utility.Log;
+using _msg = REBOOTMASTER.Message.Message;
 
 namespace REBOOTMASTER.UserControls
 {
@@ -125,13 +123,12 @@ namespace REBOOTMASTER.UserControls
                 // Validate SMTP configuration values
                 if (NotificationService.AreSMTPValuesValid())
                 {
-
                     // Get the list of services to monitor
                     services = Service.GetServiceInfo();
                     if (services!.Any())
                     {
                         // Set the default service outage count
-                        DefaultServiceOutag = !string.IsNullOrEmpty(ConfigReaderInterruption.ServiceOutages) ? Convert.ToInt32(ConfigReaderInterruption.ServiceOutages) - 1 : 10;
+                        DefaultServiceOutag = !string.IsNullOrEmpty(ConfigReaderInterruption.ServiceOutages) ? Convert.ToInt32(ConfigReaderInterruption.ServiceOutages) - 1 : 9;
 
                         // Interval: Timer that automatically checks the service status at regular intervals.
                         AutoCheckServiceTimer.Interval = !string.IsNullOrEmpty(ConfigReaderInterruption.AutoChecking) ? Convert.ToInt32(ConfigReaderInterruption.AutoChecking) : 30000;
@@ -200,14 +197,14 @@ namespace REBOOTMASTER.UserControls
                 // Enable User Control: Services, Settings
                 EnabledTabUserControl();
 #if !DEBUG
-            // Reload SMTP configurations
-            ConfigReaderMail.Reload();
+                // Reload SMTP configurations
+                ConfigReaderMail.Reload();
 
-            // Check if all required SMTP configuration values are present
-            if (NotificationService.AreSMTPValuesValid())
-            {
-                NotificationService.SendMailMessage("REBOOTMASTER has been stopped.", "The REBOOTMASTER application has been terminated and is no longer running.", "REBOOTMASTER Status Update"); // Send email notification
-            }
+                // Check if all required SMTP configuration values are present
+                if (NotificationService.AreSMTPValuesValid())
+                {
+                    NotificationService.SendMailMessage("REBOOTMASTER has been stopped.", "The REBOOTMASTER application has been terminated.", "REBOOTMASTER Status Update"); // Send email notification
+                }
 #endif
             }
         }
@@ -222,7 +219,7 @@ namespace REBOOTMASTER.UserControls
                 main.Invoke((MethodInvoker)delegate
                 {
                     // Disable the Services and Settings user controls
-                    main.DeaktiviereButton();
+                    main.DisableButton();
                     Log.Logger!.Info("REBOOTMASTER opened. The 'Services and Settings' tab has been disabled."); // Log Info
                 });
             }
@@ -238,7 +235,7 @@ namespace REBOOTMASTER.UserControls
                 main.Invoke((MethodInvoker)delegate
                 {
                     // Enable the Services and Settings user controls
-                    main.AktiviereButton();
+                    main.EnableButton();
                     Log.Logger!.Info("REBOOTMASTER opened. The 'Services and Settings' tab has been enabled."); // Log Info
                 });
             }
@@ -253,10 +250,10 @@ namespace REBOOTMASTER.UserControls
                 {
                     for (int i = 0; i < services!.Count(); i++) // Loop through each service
                     {
-                        if (!string.IsNullOrEmpty(ServiceHelper.GetServiceByNameOrDisplayName(services![i].DisplayName!)!.DisplayName!.ToString())) // If the service display name is not empty
+                        if (!string.IsNullOrEmpty(ServiceHelper.GetServiceByName(services![i].ServiceName!)!.ServiceName!.ToString())) // If the service display name is not empty
                         {
                             dateTimeNow = GetDateTime(); // Get the current DateTime
-                            services![i].IsStatusSuccess = ServiceHelper.GetServiceByNameOrDisplayName(services![i].DisplayName!)!.Status == ServiceControllerStatus.Running ? true : false; // Update IsStatusSuccess if the service is running
+                            services![i].IsStatusSuccess = IsServiceRunning(services[i].ServiceName!); // Update IsStatusSuccess if the service is running
                             if (dateTimeNow.Date > services![i].ServiceDateTime.Date) // If the current date is greater than the service's last recorded date
                             {
                                 totalServiceOutageCount = 0; // Reset total service outage count
@@ -270,16 +267,13 @@ namespace REBOOTMASTER.UserControls
 
                                 // Log the service stopped status
                                 string newLine = dateTimeNow.AddMilliseconds(DateTime.Now.Millisecond).ToString("yyyy-MM-dd HH:mm:ss.fff", System.Globalization.CultureInfo.InvariantCulture) +
-                                    $" The service [.:{ServiceHelper.GetServiceByNameOrDisplayName(services![i].DisplayName!)!.DisplayName}:.] " +
-                                    "is stopped.";
+                                    $" The service '{ServiceHelper.GetServiceByName(services![i].ServiceName!)!.DisplayName}' is stopped.";
 
                                 // Update live log label
                                 log_Lbl.Text = AddLogLine(log_Lbl.Text, newLine);
 
-                                Log.Logger!.Info($"REBOOTMASTER opened. The status of the desired " +
-                                             $"'{ServiceHelper.GetServiceByNameOrDisplayName(services![i].DisplayName!)!.DisplayName}' " +
-                                             $"service [.:{ServiceHelper.GetServiceByNameOrDisplayName(services![i].DisplayName!)!.ServiceName}:.] " +
-                                             $"is stopped."); // Log Info
+                                Log.Logger!.Info($"REBOOTMASTER opened. The service '{ServiceHelper.GetServiceByName(services![i].ServiceName!)!.DisplayName}' " +
+                                             $"- [.:{ServiceHelper.GetServiceByName(services![i].ServiceName!)!.ServiceName}:.] is stopped."); // Log Info
 
                                 ServiceStart(services![i]); // Attempt to start the service asynchronously
                             }
@@ -289,13 +283,13 @@ namespace REBOOTMASTER.UserControls
 
                                 // Log the service stopped status
                                 string newLine = dateTimeNow.AddMilliseconds(DateTime.Now.Millisecond).ToString("yyyy-MM-dd HH:mm:ss.fff", System.Globalization.CultureInfo.InvariantCulture) +
-                                    $" The service [.:{ServiceHelper.GetServiceByNameOrDisplayName(services![i].DisplayName!)!.DisplayName}:.] " +
-                                    "is running.";
+                                    $" The service '{ServiceHelper.GetServiceByName(services![i].ServiceName!)!.DisplayName}' is running.";
 
                                 // Update live log label
                                 log_Lbl.Text = AddLogLine(log_Lbl.Text, newLine);
 
-                                Log.Logger!.Info($"REBOOTMASTER opened. The status of the desired '{ServiceHelper.GetServiceByNameOrDisplayName(services![i].DisplayName!)!.DisplayName}' service [.:{ServiceHelper.GetServiceByNameOrDisplayName(services![i].DisplayName!)!.ServiceName}:.] is running."); // Log Info
+                                Log.Logger!.Info($"REBOOTMASTER opened. The service '{ServiceHelper.GetServiceByName(services![i].ServiceName!)!.DisplayName}' "+
+                                            $"- [.:{ServiceHelper.GetServiceByName(services![i].ServiceName!)!.ServiceName}:.] is running."); // Log Info
                             }
                         }
                         await WaitTask(TimeSpan.FromSeconds(3)); // 3 Seconds
@@ -306,7 +300,7 @@ namespace REBOOTMASTER.UserControls
             {
                 // Send Exception Details via Email
                 NotificationService.GetException(ex);
-                Log.Logger!.Error($"Unexpected error: {ex.Message} {Environment.NewLine + ex.StackTrace}"); // Log Error
+                Log.Logger!.Error($"Unexpected error: {ex.Message} {Environment.NewLine + Log.CleanStackTrace(ex)}"); // Log Error
             }
         }
 
@@ -319,45 +313,32 @@ namespace REBOOTMASTER.UserControls
                     dateTimeNow = GetDateTime(); // Get the current DateTime
                     for (int i = 0; i < services!.Reverse<Service.ServiceInfo>().Count(); i++) // Loop through each service
                     {
-                        if (!string.IsNullOrEmpty(ServiceHelper.GetServiceByNameOrDisplayName(services![i].DisplayName!)!.DisplayName!.ToString())) // If the service display name is not empty
+                        if (services![i].ServiceOutage >= DefaultServiceOutag) // If the service outage count exceeds the default threshold
                         {
-                            if (services![i].ServiceOutage >= DefaultServiceOutag) // If the service outage count exceeds the default threshold
+                            if (ServiceHelper.GetServiceByName(services![i].ServiceName!)!.Status == ServiceControllerStatus.Stopped) // If the service is still stopped
                             {
-                                if (ServiceHelper.GetServiceByNameOrDisplayName(services![i].DisplayName!)!.Status == ServiceControllerStatus.Stopped) // If the service is still stopped
+                                int interval = !string.IsNullOrEmpty(ConfigReaderInterruption.AutoRestarting) ? Convert.ToInt32(ConfigReaderInterruption.AutoRestarting) / 1000 : 120; // Default: 120 Seconds
+                                if (services![i].IsEnabled)
                                 {
-                                    int interval = !string.IsNullOrEmpty(ConfigReaderInterruption.AutoRestarting) ? Convert.ToInt32(ConfigReaderInterruption.AutoRestarting) / 1000 : 120; // Default: 120 Seconds
-                                    if (services![i].IsEnabled)
-                                    {
-                                        // Send a mail if the service status has stopped.
-                                        NotificationService.SendMailMessage($"Service Name: {ServiceHelper.GetServiceByNameOrDisplayName(services![i].DisplayName!)!.DisplayName}",
-                                            $"The status of the desired '{ServiceHelper.GetServiceByNameOrDisplayName(services![i].DisplayName!)!.DisplayName}' " +
-                                            $"[.:{ServiceHelper.GetServiceByNameOrDisplayName(services![i].DisplayName!)!.ServiceName}:.] is 'Stopped'.\r\nUnfortunately, the requested service has stopped." +
-                                            $"\r\nPlease check the issue.\r\nUnfortunately, the requested service has stopped.", $"REBOOTMASTER - [.:{ServiceHelper.GetServiceByNameOrDisplayName(services![i].DisplayName!)!.ServiceName}:.]");
-                                    }
-                                    else
-                                    {
-                                        // Send an email if the service has stopped and is not configured to restart automatically.
-                                        NotificationService.SendMailMessage($"Service Name: {ServiceHelper.GetServiceByNameOrDisplayName(services![i].DisplayName!)!.DisplayName}",
-                                            $"The status of the desired '{ServiceHelper.GetServiceByNameOrDisplayName(services![i].DisplayName!)!.DisplayName}' " +
-                                            $"[.:{ServiceHelper.GetServiceByNameOrDisplayName(services![i].DisplayName!)!.ServiceName}:.] is 'Stopped'." +
-                                            $"\r\nPlease check this service or select it in the 'Services' tab and enable 'Restart automatically?'. Alternatively, you can delete the service to stop receiving further emails.", $"REBOOTMASTER - [.:{ServiceHelper.GetServiceByNameOrDisplayName(services![i].DisplayName!)!.ServiceName}:.]");
-                                    }
-
-                                    // Log the service stopped status
-                                    string newLine = dateTimeNow.AddMilliseconds(DateTime.Now.Millisecond).ToString("yyyy-MM-dd HH:mm:ss.fff", System.Globalization.CultureInfo.InvariantCulture) +
-                                        $" The service [.:{ServiceHelper.GetServiceByNameOrDisplayName(services![i].DisplayName!)!.DisplayName}:.] " +
-                                        "is stopped.";
-
-                                    // Update live log label
-                                    log_Lbl.Text = AddLogLine(log_Lbl.Text, newLine);
-
-                                    Log.Logger!.Info($"REBOOTMASTER opened. The status of the desired '{ServiceHelper.GetServiceByNameOrDisplayName(services![i].DisplayName!)!.DisplayName}' " +
-                                                 $"service [.:{ServiceHelper.GetServiceByNameOrDisplayName(services![i].DisplayName!)!.ServiceName}:.] is stopped."); // Log Info
-                                    SetServiceOutage(services![i], i, new TimeSpan(0, 0, interval)); // Reset Service Outage after x Minutes
+                                    // Send a mail if the service status has stopped.
+                                    NotificationService.SendMailMessage($"Service Name: {ServiceHelper.GetServiceByName(services![i].ServiceName!)!.ServiceName}",
+                                        $"The '{ServiceHelper.GetServiceByName(services![i].ServiceName!)!.DisplayName}': " +
+                                        $"[.:{ServiceHelper.GetServiceByName(services![i].ServiceName!)!.ServiceName}:.] is currently not running.\r\nUnfortunately, the service is no longer available." +
+                                        $"\r\nThe service will start automatically after {interval} seconds." +
+                                        $"\r\nPlease check the issue.", $"REBOOTMASTER - [.:{ServiceHelper.GetServiceByName(services![i].ServiceName!)!.ServiceName}:.]");
                                 }
+                                else
+                                {
+                                    // Send an email if the service has stopped and is not configured to restart automatically.
+                                    NotificationService.SendMailMessage($"Service Name: {ServiceHelper.GetServiceByName(services![i].ServiceName!)!.ServiceName}",
+                                        $"The '{ServiceHelper.GetServiceByName(services![i].ServiceName!)!.DisplayName}': " +
+                                        $"[.:{ServiceHelper.GetServiceByName(services![i].ServiceName!)!.ServiceName}:.] is currently not running.\r\nUnfortunately, the service is no longer available." +
+                                        $"\r\nPlease check this service, or select it in the 'Services' tab and enable 'Restart automatically'. Alternatively, you can delete the service to stop receiving further emails.", $"REBOOTMASTER - [.:{ServiceHelper.GetServiceByName(services![i].ServiceName!)!.ServiceName}:.]");
+                                }
+
+                                SetServiceOutage(services![i], i, new TimeSpan(0, 0, interval)); // Reset Service Outage after x Minutes
                             }
                         }
-                        await WaitTask(TimeSpan.FromSeconds(3)); // 3 Seconds
                     }
                 }
             }
@@ -365,7 +346,7 @@ namespace REBOOTMASTER.UserControls
             {
                 // Send Exception Details via Email
                 NotificationService.GetException(ex);
-                Log.Logger!.Error($"Unexpected error: {ex.Message} {Environment.NewLine + ex.StackTrace}"); // Log Error
+                Log.Logger!.Error($"Unexpected error: {ex.Message} {Environment.NewLine + Log.CleanStackTrace(ex)}"); // Log Error
             }
         }
 
@@ -375,27 +356,10 @@ namespace REBOOTMASTER.UserControls
             return new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second); // Return current DateTime
         }
 
-        // Remove service from temporary list
-        private void RemoveServiceFromTemp(Service.ServiceInfo service)
+        // Check if service is running
+        private static bool IsServiceRunning(string serviceName)
         {
-            try
-            {
-                // Remove the service from the temporary list if it is present
-                if (tempServices!.Contains(service))
-                {
-                    tempServices!.Remove(service);
-
-                    // Decrement inactive service count if greater than 0 and update inactive services count label and center it
-                    inactivesercount_Lbl.Text = tempServices.Count().ToString();
-                    SetLabelAndCenter(inactivesercount_Lbl, inactiveser_panel, tempServices.Count().ToString());
-                }
-            }
-            catch (Exception ex)
-            {
-                // Send Exception Details via Email
-                NotificationService.GetException(ex);
-                Log.Logger!.Error($"Unexpected error: {ex.Message} {Environment.NewLine + ex.StackTrace}"); // Log Error
-            }
+            return ServiceHelper.GetServiceByName(serviceName)!.Status == ServiceControllerStatus.Running ? true : false; // Return true if the service is running, otherwise false
         }
 
         // Add log line with max lines limit
@@ -420,32 +384,44 @@ namespace REBOOTMASTER.UserControls
             return string.Join("\r\n", lines) + "\r\n";
         }
 
+        // Remove service from temporary list
+        private void RemoveServiceFromTemp(Service.ServiceInfo service)
+        {
+            try
+            {
+                // Remove the service from the temporary list if it is present
+                if (tempServices!.Contains(service)) { tempServices!.Remove(service); }
+            }
+            catch (Exception ex)
+            {
+                // Send Exception Details via Email
+                NotificationService.GetException(ex);
+                Log.Logger!.Error($"Unexpected error: {ex.Message} {Environment.NewLine + Log.CleanStackTrace(ex)}"); // Log Error
+            }
+        }
+
         // Add service to temporary list
         private void AddServiceToTemp(Service.ServiceInfo service)
         {
             try
             {
                 // Add the service to the temporary list if it is not already present
-                if (!tempServices!.Contains(service))
-                {
-                    tempServices!.Add(service);
-
-                    inactivesercount_Lbl.Text = tempServices.Count().ToString(); // Update inactive services count label
-                    SetLabelAndCenter(inactivesercount_Lbl, inactiveser_panel, tempServices.Count().ToString()); // Center the label
-                }
+                if (!tempServices!.Contains(service)) { tempServices!.Add(service); }
             }
             catch (Exception ex)
             {
                 // Send Exception Details via Email
                 NotificationService.GetException(ex);
-                Log.Logger!.Error($"Unexpected error: {ex.Message} {Environment.NewLine + ex.StackTrace}"); // Log Error
+                Log.Logger!.Error($"Unexpected error: {ex.Message} {Environment.NewLine + Log.CleanStackTrace(ex)}"); // Log Error
             }
         }
 
-        // Wait Task Async
+        // Allows asynchronous waiting without blocking the main thread
         private async Task WaitTask(TimeSpan timeSpan)
         {
-            await Task.Delay(timeSpan); // Await the specified time span
+            await Task.Delay(timeSpan); // Wait for the specified time span
+            inactivesercount_Lbl.Text = tempServices!.Count().ToString(); // Update inactive services count label
+            SetLabelAndCenter(inactivesercount_Lbl, inactiveser_panel, tempServices!.Count().ToString()); // Update and center the label
         }
 
         // Handle Service Start
@@ -454,17 +430,17 @@ namespace REBOOTMASTER.UserControls
             await WaitTask(TimeSpan.FromSeconds(5)); // 5 Seconds
             try
             {
-                if (!string.IsNullOrEmpty(ServiceHelper.GetServiceByNameOrDisplayName(service.DisplayName!)!.DisplayName!.ToString())) // If the service display name is not empty
+                if (!string.IsNullOrEmpty(ServiceHelper.GetServiceByName(service.ServiceName!)!.ServiceName!.ToString())) // If the service display name is not empty
                 {
                     // Check if the service outage count is within the allowed limit and the current date is less than or equal to the service's last recorded date
-                    if (service.ServiceOutage <= DefaultServiceOutag && GetDateTime().Date <= service.ServiceDateTime!.Date) { HandleService(ServiceHelper.GetServiceByNameOrDisplayName(service.DisplayName!)!, service); }
+                    if (service.ServiceOutage <= DefaultServiceOutag && GetDateTime().Date <= service.ServiceDateTime!.Date) { HandleService(ServiceHelper.GetServiceByName(service.ServiceName!)!, service); }
                 }
             }
             catch (Exception ex)
             {
                 // Send Exception Details via Email
                 NotificationService.GetException(ex);
-                Log.Logger!.Error($"Unexpected error: {ex.Message} {Environment.NewLine + ex.StackTrace}"); // Log Error
+                Log.Logger!.Error($"Unexpected error: {ex.Message} {Environment.NewLine + Log.CleanStackTrace(ex)}"); // Log Error
             }
         }
 
@@ -474,7 +450,7 @@ namespace REBOOTMASTER.UserControls
             try
             {
                 // Start the service if it is stopped
-                if (ServiceHelper.GetServiceByNameOrDisplayName(serviceController.DisplayName)!.Status == ServiceControllerStatus.Stopped) // If the service is stopped
+                if (ServiceHelper.GetServiceByName(serviceController.ServiceName)!.Status == ServiceControllerStatus.Stopped) // If the service is stopped
                 {
                     service.ServiceOutage += 1; // Increment the service outage count
 
@@ -485,13 +461,13 @@ namespace REBOOTMASTER.UserControls
                     // Check whether the service is enabled to start automatically.
                     if (service.IsEnabled)
                     {
-                        ServiceHelper.GetServiceByNameOrDisplayName(serviceController.DisplayName)!.Start(); // Start the service
-                        ServiceHelper.GetServiceByNameOrDisplayName(serviceController.DisplayName)!.WaitForStatus(ServiceControllerStatus.Running, timeout); // 30 Seconds
-                        Log.Logger!.Info($"REBOOTMASTER opened. The status of the desired '{serviceController.DisplayName}' service [.:{serviceController.ServiceName}:.] is in the starting state."); // Log Info
+                        ServiceHelper.GetServiceByName(serviceController.ServiceName)!.Start(); // Start the service
+                        ServiceHelper.GetServiceByName(serviceController.ServiceName)!.WaitForStatus(ServiceControllerStatus.Running, timeout); // 30 Seconds
+                        Log.Logger!.Info($"REBOOTMASTER opened. The service '{serviceController.DisplayName}' - [.:{serviceController.ServiceName}:.] is in the starting state."); // Log Info
 
                         // Log the service stopped status
                         string newLine = dateTimeNow.AddMilliseconds(DateTime.Now.Millisecond).ToString("yyyy-MM-dd HH:mm:ss.fff", System.Globalization.CultureInfo.InvariantCulture) +
-                            $" The '{serviceController.DisplayName}' service is in the starting state.";
+                            $" The service '{serviceController.DisplayName}' is in the starting state.";
 
                         // Update live log label
                         log_Lbl.Text = AddLogLine(log_Lbl.Text, newLine);
@@ -504,7 +480,7 @@ namespace REBOOTMASTER.UserControls
             {
                 // Send Exception Details via Email
                 NotificationService.GetException(ex);
-                Log.Logger!.Error($"Unexpected error: {ex.Message} {Environment.NewLine + ex.StackTrace}"); // Log Error
+                Log.Logger!.Error($"Unexpected error: {ex.Message} {Environment.NewLine + Log.CleanStackTrace(ex)}"); // Log Error
             }
         }
 
@@ -516,7 +492,8 @@ namespace REBOOTMASTER.UserControls
             if (services != null && services.Reverse<Service.ServiceInfo>().Contains(service))
             {
                 services[index].ServiceOutage = 0; // Reset the service outage count
-                RemoveServiceFromTemp(services[index]); // Remove the service from the temporary list
+                services[index].IsStatusSuccess = IsServiceRunning(services![index].ServiceName!); // Update IsStatusSuccess if the service is running
+                if (service.IsStatusSuccess) { RemoveServiceFromTemp(services[index]); } // Remove the service from the temporary list
             }
         }
     }

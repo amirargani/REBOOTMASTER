@@ -1,7 +1,7 @@
 ﻿using REBOOTMASTER.Config;
 using REBOOTMASTER.Utility;
-using System.Text.RegularExpressions;
 using _msg = REBOOTMASTER.Message;
+using System.Text.RegularExpressions;
 using Log = REBOOTMASTER.Utility.Log;
 
 namespace REBOOTMASTER.UserControls
@@ -17,7 +17,7 @@ namespace REBOOTMASTER.UserControls
             autoChecking_CBox.Text = !string.IsNullOrEmpty(ConfigReaderInterruption.AutoChecking) ? (Convert.ToInt32(ConfigReaderInterruption.AutoChecking) / 1000).ToString() + " seconds" : "30 seconds";
             autoRestarting_CBox.Text = !string.IsNullOrEmpty(ConfigReaderInterruption.AutoRestarting) ? (Convert.ToInt32(ConfigReaderInterruption.AutoRestarting) / 1000).ToString() + " seconds" : "120 seconds";
             isStatus_CBox.Text = !string.IsNullOrEmpty(ConfigReaderInterruption.IsStatus) ? (Convert.ToInt32(ConfigReaderInterruption.IsStatus) / 60000).ToString() + " minutes" : "10 minutes";
-            serviceOutages_CBox.Text = !string.IsNullOrEmpty(ConfigReaderInterruption.IsStatus) ? "10 service outages" : "10 service outages";
+            serviceOutages_CBox.Text = !string.IsNullOrEmpty(ConfigReaderInterruption.ServiceOutages) ? ConfigReaderInterruption.ServiceOutages.ToString() + " service outages" : "10 service outages";
 
             // ToolTips
             ToolTipWindows.SetToolTip(autoChecking_CBox, string.Format(_msg.Message._msgAutoCheckingToolTip, autoChecking_CBox.Text));
@@ -235,7 +235,7 @@ namespace REBOOTMASTER.UserControls
                     catch (Exception ex)
                     {
                         // Log and show error
-                        Log.Logger!.Error($"Unexpected error: {_msg.Message._msgServiceNotSent}" + Environment.NewLine + ex.ToString());
+                        Log.Logger!.Error($"Unexpected error: {_msg.Message._msgServiceNotSent}" + Environment.NewLine + Log.CleanStackTrace(ex));
 
                         // Show error message
                         MessageBox.Show(_msg.Message._msgServiceNotSent, _msg.Message._captionError, MessageBoxButtons.OK, MessageBoxIcon.Error);

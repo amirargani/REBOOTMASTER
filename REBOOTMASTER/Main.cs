@@ -1,13 +1,12 @@
+using System.Xml;
 using REBOOTMASTER.Config;
 using REBOOTMASTER.Transition;
 using REBOOTMASTER.UserControls;
 using REBOOTMASTER.Utility;
 using REBOOTMASTER.Windows;
-using System.ComponentModel;
 using System.ServiceProcess;
-using System.Xml;
-using _msg = REBOOTMASTER.Message.Message;
 using Log = REBOOTMASTER.Utility.Log;
+using _msg = REBOOTMASTER.Message.Message;
 
 namespace REBOOTMASTER
 {
@@ -78,15 +77,15 @@ namespace REBOOTMASTER
             animate.Play(Handle, animation);
         }
 
-        // Deactivate Button
-        public void DeaktiviereButton()
+        // Disable Buttons Method
+        public void DisableButton()
         {
             Services_BTN.Enabled = false;
             Settings_BTN.Enabled = false;
         }
 
-        // Activate Button
-        public void AktiviereButton()
+        // Enable Buttons Method
+        public void EnableButton()
         {
             Services_BTN.Enabled = true;
             Settings_BTN.Enabled = true;
@@ -111,7 +110,8 @@ namespace REBOOTMASTER
             xmlDoc.Load(configFilePath); // Load the XML file
 
             var nodes = xmlDoc.SelectNodes("configuration/appSettings/add"); // Select all service nodes
-            return nodes?.Count ?? 0; // Return the count of nodes, or 0 if null
+            return nodes?.Cast<XmlNode>()
+             .Count(node => ServiceHelper.IsServiceExists(node.Attributes?["key"]?.Value!)) ?? 0;
         }
 
         // Method to get the count of enabled services
@@ -125,7 +125,8 @@ namespace REBOOTMASTER
             xmlDoc.Load(configFilePath); // Load the XML file
 
             var nodes = xmlDoc.SelectNodes("configuration/appSettings/add[@value='true']"); // Select enabled service nodes
-            return nodes?.Count ?? 0; // Return the count of nodes, or 0 if null
+            return nodes?.Cast<XmlNode>()
+             .Count(node => ServiceHelper.IsServiceExists(node.Attributes?["key"]?.Value!)) ?? 0;
         }
 
         // Timer ProgressBar: Start
@@ -168,32 +169,32 @@ namespace REBOOTMASTER
                         if (serviceStatusBTN == "Start")
                         {
                             // Start Service
-                            ServiceHelper.GetServiceByNameOrDisplayName(serviceName)!.Start();
-                            Log.Logger!.Info($"{serviceName} running. {_msg._msgSuccessfulServiceRunning}");
-                            ServiceHelper.GetServiceByNameOrDisplayName(serviceName)!.WaitForStatus(ServiceControllerStatus.Running, TimeSpan.FromSeconds(30));
+                            ServiceHelper.GetServiceByName(serviceName)!.Start();
+                            Log.Logger!.Info($"{serviceName}: {_msg._msgSuccessfulServiceRunning}");
+                            ServiceHelper.GetServiceByName(serviceName)!.WaitForStatus(ServiceControllerStatus.Running, TimeSpan.FromSeconds(30));
                         }
                         else if (serviceStatusBTN == "Stop")
                         {
                             // Stop Service
-                            ServiceHelper.GetServiceByNameOrDisplayName(serviceName)!.Stop();
-                            Log.Logger!.Info($"{serviceName} stopped. {_msg._msgSuccessfulServiceStopped}");
-                            ServiceHelper.GetServiceByNameOrDisplayName(serviceName)!.WaitForStatus(ServiceControllerStatus.Stopped, TimeSpan.FromSeconds(30));
+                            ServiceHelper.GetServiceByName(serviceName)!.Stop();
+                            Log.Logger!.Info($"{serviceName}: {_msg._msgSuccessfulServiceStopped}");
+                            ServiceHelper.GetServiceByName(serviceName)!.WaitForStatus(ServiceControllerStatus.Stopped, TimeSpan.FromSeconds(30));
                         }
                         else if (serviceStatusBTN == "Restart")
                         {
                             // Restart Service
-                            ServiceHelper.GetServiceByNameOrDisplayName(serviceName)!.Refresh();
-                            if (ServiceHelper.GetServiceByNameOrDisplayName(serviceName)!.Status.Equals(ServiceControllerStatus.Running))
+                            ServiceHelper.GetServiceByName(serviceName)!.Refresh();
+                            if (ServiceHelper.GetServiceByName(serviceName)!.Status.Equals(ServiceControllerStatus.Running))
                             {
                                 // Service is running, so stop it first
-                                ServiceHelper.GetServiceByNameOrDisplayName(serviceName)!.Stop();
-                                Log.Logger!.Info($"{serviceName} stopped. {_msg._msgSuccessfulServiceStopped}");
-                                ServiceHelper.GetServiceByNameOrDisplayName(serviceName)!.WaitForStatus(ServiceControllerStatus.Stopped, TimeSpan.FromSeconds(30));
+                                ServiceHelper.GetServiceByName(serviceName)!.Stop();
+                                Log.Logger!.Info($"{serviceName}: {_msg._msgSuccessfulServiceStopped}");
+                                ServiceHelper.GetServiceByName(serviceName)!.WaitForStatus(ServiceControllerStatus.Stopped, TimeSpan.FromSeconds(30));
 
                                 // Then start the service
-                                ServiceHelper.GetServiceByNameOrDisplayName(serviceName)!.Start();
-                                Log.Logger!.Info($"{serviceName} running. {_msg._msgSuccessfulServiceRunning}");
-                                ServiceHelper.GetServiceByNameOrDisplayName(serviceName)!.WaitForStatus(ServiceControllerStatus.Running, TimeSpan.FromSeconds(30));
+                                ServiceHelper.GetServiceByName(serviceName)!.Start();
+                                Log.Logger!.Info($"{serviceName}: {_msg._msgSuccessfulServiceRunning}");
+                                ServiceHelper.GetServiceByName(serviceName)!.WaitForStatus(ServiceControllerStatus.Running, TimeSpan.FromSeconds(30));
                             }
                         }
 
@@ -207,7 +208,7 @@ namespace REBOOTMASTER
                         if (serviceName != null)
                         {
                             // Update the service status property
-                            services!.serviceStatus = ServiceHelper.GetServiceByNameOrDisplayName(serviceName)!.Status.ToString();
+                            services!.serviceStatus = ServiceHelper.GetServiceByName(serviceName)!.Status.ToString();
                         }
 
                         // Set flag to update description service
@@ -223,7 +224,7 @@ namespace REBOOTMASTER
                     {
                         // Send Exception Details via Email
                         NotificationService.GetException(ex);
-                        Log.Logger!.Error($"Unexpected error: {ex.Message} {Environment.NewLine + ex.StackTrace}"); // Log error
+                        Log.Logger!.Error($"Unexpected error: {ex.Message} {Environment.NewLine + Log.CleanStackTrace(ex)}"); // Log error
                     }
                 }
                 if (isSettings) { Enabled = true; isSettings = false; } // Refresh Main UI
@@ -315,6 +316,16 @@ namespace REBOOTMASTER
             {
                 if (MessageBox.Show(_msg._msg, _msg._caption, MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
                 {
+#if !DEBUG
+                    // Reload SMTP configurations
+                    ConfigReaderMail.Reload();
+
+                    // Check if all required SMTP configuration values are present
+                    if (NotificationService.AreSMTPValuesValid())
+                    {
+                        NotificationService.SendMailMessage("REBOOTMASTER has been shut down.", "The REBOOTMASTER application has been terminated and is no longer running.", "REBOOTMASTER Status Update"); // Send email notification
+                    }
+#endif
                     e.Cancel = false; // Not Working: Application.Exit(); | Close();
                     Log.Logger!.Info("REBOOTMASTER closed. The program was closed."); // Log Info
                 }
