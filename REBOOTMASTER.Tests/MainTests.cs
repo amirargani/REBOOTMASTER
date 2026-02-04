@@ -96,7 +96,7 @@ namespace REBOOTMASTER.Tests
             var main = new Main();
 
             // Act
-            main.DeaktiviereButton();
+            main.DisableButton();
             
             // Assert
             var servicesBtn = main.Controls.Find("Services_BTN", true).FirstOrDefault() as Button;
@@ -108,7 +108,7 @@ namespace REBOOTMASTER.Tests
             Assert.False(settingsBtn.Enabled);
 
             // Act
-            main.AktiviereButton();
+            main.EnableButton();
 
             // Assert
             Assert.True(servicesBtn.Enabled);
