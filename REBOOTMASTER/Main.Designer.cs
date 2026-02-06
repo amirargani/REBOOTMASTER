@@ -78,7 +78,7 @@
             version_Lbl.Name = "version_Lbl";
             version_Lbl.Size = new Size(86, 13);
             version_Lbl.TabIndex = 19;
-            version_Lbl.Text = "Free v20260203";
+            version_Lbl.Text = "Free v20260206";
             // 
             // pictureBox_TXT_Logo
             // 
@@ -246,7 +246,7 @@
             // 
             NotifyIconMenu.Items.AddRange(new ToolStripItem[] { ExitApplicationToolStripMenuItem });
             NotifyIconMenu.Name = "notifyIconMenu";
-            NotifyIconMenu.Size = new Size(181, 48);
+            NotifyIconMenu.Size = new Size(108, 26);
             // 
             // ExitApplicationToolStripMenuItem
             // 

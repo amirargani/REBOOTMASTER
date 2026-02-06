@@ -386,7 +386,7 @@
             SendEmailTest_BTN.Size = new Size(329, 44);
             SendEmailTest_BTN.TabIndex = 38;
             SendEmailTest_BTN.TabStop = false;
-            SendEmailTest_BTN.Text = "\U0001f9ea Send Test Email";
+            SendEmailTest_BTN.Text = "⚗️ Send Test Email"; // 🧪
             SendEmailTest_BTN.UseVisualStyleBackColor = false;
             SendEmailTest_BTN.Click += SendEmailTest_BTN_Click;
             // 

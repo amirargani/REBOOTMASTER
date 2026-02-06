@@ -11,9 +11,14 @@
 		<Copyright>Developed by Amir Argani</Copyright>
 		<PackageProjectUrl>https://github.com/amirargani/REBOOTMASTER</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/amirargani/REBOOTMASTER/releases</RepositoryUrl>
-		<FileVersion>2026.02.03.0</FileVersion>
-		<AssemblyVersion>2026.02.03.0</AssemblyVersion>
+		<FileVersion>2026.02.06.0</FileVersion>
+		<AssemblyVersion>2026.02.06.0</AssemblyVersion>
+		<ApplicationIcon>Icon\REBOOTMASTER-Logo.ico</ApplicationIcon>
 	</PropertyGroup>
+
+	<ItemGroup>
+  		<Content Include="Icon\REBOOTMASTER-Logo.ico" />
+	</ItemGroup>
 
 	<ItemGroup>
 		<InternalsVisibleTo Include="REBOOTMASTER.Tests" />

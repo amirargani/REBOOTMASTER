@@ -288,7 +288,7 @@
             Delete_BTN.Size = new Size(130, 44);
             Delete_BTN.TabIndex = 40;
             Delete_BTN.TabStop = false;
-            Delete_BTN.Text = "\U0001f9f9 Delete Service";
+            Delete_BTN.Text = "🗑️ Delete Service"; // 🧹
             Delete_BTN.UseVisualStyleBackColor = false;
             Delete_BTN.Click += Delete_BTN_Click;
             // 
