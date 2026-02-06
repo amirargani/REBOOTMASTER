@@ -24,7 +24,9 @@ namespace REBOOTMASTER.Utility
                 3 => ConfigReaderMail.TemplatePath3,
                 _ => ConfigReaderMail.TemplatePath1 // Default
             };
-            string WorkDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) ?? Environment.CurrentDirectory;
+            
+            string WorkDirectory = AppContext.BaseDirectory; // Single‑File‑Application
+            // string WorkDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) ?? Environment.CurrentDirectory;
             return WorkDirectory + "\\" + mailTemplatePath;
         }
 

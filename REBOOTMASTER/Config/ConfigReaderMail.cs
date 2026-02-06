@@ -54,7 +54,8 @@ namespace REBOOTMASTER.Config
             {
                 if (!File.Exists(FileName))
                 {
-                    FileName = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) ?? Environment.CurrentDirectory;
+                    FileName = AppContext.BaseDirectory; // Single‑File‑Application
+                    // FileName = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) ?? Environment.CurrentDirectory;
                 }
 
                 ExeConfigurationFileMap fileMap = new ExeConfigurationFileMap

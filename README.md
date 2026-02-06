@@ -9,7 +9,7 @@
 [![Language](https://img.shields.io/badge/Language-C%23-239120.svg?style=for-the-badge&logo=csharp)](https://docs.microsoft.com/en-us/dotnet/csharp/)
 [![Platform](https://img.shields.io/badge/Platform-Windows-0078D6.svg?style=for-the-badge&logo=windows)](https://www.microsoft.com/en-us/windows)
 [![Framework](https://img.shields.io/badge/.NET-10.0-512BD4?style=for-the-badge&logo=.net&logoColor=white)](https://dotnet.microsoft.com/apps/aspnet)
-[![Version](https://img.shields.io/badge/Version-v2026.02.02.0-0078D6?style=for-the-badge&logo=semver&logoColor=white)]()
+[![Version](https://img.shields.io/badge/Version-v2026.02.06.0-0078D6?style=for-the-badge&logo=semver&logoColor=white)](https://github.com/amirargani/REBOOTMASTER/releases)
 
 [![REBOOTMASTER](https://github.com/amirargani/REBOOTMASTER/blob/main/REBOOTMASTER/REBOOTMASTER.png)]()
 
@@ -61,6 +61,18 @@ Minimize downtime and maintain a stable IT infrastructure with automated recover
 ---
 
 ## Changelog 📜
+
+### V.2026.02.06.0
+* 🛠️ **System & Compatibility**:
+  - **Single-File Application Support**  
+    - Updated `ConfigReaderInterruption`, `ConfigReaderMail`, `XMLUpdate`, and `NotificationService` to use `AppContext.BaseDirectory` instead of `Assembly.Location` for path resolution. This ensures reliable template loading when the application is published as a single-file executable.  
+    - Added `LockFileAttributes` and `UnlockFileAttributes` to the `XMLUpdate` process to ensure safe and consistent handling of file attributes during update operations.
+
+* 🎨 **User Interface & Experience**:
+  - Applied fixes to the `GetYear` logic in `US_About`, updated symbols in `US_Services` and `US_Settings`, and revised the icon and version display in `US_Main`.
+
+* 🏷️ **Project Configuration & Project Metadata**:
+  - Version updated to **`V.2026.02.06.0`**.
 
 ### V.2026.02.03.0
 * 🛠️ **Refactoring & Standardization**:
